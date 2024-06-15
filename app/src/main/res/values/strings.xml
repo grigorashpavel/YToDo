@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">YToDo</string>
+
+    <string name="item_task_hint_tip">Здесь могла бы быть ваша заметка</string>
+    <string name="item_task_checkbox_content_desc">Выполнена ли заметка</string>
+    <string name="item_task_btn_content_desc">Посмотреть информацию о заметке</string>
 </resources>
