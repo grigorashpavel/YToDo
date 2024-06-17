@@ -1,39 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     android:paddingHorizontal="@dimen/item_task_horizontal_padding"
     android:paddingVertical="@dimen/item_task_vertical_padding">
 
     <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/checkboxTaskProgress"
         style="@style/Widget.Pasha.CompoundButton.CheckBox"
         android:layout_width="@dimen/item_task_checkbox_size"
         android:layout_height="@dimen/item_task_checkbox_size"
-        android:layout_gravity="center_vertical"
-        android:contentDescription="@string/item_task_checkbox_content_desc" />
+        android:contentDescription="@string/item_task_checkbox_content_desc"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvTaskText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
         android:layout_marginHorizontal="@dimen/item_task_text_horizontal_margin"
-        android:layout_weight="1"
         android:ellipsize="end"
         android:hint="@string/item_task_hint_tip"
         android:maxLines="@integer/item_task_text_max_lines"
-        android:textAppearance="@style/TextAppearance.Pasha.Body" />
+        android:textAppearance="@style/TextAppearance.Pasha.Body"
+        app:layout_constraintBaseline_toBaselineOf="@id/checkboxTaskProgress"
+        app:layout_constraintEnd_toStartOf="@id/btnTaskInfo"
+        app:layout_constraintStart_toEndOf="@id/checkboxTaskProgress" />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnTaskInfo"
         style="?attr/materialIconButtonStyle"
         android:layout_width="@dimen/item_task_info_btn_size"
         android:layout_height="@dimen/item_task_info_btn_size"
         android:contentDescription="@string/item_task_btn_content_desc"
-        android:minWidth="0dp"
-        android:minHeight="0dp"
-        android:padding="0dp"
         app:icon="@drawable/ic_info_24"
-        app:iconGravity="textStart" />
+        app:iconGravity="textStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/checkboxTaskProgress" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
