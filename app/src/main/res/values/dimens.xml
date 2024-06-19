@@ -5,4 +5,12 @@
     <dimen name="item_task_checkbox_size">24dp</dimen>
     <dimen name="item_task_info_btn_size">24dp</dimen>
     <dimen name="item_task_text_horizontal_margin">12dp</dimen>
+
+    <dimen name="all_tasks_expanded_app_bar_height">200dp</dimen>
+    <dimen name="all_tasks_app_bar_text_margin_start">60dp</dimen>
+    <dimen name="all_tasks_card_horizontal_margin">8dp</dimen>
+    <dimen name="all_tasks_card_content_vertical_margin">8dp</dimen>
+    <dimen name="all_tasks_tasks_card_elevation">2dp</dimen>
+    <dimen name="all_tasks_add_fab_margin_end">16dp</dimen>
+    <dimen name="all_tasks_add_fab_margin_bottom">40dp</dimen>
 </resources>
