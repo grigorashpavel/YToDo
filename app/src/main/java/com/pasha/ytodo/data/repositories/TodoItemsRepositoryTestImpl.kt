@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -25,11 +26,13 @@ class TodoItemsRepositoryTestImpl : TodoItemsRepository {
     }
 
     override fun getTodoItems(): Flow<List<TodoItem>> {
-        return flowOf(items)
+        return flowOf(items).flowOn(Dispatchers.IO)
     }
 
     override suspend fun addTodoItem(item: TodoItem) {
-        items.add(item)
+        withContext(Dispatchers.IO) {
+            items.add(item)
+        }
     }
 
     private fun setTestItems() {
