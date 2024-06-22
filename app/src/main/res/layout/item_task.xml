@@ -1,42 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingHorizontal="@dimen/item_task_horizontal_padding"
-    android:paddingVertical="@dimen/item_task_vertical_padding">
+    app:cardCornerRadius="0dp"
+    android:backgroundTint="@android:color/transparent"
+    app:cardElevation="0dp"
+    app:strokeWidth="0dp"
+    android:layout_height="wrap_content">
 
-    <com.google.android.material.checkbox.MaterialCheckBox
-        android:id="@+id/checkboxTaskProgress"
-        style="@style/Widget.Pasha.CompoundButton.CheckBox"
-        android:layout_width="@dimen/item_task_checkbox_size"
-        android:layout_height="@dimen/item_task_checkbox_size"
-        android:contentDescription="@string/item_task_checkbox_content_desc"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvTaskText"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/item_task_text_horizontal_margin"
-        android:ellipsize="end"
-        android:hint="@string/item_task_hint_tip"
-        android:maxLines="@integer/item_task_text_max_lines"
-        android:textAppearance="@style/TextAppearance.Pasha.Body"
-        app:layout_constraintBaseline_toBaselineOf="@id/checkboxTaskProgress"
-        app:layout_constraintEnd_toStartOf="@id/btnTaskInfo"
-        app:layout_constraintStart_toEndOf="@id/checkboxTaskProgress" />
+        android:paddingHorizontal="@dimen/item_task_horizontal_padding"
+        android:paddingVertical="@dimen/item_task_vertical_padding">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnTaskInfo"
-        style="?attr/materialIconButtonStyle"
-        android:layout_width="@dimen/item_task_info_btn_size"
-        android:layout_height="@dimen/item_task_info_btn_size"
-        android:contentDescription="@string/item_task_btn_content_desc"
-        app:icon="@drawable/ic_info_24"
-        app:iconGravity="textStart"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/checkboxTaskProgress" />
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/checkboxTaskProgress"
+            style="@style/Widget.Pasha.CompoundButton.CheckBox"
+            android:layout_width="@dimen/item_task_checkbox_size"
+            android:layout_height="@dimen/item_task_checkbox_size"
+            android:contentDescription="@string/item_task_checkbox_content_desc"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvTaskText"
+            android:layout_width="0dp"
+            android:textColor="@color/label_primary"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/item_task_text_horizontal_margin"
+            android:ellipsize="end"
+            android:hint="@string/item_task_hint_tip"
+            android:maxLines="@integer/item_task_text_max_lines"
+            android:textAppearance="@style/TextAppearance.Pasha.Body"
+            android:textColorHint="@color/label_tertiary"
+            app:layout_constraintBaseline_toBaselineOf="@id/checkboxTaskProgress"
+            app:layout_constraintEnd_toStartOf="@id/btnTaskInfo"
+            app:layout_constraintStart_toEndOf="@id/checkboxTaskProgress" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnTaskInfo"
+            app:iconTint="@color/label_tertiary"
+            style="?attr/materialIconButtonStyle"
+            android:layout_width="@dimen/item_task_info_btn_size"
+            android:layout_height="@dimen/item_task_info_btn_size"
+            android:contentDescription="@string/item_task_btn_content_desc"
+            app:icon="@drawable/ic_info_24"
+            app:iconGravity="textStart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/checkboxTaskProgress" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/deadlineBody"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="дата"
+            android:textAppearance="@style/TextAppearance.Pasha.Subhead"
+            android:textColor="@color/label_tertiary"
+            app:layout_constraintStart_toStartOf="@id/tvTaskText"
+            app:layout_constraintTop_toBottomOf="@id/tvTaskText" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

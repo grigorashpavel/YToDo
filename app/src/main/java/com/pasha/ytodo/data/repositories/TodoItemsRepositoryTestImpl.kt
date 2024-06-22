@@ -1,14 +1,20 @@
 package com.pasha.ytodo.data.repositories
 
+import android.util.Log
 import com.pasha.ytodo.domain.models.TaskPriority
 import com.pasha.ytodo.domain.models.TaskProgress
 import com.pasha.ytodo.domain.models.TodoItem
 import com.pasha.ytodo.domain.repositories.TodoItemsRepository
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -16,29 +22,54 @@ import java.util.UUID
 import kotlin.random.Random
 
 
-private const val ITEMS_COUNT = 20
+private const val ITEMS_COUNT = 10
 
 class TodoItemsRepositoryTestImpl : TodoItemsRepository {
-    private val items: MutableList<TodoItem> = mutableListOf()
+    private val flow: MutableStateFlow<List<TodoItem>> = MutableStateFlow(listOf())
+    private val repositoryScope = CoroutineScope(Dispatchers.IO + Job())
 
     init {
         setTestItems()
     }
 
-    override fun getTodoItems(): Flow<List<TodoItem>> {
-        return flowOf(items).flowOn(Dispatchers.IO)
+    override fun getTodoItems(): Flow<List<TodoItem>> = flow.asStateFlow()
+    override val items: Flow<List<TodoItem>> = flow.asStateFlow()
+
+    override fun addTodoItem(item: TodoItem) {
+        repositoryScope.launch {
+            val oldList = flow.value
+            val newList = oldList.toMutableList()
+
+            newList.add(item)
+            flow.value = newList
+        }
     }
 
-    override suspend fun addTodoItem(item: TodoItem) {
-        withContext(Dispatchers.IO) {
-            items.add(item)
+    override fun deleteTodoItem(item: TodoItem) {
+        repositoryScope.launch {
+            val list = flow.value.toMutableList()
+            list.remove(item)
+            flow.value = list
+        }
+    }
+
+    override fun changeItem(item: TodoItem) {
+        repositoryScope.launch {
+            val tempList = flow.value.toMutableList()
+            for (i in tempList.indices) {
+                if (UUID.fromString(tempList[i].id) == UUID.fromString(item.id)) {
+                    tempList[i] = item
+                    break
+                }
+            }
+            flow.emit(tempList)
         }
     }
 
     private fun setTestItems() {
         repeat(ITEMS_COUNT) {
             val newItem = generateItem()
-            items.add(newItem)
+            addTodoItem(newItem)
         }
     }
 

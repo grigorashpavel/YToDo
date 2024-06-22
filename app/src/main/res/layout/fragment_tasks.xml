@@ -4,16 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.TasksFragment">
+    android:background="@color/back_primary"
+    tools:context=".presentation.tasks.TasksFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
+        android:backgroundTint="@color/back_primary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/all_tasks_expanded_app_bar_height"
+            app:contentScrim="@color/back_primary"
+            app:collapsedTitleTextColor="@color/label_primary"
+            app:expandedTitleTextColor="@color/label_primary"
             android:minHeight="?attr/actionBarSize"
             app:collapsedTitleTextAppearance="@style/TextAppearance.Pasha.TitleMedium"
             app:expandedTitleMarginBottom="54dp"
@@ -36,6 +41,8 @@
                 app:menu="@menu/tasks_menu" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvFinishedTasks"
+                android:textColor="@color/label_tertiary"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="bottom"
@@ -55,7 +62,9 @@
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <com.google.android.material.card.MaterialCardView
+            android:backgroundTint="@color/back_secondary"
             android:layout_width="match_parent"
+            app:strokeWidth="0dp"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="@dimen/all_tasks_card_horizontal_margin"
             android:layout_marginBottom="16dp"
@@ -70,9 +79,12 @@
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabCrateTask"
+        app:tint="@color/color_white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
+        android:backgroundTint="@color/color_blue"
         android:layout_marginEnd="@dimen/all_tasks_add_fab_margin_end"
         android:layout_marginBottom="@dimen/all_tasks_add_fab_margin_bottom"
         android:contentDescription="@string/fab_create_new_task_content_desc"

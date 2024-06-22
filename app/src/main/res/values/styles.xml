@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <style name="Widget.Pasha.CompoundButton.CheckBox" parent="Widget.Material3.CompoundButton.CheckBox">
-        <item name="buttonTint">@color/item_task_checkbox_usual_color_states</item>
-    </style>
-</resources>
