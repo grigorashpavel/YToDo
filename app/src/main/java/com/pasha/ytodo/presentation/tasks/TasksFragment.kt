@@ -71,7 +71,6 @@ class TasksFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
                 viewModel.items.collect { tasks ->
-                    Toast.makeText(requireContext(), "Изменение", Toast.LENGTH_SHORT).show()
                     tasksAdapter.setTodoTasks(tasks.toList())
                 }
             }

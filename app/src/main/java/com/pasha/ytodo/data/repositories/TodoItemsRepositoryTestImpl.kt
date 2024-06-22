@@ -22,7 +22,7 @@ import java.util.UUID
 import kotlin.random.Random
 
 
-private const val ITEMS_COUNT = 10
+private const val ITEMS_COUNT = 20
 
 class TodoItemsRepositoryTestImpl : TodoItemsRepository {
     private val flow: MutableStateFlow<List<TodoItem>> = MutableStateFlow(listOf())
@@ -33,7 +33,6 @@ class TodoItemsRepositoryTestImpl : TodoItemsRepository {
     }
 
     override fun getTodoItems(): Flow<List<TodoItem>> = flow.asStateFlow()
-    override val items: Flow<List<TodoItem>> = flow.asStateFlow()
 
     override fun addTodoItem(item: TodoItem) {
         repositoryScope.launch {

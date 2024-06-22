@@ -203,7 +203,6 @@ class TaskEditFragment : Fragment() {
                     val oldTask = todoItemViewModel.sharedTodoItem
                     viewModel.changeTask(oldTask!!, binding.etTaskText.text.toString())
                 } else {
-                    Toast.makeText(requireContext(), "New", Toast.LENGTH_SHORT).show()
                     viewModel.createTask(binding.etTaskText.text.toString(), LocalDateTime.now())
                 }
 

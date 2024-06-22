@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface TodoItemsRepository {
     fun getTodoItems(): Flow<List<TodoItem>>
-    val items: Flow<List<TodoItem>>
     fun addTodoItem(item: TodoItem)
     fun deleteTodoItem(item: TodoItem)
     fun changeItem(item: TodoItem)
