@@ -1,11 +1,10 @@
-package com.pasha.ytodo.presentation.edit
+package com.pasha.ytodo.presentation.edit.views
 
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -15,7 +14,7 @@ import com.pasha.ytodo.R
 import com.pasha.ytodo.databinding.FragmentTaskEditBinding
 import com.pasha.ytodo.domain.models.TaskPriority
 import com.pasha.ytodo.presentation.TodoItemViewModel
-import com.pasha.ytodo.presentation.edit.adapters.DropDownMenuPriorityArrayAdapter
+import com.pasha.ytodo.presentation.edit.views.adapters.DropDownMenuPriorityArrayAdapter
 import java.time.LocalDateTime
 import java.util.Calendar
 

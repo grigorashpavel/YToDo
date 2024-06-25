@@ -1,4 +1,4 @@
-package com.pasha.ytodo.presentation.edit
+package com.pasha.ytodo.presentation.edit.views
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

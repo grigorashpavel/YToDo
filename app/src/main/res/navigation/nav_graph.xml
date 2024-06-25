@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/taskEditFragment"
-        android:name="com.pasha.ytodo.presentation.edit.TaskEditFragment"
+        android:name="com.pasha.ytodo.presentation.edit.views.TaskEditFragment"
         android:label="fragment_task_edit"
         tools:layout="@layout/fragment_task_edit" />
 </navigation>
