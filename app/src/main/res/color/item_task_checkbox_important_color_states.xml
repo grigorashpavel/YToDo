@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- Disabled -->
+    <item android:alpha="0.4" android:color="@color/support_separator" android:state_enabled="false" />
+
+    <!-- Error -->
+    <item app:state_error="true" android:color="@macro/m3_comp_checkbox_selected_error_container_color" />
+
+    <!-- Indeterminate -->
+    <item app:state_indeterminate="true" android:color="@color/color_red" />
+
+    <!-- Checked -->
+    <item android:color="@color/color_green" android:state_checked="true" />
+
+    <!-- Unchecked -->
+    <item android:color="@color/color_red" android:state_checked="false" />
+</selector>

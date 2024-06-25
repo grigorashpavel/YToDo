@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/actionVisible"
+        android:contentDescription="@string/tasks_toolbar_menu_visibility_content_desc"
+        android:icon="@drawable/ic_visible_24"
+        android:title="@string/tasks_toolbar_menu_visibility_title"
+        app:showAsAction="always" />
+</menu>

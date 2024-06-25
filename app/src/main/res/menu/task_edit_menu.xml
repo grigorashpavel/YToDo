@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/actionSave"
+        android:contentDescription="@string/edit_task_toolbar_menu_save_content_desc"
+        android:title="@string/edit_task_toolbar_menu_save_title"
+        android:iconTint="@color/color_blue"
+        app:showAsAction="always" />
+</menu>

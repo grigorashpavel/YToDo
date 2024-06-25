@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Widget.Pasha.CompoundButton.CheckBox" parent="Widget.Material3.CompoundButton.CheckBox">
+        <item name="buttonTint">@color/item_task_checkbox_usual_color_states</item>
+    </style>
+
+    <style name="Widget.Pasha.TextInputLayout.FilledBox.ExposedDropdownMenu" parent="Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu">
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="textInputStyle">
+            @style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu
+        </item>
+        <item name="endIconMode">dropdown_menu</item>
+        <item name="hintAnimationEnabled">false</item>
+        <item name="expandedHintEnabled">false</item>
+        <item name="shapeAppearanceOverlay">@style/RectangleShape</item>
+        <item name="hintTextColor">@color/exposed_dropdowns_label_colors</item>
+        <item name="android:textColorHint">@color/exposed_dropdowns_label_colors</item>
+        <item name="hintTextAppearance">@style/TextAppearance.Pasha.Body</item>
+        <item name="boxBackgroundColor">@color/exposed_dropdowns_background_colors</item>
+    </style>
+
+    <style name="Widget.Pasha.TextInputEditText.FilledBox" parent="Widget.Material3.TextInputEditText.FilledBox">
+        <item name="android:textAppearance">@style/TextAppearance.Pasha.Subhead</item>
+        <item name="boxBackgroundColor">@android:color/transparent</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:focusable">false</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:paddingTop">28dp</item>
+        <item name="android:paddingBottom">16dp</item>
+    </style>
+
+    <style name="Widget.Pasha.CompoundButton.Switch" parent="Widget.Material3.CompoundButton.Switch">
+
+    </style>
+
+    <style name="Theme.Pasha.DatePicker" parent="Theme.Material3.Light.Dialog">
+        <item name="android:colorAccent">@color/color_blue</item>
+        <item name="colorAccent">@color/color_blue</item>
+        <item name="android:windowBackground">#FF252528</item>
+        <item name="android:textColorPrimary">#FFFFFFFF</item>
+        <item name="android:textColorSecondary">#66FFFFFF</item>
+        <item name="android:textColorPrimaryInverse">#FFFFFFFF</item>
+        <item name="android:textColorSecondaryInverse">#FFFFFFFF</item>
+
+        <item name="android:buttonBarButtonStyle">@style/Theme.Pasha.DatePicker.ButtonStyle</item>
+    </style>
+
+    <style name="Theme.Pasha.DatePicker.ButtonStyle" parent="Theme.Material3.Light">
+        <item name="android:textColor">@color/color_blue</item>
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+    
+    <style name="Theme.EditToobar" parent="Theme.YToDo">
+        <item name="android:actionMenuTextColor">@color/color_blue</item>
+    </style>
+</resources>
