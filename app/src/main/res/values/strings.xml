@@ -11,6 +11,8 @@
     <string name="edit_task_toolbar_menu_save_content_desc">Нажмите, чтоб cохранить задачу</string>
     <string name="fab_create_new_task_content_desc">Нажмите, чтоб добавить новую заметку</string>
 
+    <string name="edit_task_toolbar_navigation_back_icon_content_desc">Вернуться к списку всех дел</string>
+
     <string name="tasks_toolbar_my_business_title">Мои дела</string>
     <string name="tasks_toolbar_finished_todo_subtitle">Выполнено - %1$d</string>
 
