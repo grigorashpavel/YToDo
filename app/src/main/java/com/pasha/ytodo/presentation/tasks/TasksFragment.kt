@@ -99,12 +99,12 @@ class TasksFragment : Fragment() {
     }
 
     private fun navigateToTaskCreation() {
-        findNavController().navigate(R.id.action_tasksFragment_to_taskEditFragment)
+        findNavController().navigate(R.id.action_tasksFragment_to_taskEditComposeFragment)
     }
 
     private fun navigateToTaskEditing(task: TodoItem) {
         todoItemViewModel.passTodoItem(item = task)
-        findNavController().navigate(R.id.action_tasksFragment_to_taskEditFragment)
+        findNavController().navigate(R.id.action_tasksFragment_to_taskEditComposeFragment)
     }
 
     private fun createActionsListener() = object : ActionsListener {
