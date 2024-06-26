@@ -84,12 +84,12 @@ class TaskEditFragment : Fragment() {
     }
 
     private fun setDeadlineIfEnabled() {
-        val isDeadlineEnabled = viewModel.editState.deadline != null
+        val isDeadlineEnabled = viewModel.editState.value.deadline != null
         binding.calendarTaskDeadlineLayout.isEnabled = isDeadlineEnabled
         binding.deadlineOptionSwitch.isChecked = isDeadlineEnabled
 
         if (isDeadlineEnabled) {
-            val deadline = viewModel.editState.deadline!!
+            val deadline = viewModel.editState.value.deadline!!
             val day = deadline.dayOfMonth
             val month = deadline.month.value - 1
             val year = deadline.year
