@@ -6,7 +6,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -16,12 +19,15 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
+import com.pasha.ytodo.R
 import com.pasha.ytodo.presentation.TodoItemViewModel
 import com.pasha.ytodo.presentation.edit.views.EditTaskViewModel
 import java.time.LocalDateTime
 
 
 @Composable
+@OptIn(ExperimentalMaterial3Api::class)
 fun EditTaskScreen(
     viewModel: EditTaskViewModel,
     todoItemViewModel: TodoItemViewModel,
@@ -67,7 +73,12 @@ fun EditTaskScreen(
 
                     navigateBackAction()
                 },
-                scrollOffsetCallback = { scrollState.value }
+                scrollOffsetCallback = { scrollState.value },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.background,
+                    navigationIconContentColor = MaterialTheme.colorScheme.primary,
+                    actionIconContentColor = colorResource(id = R.color.color_blue)
+                )
             )
         },
         modifier = modifier

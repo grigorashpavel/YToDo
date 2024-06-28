@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -35,12 +36,20 @@ fun TodoTextField(
             value = text,
             onValueChange = onTextChanged,
             minLines = 3,
+            textStyle = MaterialTheme.typography.bodyLarge,
             placeholder = {
-                Text(text = stringResource(id = R.string.item_task_hint_tip))
+                Text(
+                    text = stringResource(id = R.string.item_task_hint_tip),
+                    style = MaterialTheme.typography.bodyLarge
+                )
             },
             colors = TextFieldDefaults.colors(
                 unfocusedIndicatorColor = Color.Transparent,
-                focusedIndicatorColor = Color.Transparent
+                focusedIndicatorColor = Color.Transparent,
+                focusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                unfocusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                focusedPlaceholderColor = MaterialTheme.colorScheme.tertiary,
+                unfocusedPlaceholderColor = MaterialTheme.colorScheme.tertiary
             ),
             modifier = Modifier.fillMaxWidth()
         )

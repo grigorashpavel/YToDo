@@ -8,15 +8,18 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import com.pasha.ytodo.R
 import java.time.Instant
@@ -56,7 +59,7 @@ fun DeadlineDatePicker(
         exit = shrinkVertically()
     ) {
         Column(modifier = modifier) {
-            HorizontalDivider()
+            HorizontalDivider(color = MaterialTheme.colorScheme.outline)
             DatePicker(
                 state = datePickerState,
                 showModeToggle = false,
@@ -64,11 +67,28 @@ fun DeadlineDatePicker(
                     RoundedCornerShape(
                         dimensionResource(id = R.dimen.deadline_picker_corner_radius)
                     )
-                )
+                ),
+                colors = getDatePickerColors()
             )
         }
     }
 }
+
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+private fun getDatePickerColors() = DatePickerDefaults.colors(
+    dividerColor = MaterialTheme.colorScheme.outline,
+    selectedDayContainerColor = colorResource(id = R.color.color_blue),
+    selectedDayContentColor = MaterialTheme.colorScheme.primary,
+    titleContentColor = MaterialTheme.colorScheme.primary,
+    todayDateBorderColor = colorResource(id = R.color.color_blue),
+    dayContentColor = MaterialTheme.colorScheme.primary,
+    navigationContentColor = MaterialTheme.colorScheme.primary,
+    subheadContentColor = MaterialTheme.colorScheme.primary,
+    weekdayContentColor = MaterialTheme.colorScheme.primary,
+    headlineContentColor = MaterialTheme.colorScheme.primary
+)
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)

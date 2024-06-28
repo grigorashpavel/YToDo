@@ -7,6 +7,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -50,7 +51,9 @@ fun PriorityDropdownMenu(
                 Text(
                     text = stringResource(
                         id = R.string.edit_task_priority_dropdown_menu_label
-                    )
+                    ),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.primary
                 )
             },
             colors = TextFieldDefaults.colors(
@@ -71,7 +74,8 @@ fun PriorityDropdownMenu(
                     text = {
                         Text(
                             text = stringResource(id = option.stringId),
-                            color = getOptionColor(option)
+                            color = getOptionColor(option),
+                            style = MaterialTheme.typography.bodyLarge
                         )
                     },
                     onClick = {
@@ -88,8 +92,8 @@ fun PriorityDropdownMenu(
 @Composable
 private fun getOptionColor(priority: TaskPriority): Color {
     return when (priority) {
-        TaskPriority.LOW -> colorResource(id = R.color.color_gray)
-        TaskPriority.NORMAL -> Color.Unspecified
+        TaskPriority.LOW -> MaterialTheme.colorScheme.tertiary
+        TaskPriority.NORMAL -> MaterialTheme.colorScheme.primary
         TaskPriority.HIGH -> colorResource(id = R.color.color_red)
     }
 }

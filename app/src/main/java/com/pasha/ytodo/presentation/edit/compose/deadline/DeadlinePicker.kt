@@ -5,6 +5,7 @@ import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
@@ -19,8 +20,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.pasha.ytodo.R
 import com.pasha.ytodo.presentation.edit.compose.share.OptionPickerTextField
@@ -60,7 +63,11 @@ fun DeadlinePicker(
                 getFormattedDeadline(day = day, month = month, year = year)
             } ?: " ",
             label = {
-                Text(text = stringResource(id = R.string.edit_task_dedline_picker_label_text))
+                Text(
+                    text = stringResource(id = R.string.edit_task_dedline_picker_label_text),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.primary
+                )
             },
             onValueChange = {},
             colors = getOptionTextFieldColors(),
@@ -68,14 +75,19 @@ fun DeadlinePicker(
             modifier = Modifier
                 .padding(vertical = 8.dp)
                 .weight(1f),
-            interactionSource = optionPickerInteractionSource
+            interactionSource = optionPickerInteractionSource,
+            textStyle = TextStyle(color = colorResource(id = R.color.color_blue))
         )
 
         Switch(
             checked = isDeadlineEnabled,
             colors = SwitchDefaults.colors(
                 checkedBorderColor = Color.Transparent,
-                uncheckedBorderColor = Color.Transparent
+                uncheckedBorderColor = Color.Transparent,
+                checkedThumbColor = colorResource(id = R.color.color_blue),
+                uncheckedThumbColor = colorResource(id = R.color.color_blue).copy(alpha = 0.5f),
+                checkedTrackColor = colorResource(id = R.color.color_blue).copy(alpha = 0.4f),
+                uncheckedTrackColor = colorResource(id = R.color.color_blue).copy(alpha = 0.2f),
             ),
             onCheckedChange = { deadlineState ->
                 isDialogOpened = deadlineState

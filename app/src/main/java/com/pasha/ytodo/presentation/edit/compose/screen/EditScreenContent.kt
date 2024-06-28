@@ -13,6 +13,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -69,7 +70,8 @@ fun EditScreenContent(
                 .padding(
                     horizontal = 16.dp,
                     vertical = 8.dp
-                )
+                ),
+            color = MaterialTheme.colorScheme.outline
         )
 
         DeadlinePicker(
@@ -83,7 +85,8 @@ fun EditScreenContent(
         )
 
         HorizontalDivider(
-            modifier = Modifier.padding(top = 24.dp)
+            modifier = Modifier.padding(top = 24.dp),
+            color = MaterialTheme.colorScheme.outline
         )
 
         Button(
@@ -108,7 +111,10 @@ fun EditScreenContent(
                     contentDescription = null
                 )
                 Spacer(modifier = Modifier.width(12.dp))
-                Text(text = stringResource(id = R.string.delete_text))
+                Text(
+                    text = stringResource(id = R.string.delete_text),
+                    style = MaterialTheme.typography.bodyLarge
+                )
             }
         }
     }

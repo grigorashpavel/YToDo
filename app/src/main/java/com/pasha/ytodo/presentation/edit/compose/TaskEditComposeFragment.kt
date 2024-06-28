@@ -16,6 +16,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.pasha.ytodo.presentation.TodoItemViewModel
 import com.pasha.ytodo.presentation.edit.compose.screen.EditTaskScreen
+import com.pasha.ytodo.presentation.edit.compose.theme.TodoTheme
 import com.pasha.ytodo.presentation.edit.views.EditTaskViewModel
 
 
@@ -44,17 +45,19 @@ class TaskEditComposeFragment : Fragment() {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
                 var navigationStarted by rememberSaveable { mutableStateOf(false) }
-                EditTaskScreen(
-                    viewModel,
-                    todoItemViewModel,
-                    navigateBackAction = {
-                        if (!navigationStarted) {
-                            navigationStarted = true
+                TodoTheme(useDynamicColors = false) {
+                    EditTaskScreen(
+                        viewModel,
+                        todoItemViewModel,
+                        navigateBackAction = {
+                            if (!navigationStarted) {
+                                navigationStarted = true
 
-                            findNavController().navigateUp()
+                                findNavController().navigateUp()
+                            }
                         }
-                    }
-                )
+                    )
+                }
             }
         }
     }
