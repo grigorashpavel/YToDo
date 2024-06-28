@@ -53,6 +53,7 @@ class TaskEditComposeFragment : Fragment() {
                             if (!navigationStarted) {
                                 navigationStarted = true
 
+                                todoItemViewModel.clearSharedItem()
                                 findNavController().navigateUp()
                             }
                         }
