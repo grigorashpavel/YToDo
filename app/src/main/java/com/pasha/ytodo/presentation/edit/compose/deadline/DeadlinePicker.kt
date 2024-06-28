@@ -2,6 +2,7 @@ package com.pasha.ytodo.presentation.edit.compose.deadline
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -40,73 +41,74 @@ fun DeadlinePicker(
     var isDeadlineEnabled by rememberSaveable { mutableStateOf(deadline != null) }
     var isDialogOpened by rememberSaveable { mutableStateOf(false) }
 
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
-    ) {
-        val optionPickerInteractionSource = remember { MutableInteractionSource() }
-        LaunchedEffect(key1 = Unit) {
-            optionPickerInteractionSource.interactions.collect { interaction ->
-                val isClickedReleased = interaction is PressInteraction.Release
-                if (isClickedReleased && isDeadlineEnabled) {
-                    isDialogOpened = !isDialogOpened
+    Column(modifier = modifier) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            val optionPickerInteractionSource = remember { MutableInteractionSource() }
+            LaunchedEffect(key1 = Unit) {
+                optionPickerInteractionSource.interactions.collect { interaction ->
+                    val isClickedReleased = interaction is PressInteraction.Release
+                    if (isClickedReleased && isDeadlineEnabled) {
+                        isDialogOpened = !isDialogOpened
+                    }
                 }
             }
+
+            OptionPickerTextField(
+                value = deadline?.let { date ->
+                    val year = date.year
+                    val month = date.month.value - 1
+                    val day = date.dayOfMonth
+
+                    getFormattedDeadline(day = day, month = month, year = year)
+                } ?: " ",
+                label = {
+                    Text(
+                        text = stringResource(id = R.string.edit_task_dedline_picker_label_text),
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                },
+                onValueChange = {},
+                colors = getOptionTextFieldColors(),
+                enabled = isDeadlineEnabled,
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
+                    .weight(1f),
+                interactionSource = optionPickerInteractionSource,
+                textStyle = TextStyle(color = colorResource(id = R.color.color_blue))
+            )
+
+            Switch(
+                checked = isDeadlineEnabled,
+                colors = SwitchDefaults.colors(
+                    checkedBorderColor = Color.Transparent,
+                    uncheckedBorderColor = Color.Transparent,
+                    checkedThumbColor = colorResource(id = R.color.color_blue),
+                    uncheckedThumbColor = colorResource(id = R.color.color_blue).copy(alpha = 0.5f),
+                    checkedTrackColor = colorResource(id = R.color.color_blue).copy(alpha = 0.4f),
+                    uncheckedTrackColor = colorResource(id = R.color.color_blue).copy(alpha = 0.2f),
+                ),
+                onCheckedChange = { deadlineState ->
+                    isDialogOpened = deadlineState
+
+                    isDeadlineEnabled = deadlineState
+                    if (deadlineState == false) onDeadlineChanged(null)
+                }
+            )
         }
 
-        OptionPickerTextField(
-            value = deadline?.let { date ->
-                val year = date.year
-                val month = date.month.value - 1
-                val day = date.dayOfMonth
+        DeadlineDatePicker(
+            isDialogOpened = isDialogOpened,
+            onDateChanged = { date ->
+                onDeadlineChanged(date)
 
-                getFormattedDeadline(day = day, month = month, year = year)
-            } ?: " ",
-            label = {
-                Text(
-                    text = stringResource(id = R.string.edit_task_dedline_picker_label_text),
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.primary
-                )
+                isDialogOpened = false
             },
-            onValueChange = {},
-            colors = getOptionTextFieldColors(),
-            enabled = isDeadlineEnabled,
-            modifier = Modifier
-                .padding(vertical = 8.dp)
-                .weight(1f),
-            interactionSource = optionPickerInteractionSource,
-            textStyle = TextStyle(color = colorResource(id = R.color.color_blue))
-        )
-
-        Switch(
-            checked = isDeadlineEnabled,
-            colors = SwitchDefaults.colors(
-                checkedBorderColor = Color.Transparent,
-                uncheckedBorderColor = Color.Transparent,
-                checkedThumbColor = colorResource(id = R.color.color_blue),
-                uncheckedThumbColor = colorResource(id = R.color.color_blue).copy(alpha = 0.5f),
-                checkedTrackColor = colorResource(id = R.color.color_blue).copy(alpha = 0.4f),
-                uncheckedTrackColor = colorResource(id = R.color.color_blue).copy(alpha = 0.2f),
-            ),
-            onCheckedChange = { deadlineState ->
-                isDialogOpened = deadlineState
-
-                isDeadlineEnabled = deadlineState
-                if (deadlineState == false) onDeadlineChanged(null)
-            }
+            modifier = modifier
         )
     }
-
-    DeadlineDatePicker(
-        isDialogOpened = isDialogOpened,
-        onDateChanged = { date ->
-            onDeadlineChanged(date)
-
-            isDialogOpened = false
-        },
-        modifier = modifier
-    )
 }
 
 @Composable
