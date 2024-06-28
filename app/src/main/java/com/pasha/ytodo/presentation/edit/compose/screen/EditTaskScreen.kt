@@ -88,7 +88,6 @@ fun EditTaskScreen(
                 .padding(innerPadding)
                 .verticalScroll(scrollState)
         ) {
-            val context = LocalContext.current
             EditScreenContent(
                 taskPart = changeableTaskPart.value,
                 onTextChangedCallback = { newText ->
@@ -98,7 +97,6 @@ fun EditTaskScreen(
                     )
                 },
                 onPriorityChangedCallback = { newPriority ->
-                    Toast.makeText(context, newPriority.name, Toast.LENGTH_SHORT).show()
                     viewModel.changePriority(newPriority)
                 },
                 onDeadlineChangedCallback = { newDate ->
