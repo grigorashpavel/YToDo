@@ -2,6 +2,7 @@ package com.pasha.ytodo.presentation.edit.compose.deadline
 
 
 import android.icu.util.Calendar
+import android.icu.util.TimeZone
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
@@ -19,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import com.pasha.ytodo.R
@@ -80,7 +82,7 @@ fun DeadlineDatePicker(
 private fun getDatePickerColors() = DatePickerDefaults.colors(
     dividerColor = MaterialTheme.colorScheme.outline,
     selectedDayContainerColor = colorResource(id = R.color.color_blue),
-    selectedDayContentColor = MaterialTheme.colorScheme.primary,
+    selectedDayContentColor = Color.White,
     titleContentColor = MaterialTheme.colorScheme.primary,
     todayDateBorderColor = colorResource(id = R.color.color_blue),
     dayContentColor = MaterialTheme.colorScheme.primary,
@@ -96,7 +98,22 @@ private fun rememberTodoDatePickerState(): DatePickerState {
     return rememberDatePickerState(
         selectableDates = object : SelectableDates {
             override fun isSelectableDate(utcTimeMillis: Long): Boolean {
-                return utcTimeMillis >= System.currentTimeMillis()
+                val todayStartMillis = getStartOfDayMillis(System.currentTimeMillis())
+                val utcStartMillis = getStartOfDayMillis(utcTimeMillis)
+
+                return utcStartMillis >= todayStartMillis
+            }
+
+            private fun getStartOfDayMillis(utcTimeMillis: Long): Long {
+                val calendar = Calendar.getInstance().apply {
+                    timeInMillis = utcTimeMillis
+                    set(Calendar.HOUR_OF_DAY, 0)
+                    set(Calendar.MINUTE, 0)
+                    set(Calendar.SECOND, 0)
+                    set(Calendar.MILLISECOND, 0)
+                }
+
+                return calendar.timeInMillis
             }
 
             override fun isSelectableYear(year: Int): Boolean {
