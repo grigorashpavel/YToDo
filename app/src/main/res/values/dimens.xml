@@ -15,4 +15,6 @@
     <dimen name="all_tasks_add_fab_margin_bottom">40dp</dimen>
 
     <dimen name="edit_task_todo_text_field_decor_elevation">8dp</dimen>
+
+    <dimen name="deadline_picker_corner_radius">8dp</dimen>
 </resources>
