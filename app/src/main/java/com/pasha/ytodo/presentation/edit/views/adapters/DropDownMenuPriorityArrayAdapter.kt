@@ -1,4 +1,4 @@
-package com.pasha.ytodo.presentation.edit.adapters
+package com.pasha.ytodo.presentation.edit.views.adapters
 
 import android.content.Context
 import android.view.LayoutInflater

@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -19,6 +20,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        compose = true
     }
 
     buildTypes {
@@ -30,13 +32,21 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
+}
+
+composeCompiler {
+    enableStrongSkippingMode = true
+
+    reportsDestination = layout.buildDirectory.dir("compose_compiler")
 }
 
 dependencies {
@@ -54,6 +64,21 @@ dependencies {
 
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
+
+    // Compose
+    implementation(platform(libs.androidx.compose.bom))
+
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.uiPreview)
+    implementation(libs.androidx.compose.tooling)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.lifecycle.compose.viewmodel)
+
+    implementation(libs.androidx.compose.animation)
+
+    implementation(libs.androidx.compose.viewbinding)
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
