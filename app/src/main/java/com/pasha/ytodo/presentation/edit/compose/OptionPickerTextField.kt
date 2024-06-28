@@ -26,30 +26,33 @@ fun OptionPickerTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     label: @Composable (() -> Unit)? = null,
     textStyle: TextStyle = TextStyle.Default,
     colors: TextFieldColors = TextFieldDefaults.colors(),
     contentPadding: PaddingValues = PaddingValues(0.dp),
+    interactionSource: MutableInteractionSource = remember {
+        MutableInteractionSource()
+    }
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
     BasicTextField(
         value = value,
         textStyle = textStyle,
         onValueChange = onValueChange,
+        enabled = enabled,
         modifier = modifier,
         visualTransformation = VisualTransformation.None,
         interactionSource = interactionSource,
-        enabled = true,
         readOnly = true,
         singleLine = true,
     ) { innerTextField ->
         TextFieldDefaults.DecorationBox(
             value = value,
+            enabled = enabled,
             visualTransformation = VisualTransformation.None,
             innerTextField = innerTextField,
             label = label,
             singleLine = true,
-            enabled = true,
             shape = RectangleShape,
             interactionSource = interactionSource,
             contentPadding = contentPadding,
