@@ -1,4 +1,4 @@
-package com.pasha.ytodo.presentation.edit.compose
+package com.pasha.ytodo.presentation.edit.compose.screen
 
 import com.pasha.ytodo.domain.models.TaskPriority
 import java.time.LocalDateTime

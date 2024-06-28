@@ -1,6 +1,5 @@
-package com.pasha.ytodo.presentation.edit.compose
+package com.pasha.ytodo.presentation.edit.compose.screen
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -8,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
@@ -28,6 +26,8 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.pasha.ytodo.R
 import com.pasha.ytodo.domain.models.TaskPriority
+import com.pasha.ytodo.presentation.edit.compose.deadline.DeadlinePicker
+import com.pasha.ytodo.presentation.edit.compose.priority.PriorityDropdownMenu
 import java.time.LocalDateTime
 
 

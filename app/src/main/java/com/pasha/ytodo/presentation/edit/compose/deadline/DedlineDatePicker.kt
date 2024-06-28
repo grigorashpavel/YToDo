@@ -1,4 +1,4 @@
-package com.pasha.ytodo.presentation.edit.compose
+package com.pasha.ytodo.presentation.edit.compose.deadline
 
 
 import android.icu.util.Calendar
@@ -8,7 +8,6 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider

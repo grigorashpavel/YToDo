@@ -1,4 +1,4 @@
-package com.pasha.ytodo.presentation.edit.compose
+package com.pasha.ytodo.presentation.edit.compose.screen
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
