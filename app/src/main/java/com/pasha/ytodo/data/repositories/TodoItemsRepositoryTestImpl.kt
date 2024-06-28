@@ -1,21 +1,19 @@
 package com.pasha.ytodo.data.repositories
 
-import android.util.Log
 import com.pasha.ytodo.domain.models.TaskPriority
 import com.pasha.ytodo.domain.models.TaskProgress
 import com.pasha.ytodo.domain.models.TodoItem
 import com.pasha.ytodo.domain.repositories.TodoItemsRepository
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.util.UUID
@@ -26,13 +24,37 @@ private const val ITEMS_COUNT = 20
 
 class TodoItemsRepositoryTestImpl : TodoItemsRepository {
     private val flow: MutableStateFlow<List<TodoItem>> = MutableStateFlow(listOf())
-    private val repositoryScope = CoroutineScope(Dispatchers.IO + Job())
+
+    private val handlerException = CoroutineExceptionHandler { _, throwable ->
+        _errors.tryEmit(throwable)
+    }
+
+    private val job = SupervisorJob()
+    private val repositoryScope = CoroutineScope(Dispatchers.IO + job + handlerException)
+
 
     init {
         setTestItems()
     }
 
-    override fun getTodoItems(): Flow<List<TodoItem>> = flow.asStateFlow()
+    private val _errors = MutableSharedFlow<Throwable>(replay = 2)
+    override val errors: Flow<Throwable> get() = _errors.asSharedFlow()
+
+    private fun randomThrowException() {
+        val destiny = (1..2).random()
+        if (destiny == 2) throw RuntimeException("""
+            Это случайная замоканная ошибка. Шанс появления 50/50 при старте приложения.
+            Вам не повезло :(
+        """.trimIndent())
+    }
+
+    override fun getTodoItems(): Flow<List<TodoItem>> {
+        repositoryScope.launch {
+            randomThrowException()
+        }
+
+        return flow.asStateFlow()
+    }
 
     override fun addTodoItem(item: TodoItem) {
         repositoryScope.launch {
@@ -50,6 +72,8 @@ class TodoItemsRepositoryTestImpl : TodoItemsRepository {
             list.remove(item)
             flow.value = list
         }
+
+        return
     }
 
     override fun changeItem(item: TodoItem) {
