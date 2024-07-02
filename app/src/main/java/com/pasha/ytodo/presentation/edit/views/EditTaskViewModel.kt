@@ -1,4 +1,4 @@
-package com.pasha.ytodo.presentation.edit
+package com.pasha.ytodo.presentation.edit.views
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -10,6 +10,8 @@ import com.pasha.ytodo.domain.models.TaskProgress
 import com.pasha.ytodo.domain.models.TodoItem
 import com.pasha.ytodo.domain.repositories.TodoItemRepositoryProvider
 import com.pasha.ytodo.domain.repositories.TodoItemsRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.util.UUID
@@ -17,23 +19,23 @@ import java.util.UUID
 class EditTaskViewModel(
     private val todoItemsRepository: TodoItemsRepository
 ) : ViewModel() {
-    var editState = EditTaskState()
-        private set
+    private val _editState = MutableStateFlow(EditTaskState())
+    val editState get() = _editState.asStateFlow()
 
     fun changePriority(newPriority: TaskPriority) {
-        editState = editState.copy(priority = newPriority)
+        _editState.value = _editState.value.copy(priority = newPriority)
     }
 
     fun changeDeadline(newDeadline: LocalDateTime?) {
-        editState = editState.copy(deadline = newDeadline)
+        _editState.value = _editState.value.copy(deadline = newDeadline)
     }
 
     fun changeTask(oldTask: TodoItem, newText: String) {
         viewModelScope.launch {
             val changedItem = oldTask.copy(
                 text = newText.trim(),
-                priority = editState.priority,
-                deadline = editState.deadline
+                priority = _editState.value.priority,
+                deadline = _editState.value.deadline
             )
 
             todoItemsRepository.changeItem(changedItem)
@@ -44,8 +46,8 @@ class EditTaskViewModel(
         val item = TodoItem(
             id = UUID.randomUUID().toString(),
             text,
-            priority = editState.priority,
-            deadline = editState.deadline,
+            priority = _editState.value.priority,
+            deadline = _editState.value.deadline,
             progress = TaskProgress.TODO,
             creationDate = currentTime,
             editDate = null

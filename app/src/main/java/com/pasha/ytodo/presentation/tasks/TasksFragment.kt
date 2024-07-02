@@ -99,12 +99,30 @@ class TasksFragment : Fragment() {
     }
 
     private fun navigateToTaskCreation() {
-        findNavController().navigate(R.id.action_tasksFragment_to_taskEditFragment)
+        if (checkNavigationActionToPossible() != true) return
+
+        findNavController().navigate(R.id.action_tasksFragment_to_taskEditComposeFragment)
     }
 
     private fun navigateToTaskEditing(task: TodoItem) {
+        if (checkNavigationActionToPossible() != true) return
+
         todoItemViewModel.passTodoItem(item = task)
-        findNavController().navigate(R.id.action_tasksFragment_to_taskEditFragment)
+        findNavController().navigate(R.id.action_tasksFragment_to_taskEditComposeFragment)
+    }
+
+    @SuppressLint("RestrictedApi")
+    private fun checkNavigationActionToPossible(): Boolean {
+        val destinationName = findNavController().currentBackStackEntry?.destination?.displayName
+        if (destinationName == null) return false
+
+
+        val curFragmentName = TasksFragment::class.simpleName
+        val (destPrefix, destFragmentName) = destinationName
+            .split('/')
+
+
+        return curFragmentName?.lowercase() == destFragmentName.lowercase()
     }
 
     private fun createActionsListener() = object : ActionsListener {
