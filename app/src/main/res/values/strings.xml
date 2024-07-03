@@ -16,12 +16,13 @@
     <string name="tasks_toolbar_my_business_title">Мои дела</string>
     <string name="tasks_toolbar_finished_todo_subtitle">Выполнено - %1$d</string>
 
-    <string name="item_task_important_emoji_binary_code">\u203C\uFE0F</string>
+    <string name="item_task_high_important_emoji_code">\u203C\uFE0F</string>
+    <string name="item_task_low_important_emoji_code">\u2B07\uFE0F</string>
 
     <string name="edit_task_priority_dropdown_menu_label">Приоритет</string>
     <string name="edit_task_dedline_picker_label_text">Сделать до</string>
 
-    <string name="task_priority_low_text">Низкий</string>
+    <string name="task_priority_low_text">\u2B07\uFE0F Низкий</string>
     <string name="task_priority_normal_text">Обычный</string>
     <string name="task_priority_high_text">\u203C\uFE0F Высокий</string>
 

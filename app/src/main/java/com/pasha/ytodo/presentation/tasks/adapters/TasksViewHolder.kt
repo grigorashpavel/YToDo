@@ -2,7 +2,6 @@ package com.pasha.ytodo.presentation.tasks.adapters
 
 import android.content.res.ColorStateList
 import android.graphics.Paint
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.pasha.ytodo.R
@@ -40,11 +39,18 @@ class TasksViewHolder(
     }
 
     private fun configureTaskText() {
-        if (currentItem!!.priority == TaskPriority.HIGH) {
-            val importantText = getImportantEmoji() + currentItem!!.text
-            binding.tvTaskText.text = importantText
-        } else if (currentItem != null) {
-            binding.tvTaskText.text = currentItem!!.text
+        when {
+            currentItem!!.priority == TaskPriority.HIGH -> {
+                val importantText = getHighImportantEmoji() + currentItem!!.text
+                binding.tvTaskText.text = importantText
+            }
+
+            currentItem!!.priority == TaskPriority.LOW -> {
+                val importantText = getLowImportantEmoji() + " " + currentItem!!.text
+                binding.tvTaskText.text = importantText
+            }
+
+            else -> binding.tvTaskText.text = currentItem!!.text
         }
 
         if (currentItem!!.progress == TaskProgress.DONE) {
@@ -90,8 +96,13 @@ class TasksViewHolder(
         }
     }
 
-    private fun getImportantEmoji(): String {
-        val emoji = binding.root.context.getText(R.string.item_task_important_emoji_binary_code)
+    private fun getLowImportantEmoji(): String {
+        val emoji = binding.root.context.getText(R.string.item_task_low_important_emoji_code)
+        return emoji.toString()
+    }
+
+    private fun getHighImportantEmoji(): String {
+        val emoji = binding.root.context.getText(R.string.item_task_high_important_emoji_code)
         return emoji.toString()
     }
 
