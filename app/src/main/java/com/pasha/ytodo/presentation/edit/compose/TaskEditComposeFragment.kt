@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -14,6 +15,7 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.pasha.ytodo.presentation.TodoItemViewModel
 import com.pasha.ytodo.presentation.edit.compose.screen.EditTaskScreen
 import com.pasha.ytodo.presentation.edit.compose.theme.TodoTheme
@@ -53,13 +55,30 @@ class TaskEditComposeFragment : Fragment() {
                             if (!navigationStarted) {
                                 navigationStarted = true
 
-                                todoItemViewModel.clearSharedItem()
-                                findNavController().navigateUp()
+                                exitBack()
                             }
                         }
                     )
                 }
             }
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        configureBackPressedAction()
+    }
+
+    private fun configureBackPressedAction() {
+        requireActivity().onBackPressedDispatcher.addCallback(owner = viewLifecycleOwner) {
+            exitBack()
+        }
+    }
+
+    private fun exitBack() {
+        todoItemViewModel.clearSharedItem()
+        findNavController().navigateUp()
+
     }
 }
