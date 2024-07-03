@@ -12,6 +12,7 @@ import com.pasha.ytodo.domain.repositories.TodoItemRepositoryProvider
 import com.pasha.ytodo.domain.repositories.TodoItemsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.util.UUID
@@ -23,11 +24,15 @@ class EditTaskViewModel(
     val editState get() = _editState.asStateFlow()
 
     fun changePriority(newPriority: TaskPriority) {
-        _editState.value = _editState.value.copy(priority = newPriority)
+        _editState.update {
+            _editState.value.copy(priority = newPriority)
+        }
     }
 
     fun changeDeadline(newDeadline: LocalDateTime?) {
-        _editState.value = _editState.value.copy(deadline = newDeadline)
+        _editState.update {
+            _editState.value.copy(deadline = newDeadline)
+        }
     }
 
     fun changeTask(oldTask: TodoItem, newText: String) {

@@ -13,6 +13,7 @@ import com.pasha.ytodo.domain.repositories.TodoItemsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class TasksViewModel(private val todoItemsRepository: TodoItemsRepository) : ViewModel() {
@@ -39,19 +40,21 @@ class TasksViewModel(private val todoItemsRepository: TodoItemsRepository) : Vie
                     items.filter { it.progress == TaskProgress.TODO }
                 }
             }.collect { items ->
-                _items.value = items.toList()
+                _items.update { items.toList() }
             }
         }
     }
 
     fun changeDoneTasksVisibility() {
-        _tasksVisibility.value = !_tasksVisibility.value
+        _tasksVisibility.update { tasksVisibility.value.not() }
     }
 
     private fun calculateDoneTasks() {
         viewModelScope.launch {
             todoItemsRepository.getTodoItems().collect { items ->
-                _finishedTasksCounter.value = items.count { it.progress == TaskProgress.DONE }
+                _finishedTasksCounter.update {
+                    items.count { it.progress == TaskProgress.DONE }
+                }
             }
         }
     }

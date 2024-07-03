@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -62,7 +63,7 @@ class TodoItemsRepositoryTestImpl : TodoItemsRepository {
             val newList = oldList.toMutableList()
 
             newList.add(item)
-            flow.value = newList
+            flow.update { newList }
         }
     }
 
@@ -70,7 +71,7 @@ class TodoItemsRepositoryTestImpl : TodoItemsRepository {
         repositoryScope.launch {
             val list = flow.value.toMutableList()
             list.remove(item)
-            flow.value = list
+            flow.update { list }
         }
 
         return
