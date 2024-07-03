@@ -1,12 +1,11 @@
 package com.pasha.ytodo.presentation.tasks.adapters
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.pasha.ytodo.databinding.ItemTaskBinding
-import com.pasha.ytodo.domain.models.TodoItem
+import com.pasha.ytodo.domain.entities.TodoItem
 
 class TasksRecyclerViewAdapter(
     private val actionsListener: ActionsListener

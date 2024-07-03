@@ -12,7 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.pasha.ytodo.R
 import com.pasha.ytodo.databinding.FragmentTaskEditBinding
-import com.pasha.ytodo.domain.models.TaskPriority
+import com.pasha.ytodo.domain.entities.TaskPriority
 import com.pasha.ytodo.presentation.TodoItemViewModel
 import com.pasha.ytodo.presentation.edit.views.adapters.DropDownMenuPriorityArrayAdapter
 import java.time.LocalDateTime

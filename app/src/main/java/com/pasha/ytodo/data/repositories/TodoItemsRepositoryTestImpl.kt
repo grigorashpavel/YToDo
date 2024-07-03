@@ -1,8 +1,8 @@
 package com.pasha.ytodo.data.repositories
 
-import com.pasha.ytodo.domain.models.TaskPriority
-import com.pasha.ytodo.domain.models.TaskProgress
-import com.pasha.ytodo.domain.models.TodoItem
+import com.pasha.ytodo.domain.entities.TaskPriority
+import com.pasha.ytodo.domain.entities.TaskProgress
+import com.pasha.ytodo.domain.entities.TodoItem
 import com.pasha.ytodo.domain.repositories.TodoItemsRepository
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope

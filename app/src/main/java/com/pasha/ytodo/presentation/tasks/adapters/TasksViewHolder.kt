@@ -6,9 +6,9 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.pasha.ytodo.R
 import com.pasha.ytodo.databinding.ItemTaskBinding
-import com.pasha.ytodo.domain.models.TaskPriority
-import com.pasha.ytodo.domain.models.TaskProgress
-import com.pasha.ytodo.domain.models.TodoItem
+import com.pasha.ytodo.domain.entities.TaskPriority
+import com.pasha.ytodo.domain.entities.TaskProgress
+import com.pasha.ytodo.domain.entities.TodoItem
 import java.time.format.DateTimeFormatter
 
 class TasksViewHolder(

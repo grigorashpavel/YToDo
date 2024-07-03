@@ -1,8 +1,6 @@
 package com.pasha.ytodo.domain.repositories
 
-import com.pasha.ytodo.domain.models.TodoItem
-import com.pasha.ytodo.util.Error
-import com.pasha.ytodo.util.Result
+import com.pasha.ytodo.domain.entities.TodoItem
 import kotlinx.coroutines.flow.Flow
 
 

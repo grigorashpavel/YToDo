@@ -2,12 +2,10 @@ package com.pasha.ytodo.presentation.tasks
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -17,9 +15,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pasha.ytodo.R
 import com.pasha.ytodo.databinding.FragmentTasksBinding
-import com.pasha.ytodo.domain.models.TaskProgress
-import com.pasha.ytodo.domain.models.TodoItem
-import com.pasha.ytodo.domain.repositories.TodoItemRepositoryProvider
+import com.pasha.ytodo.domain.entities.TaskProgress
+import com.pasha.ytodo.domain.entities.TodoItem
 import com.pasha.ytodo.presentation.TodoItemViewModel
 import com.pasha.ytodo.presentation.tasks.adapters.ActionsListener
 import com.pasha.ytodo.presentation.tasks.adapters.TasksRecyclerViewAdapter

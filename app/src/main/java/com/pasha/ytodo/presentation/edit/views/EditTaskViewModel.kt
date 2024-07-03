@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
-import com.pasha.ytodo.domain.models.TaskPriority
-import com.pasha.ytodo.domain.models.TaskProgress
-import com.pasha.ytodo.domain.models.TodoItem
+import com.pasha.ytodo.domain.entities.TaskPriority
+import com.pasha.ytodo.domain.entities.TaskProgress
+import com.pasha.ytodo.domain.entities.TodoItem
 import com.pasha.ytodo.domain.repositories.TodoItemRepositoryProvider
 import com.pasha.ytodo.domain.repositories.TodoItemsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
