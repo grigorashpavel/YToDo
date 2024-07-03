@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -19,9 +20,13 @@ android {
 
         val clientId: String by project
         manifestPlaceholders["YANDEX_CLIENT_ID"] = clientId
+
+        val baseUrl: String by project
+        buildConfigField("String", "BASE_URL", baseUrl)
     }
 
     buildFeatures {
+        buildConfig = true
         viewBinding = true
         compose = true
     }
@@ -85,6 +90,12 @@ dependencies {
 
     // Yandex OAuth
     implementation(libs.yandex.oauth)
+
+    // Network
+    implementation(libs.kotlinSerialization.json)
+    implementation(libs.kotlinSerialization.json.converter)
+    implementation(libs.okhttp3.okhttp)
+    implementation(libs.retrofit2.retrofit)
 
 
     testImplementation(libs.junit)
