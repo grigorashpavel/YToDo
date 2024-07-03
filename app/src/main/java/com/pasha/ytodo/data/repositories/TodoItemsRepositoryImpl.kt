@@ -1,5 +1,6 @@
 package com.pasha.ytodo.data.repositories
 
+
 import com.pasha.ytodo.data.sources.local.LocalTodos
 import com.pasha.ytodo.domain.entities.TodoItem
 import com.pasha.ytodo.domain.repositories.TodoItemsRepository
@@ -17,8 +18,11 @@ import kotlinx.coroutines.launch
 import java.util.UUID
 
 
+private typealias Service = com.pasha.ytodo.network.Service
+
 class TodoItemsRepositoryImpl(
-    private val localSource: LocalTodos
+    private val localSource: LocalTodos,
+    private val apiService: Service
 ) : TodoItemsRepository {
     private val _errors = MutableSharedFlow<Throwable>(replay = 2)
     override val errors: Flow<Throwable> get() = _errors.asSharedFlow()

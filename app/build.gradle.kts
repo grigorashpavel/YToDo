@@ -23,6 +23,9 @@ android {
 
         val baseUrl: String by project
         buildConfigField("String", "BASE_URL", baseUrl)
+
+        val tokenBearer: String by project
+        buildConfigField("String", "TOKEN_BEARER", tokenBearer)
     }
 
     buildFeatures {
