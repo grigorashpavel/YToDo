@@ -18,6 +18,8 @@ androidxComposeBom = "2024.06.00"
 
 coroutines = "1.8.1"
 
+yandexOAuth = "3.1.0"
+
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
@@ -53,6 +55,8 @@ androidx-lifecycle-compose-viewmodel = { group = "androidx.lifecycle", name = "l
 
 coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+
+yandex-oauth = { group = "com.yandex.android", name = "authsdk", version.ref = "yandexOAuth" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

@@ -16,6 +16,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val clientId: String by project
+        manifestPlaceholders["YANDEX_CLIENT_ID"] = clientId
     }
 
     buildFeatures {
@@ -78,6 +81,9 @@ dependencies {
     implementation(libs.androidx.compose.animation)
 
     implementation(libs.androidx.compose.viewbinding)
+
+    // Yandex OAuth
+    implementation(libs.yandex.oauth)
 
 
     testImplementation(libs.junit)
