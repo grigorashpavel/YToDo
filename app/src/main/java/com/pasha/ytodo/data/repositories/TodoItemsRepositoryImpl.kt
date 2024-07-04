@@ -2,6 +2,7 @@ package com.pasha.ytodo.data.repositories
 
 
 import com.pasha.ytodo.data.sources.local.LocalTodos
+import com.pasha.ytodo.domain.DataSource
 import com.pasha.ytodo.domain.entities.TodoItem
 import com.pasha.ytodo.domain.repositories.TodoItemsRepository
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -18,11 +19,9 @@ import kotlinx.coroutines.launch
 import java.util.UUID
 
 
-private typealias Service = com.pasha.ytodo.network.Service
-
 class TodoItemsRepositoryImpl(
-    private val localSource: LocalTodos,
-    private val apiService: Service
+    private val localSource: DataSource,
+    private val remoteSource: DataSource
 ) : TodoItemsRepository {
     private val _errors = MutableSharedFlow<Throwable>(replay = 2)
     override val errors: Flow<Throwable> get() = _errors.asSharedFlow()
@@ -36,40 +35,44 @@ class TodoItemsRepositoryImpl(
 
     private val flow: MutableStateFlow<List<TodoItem>> = MutableStateFlow(listOf())
 
-    init {
-        flow.update { localSource.getTestItems() }
+    override fun getTodoItems(): Flow<List<TodoItem>> {
+        repositoryScope.launch {
+            flow.update {
+                remoteSource.getTodoList()
+            }
+        }
+        return flow.asStateFlow()
     }
-
-    override fun getTodoItems(): Flow<List<TodoItem>> = flow.asStateFlow()
 
     override fun addTodoItem(item: TodoItem) {
         repositoryScope.launch {
-            val oldList = flow.value
-            val newList = oldList.toMutableList()
+            val addedItem = remoteSource.addTodoItem(item)
 
-            newList.add(item)
-            flow.update { newList }
+            flow.update { flow.value.toMutableList().also { it.add(addedItem) } }
         }
     }
 
     override fun deleteTodoItem(item: TodoItem) {
         repositoryScope.launch {
-            val list = flow.value.toMutableList()
-            list.remove(item)
-            flow.update { list }
+            val deletedItem = remoteSource.deleteTodoItemById(item.id)
+
+            flow.update { flow.value.toMutableList().also { it.remove(deletedItem) } }
         }
     }
 
     override fun changeItem(item: TodoItem) {
         repositoryScope.launch {
-            val tempList = flow.value.toMutableList()
-            for (i in tempList.indices) {
-                if (UUID.fromString(tempList[i].id) == UUID.fromString(item.id)) {
-                    tempList[i] = item
-                    break
+            val changedItem = remoteSource.updateTodoItemById(item.id, item)
+
+            flow.update {
+                flow.value.toMutableList().also { items ->
+                    items.replaceAll { item ->
+                        if (UUID.fromString(item.id) == UUID.fromString(changedItem.id)) {
+                            changedItem
+                        } else item
+                    }
                 }
             }
-            flow.emit(tempList)
         }
     }
 }

@@ -4,7 +4,6 @@ import com.pasha.ytodo.data.models.TodoListWrapper
 import com.pasha.ytodo.data.models.TodoWrapper
 import com.pasha.ytodo.network.Headers
 import com.pasha.ytodo.network.Paths
-import com.pasha.ytodo.network.Service
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -39,12 +38,14 @@ interface TodoApi {
 
     @PUT("${Paths.UpdateTodoItemById}/{${Paths.ItemIdPath}}")
     suspend fun updateTodoItem(
+        @Header(Headers.LastKnownRevision) revision: Int,
         @Path(Paths.ItemIdPath) todoId: String,
         @Body content: TodoWrapper
     ): Response<TodoWrapper>
 
     @DELETE("${Paths.DeleteTodoItemById}/{${Paths.ItemIdPath}}")
     suspend fun deleteTodoItem(
+        @Header(Headers.LastKnownRevision) revision: Int,
         @Path(Paths.ItemIdPath) todoId: String
     ): Response<TodoWrapper>
 }
