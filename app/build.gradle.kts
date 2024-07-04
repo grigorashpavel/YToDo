@@ -24,6 +24,12 @@ android {
         val baseUrl: String by project
         buildConfigField("String", "BASE_URL", baseUrl)
 
+        val urlPattern: String by project
+        buildConfigField("String", "URL_PATTERN", urlPattern)
+
+        val certificate: String by project
+        buildConfigField("String", "CERTIFICATE", certificate)
+
         val tokenBearer: String by project
         buildConfigField("String", "TOKEN_BEARER", tokenBearer)
     }

@@ -2,18 +2,24 @@ package com.pasha.ytodo.network
 
 import com.pasha.ytodo.BuildConfig
 import kotlinx.serialization.json.Json
+import okhttp3.CertificatePinner
 import okhttp3.ConnectionPool
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
-import retrofit2.create
 import java.util.concurrent.TimeUnit
 
 class NetworkClient(tokenInterceptor: Interceptor) {
     private val contentType = "application/json".toMediaType()
-    private val kotlinConverterFactory = Json.asConverterFactory(contentType)
+    private val kotlinConverterFactory = Json {
+        ignoreUnknownKeys = true
+    }.asConverterFactory(contentType)
+
+    private val certificate = CertificatePinner.Builder()
+        .add(BuildConfig.URL_PATTERN, BuildConfig.CERTIFICATE)
+        .build()
 
     private val okHttpClient = OkHttpClient.Builder()
         .connectTimeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS)
@@ -26,6 +32,7 @@ class NetworkClient(tokenInterceptor: Interceptor) {
                 TimeUnit.MINUTES
             )
         )
+        .certificatePinner(certificate)
         .addNetworkInterceptor(tokenInterceptor)
         .build()
 
