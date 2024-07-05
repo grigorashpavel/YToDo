@@ -30,8 +30,11 @@ class TasksViewHolder(
     }
 
     private fun configureTaskProgressCheckbox() {
-        if (currentItem!!.priority == TaskPriority.HIGH) {
-            binding.checkboxTaskProgress.buttonTintList = getImportantColorStates()
+        val isImportant = currentItem!!.priority == TaskPriority.HIGH
+        binding.checkboxTaskProgress.buttonTintList = if (isImportant) {
+            getImportantColorStates()
+        } else {
+            getUsualColorStates()
         }
 
         val isTaskCompleted = currentItem!!.progress == TaskProgress.DONE
@@ -108,6 +111,10 @@ class TasksViewHolder(
 
     private fun getImportantColorStates(): ColorStateList {
         return binding.root.context.getColorStateList(R.color.item_task_checkbox_important_color_states)
+    }
+
+    private fun getUsualColorStates(): ColorStateList {
+        return binding.root.context.getColorStateList(R.color.item_task_checkbox_usual_color_states)
     }
 
     private fun configureTasksDeadline() {
