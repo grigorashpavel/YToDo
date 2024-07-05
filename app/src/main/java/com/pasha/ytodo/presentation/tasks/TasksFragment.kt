@@ -1,7 +1,6 @@
 package com.pasha.ytodo.presentation.tasks
 
 import android.annotation.SuppressLint
-import android.content.res.Resources
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -53,6 +52,8 @@ class TasksFragment : Fragment() {
         configureCreateFabListener()
         configureTasksVisibilityButtonListener()
         configureVisibilityIcon()
+        configureSwipeRefreshBehaviourAndStyles()
+        configureSwipeRefreshListener()
 
         (requireContext().applicationContext as TodoItemRepositoryProvider).todoItemsRepository.setupErrorListener()
     }
@@ -170,6 +171,35 @@ class TasksFragment : Fragment() {
                     }
                 }
             }
+        }
+    }
+
+    private fun configureSwipeRefreshBehaviourAndStyles() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isListRefreshing.collect { isRefreshing ->
+                    binding.swipeRefreshLayout.isRefreshing = isRefreshing
+                }
+            }
+        }
+
+        binding.swipeRefreshLayout.setProgressBackgroundColorSchemeResource(
+            R.color.back_secondary_elevated
+        )
+        binding.swipeRefreshLayout.setColorSchemeColors(
+            resources.getColor(R.color.color_blue, requireContext().theme)
+        )
+
+        binding.appBarLayout.addOnOffsetChangedListener { _, verticalOffset ->
+            if (binding.swipeRefreshLayout.isRefreshing.not()) {
+                binding.swipeRefreshLayout.isEnabled = verticalOffset >= 0
+            }
+        }
+    }
+
+    private fun configureSwipeRefreshListener() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            viewModel.refreshTodoList()
         }
     }
 

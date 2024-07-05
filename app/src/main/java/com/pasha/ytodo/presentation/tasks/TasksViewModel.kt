@@ -9,10 +9,12 @@ import com.pasha.ytodo.domain.entities.TaskProgress
 import com.pasha.ytodo.domain.entities.TodoItem
 import com.pasha.ytodo.domain.repositories.TodoItemRepositoryProvider
 import com.pasha.ytodo.domain.repositories.TodoItemsRepository
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 class TasksViewModel(private val todoItemsRepository: TodoItemsRepository) : ViewModel() {
@@ -25,13 +27,35 @@ class TasksViewModel(private val todoItemsRepository: TodoItemsRepository) : Vie
     private val _finishedTasksCounter: MutableStateFlow<Int> = MutableStateFlow(0)
     val finishedTasksCounter get() = _finishedTasksCounter.asStateFlow()
 
+    private val _isListRefreshing = MutableStateFlow(false)
+    val isListRefreshing get() = _isListRefreshing.asStateFlow()
+
     init {
         fetchTasksData()
         calculateDoneTasks()
     }
 
+    private var loadListJob: Job? = null
+
+    fun refreshTodoList() {
+        loadListJob?.cancel()
+
+        startRefresh()
+        fetchTasksData()
+    }
+
+    private fun startRefresh() {
+        _isListRefreshing.update { true }
+    }
+
+    private fun endRefresh() {
+        _isListRefreshing.update { false }
+    }
+
     private fun fetchTasksData() {
-        viewModelScope.launch {
+        loadListJob = viewModelScope.launch {
+            if (isActive.not()) return@launch
+
             todoItemsRepository.getTodoItems().combine(_tasksVisibility) { items, showAllItems ->
                 if (showAllItems) {
                     items
@@ -39,6 +63,7 @@ class TasksViewModel(private val todoItemsRepository: TodoItemsRepository) : Vie
                     items.filter { it.progress == TaskProgress.TODO }
                 }
             }.collect { items ->
+                endRefresh()
                 _items.update { items.toList() }
             }
         }
@@ -60,8 +85,9 @@ class TasksViewModel(private val todoItemsRepository: TodoItemsRepository) : Vie
 
     fun changeTaskProgress(task: TodoItem, newProgress: TaskProgress) {
         val changedTask = task.copy(progress = newProgress)
-        todoItemsRepository.changeItem(changedTask)
-        fetchTasksData()
+        viewModelScope.launch {
+            todoItemsRepository.changeItem(changedTask)
+        }
     }
 
     companion object {
