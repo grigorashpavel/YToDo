@@ -1,34 +1,24 @@
 package com.pasha.ytodo.presentation
 
-import android.content.IntentFilter
 import android.net.ConnectivityManager
-import android.net.Network
-import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.pasha.ytodo.R
-import com.pasha.ytodo.core.NetworkAvailableReceiver
 import com.pasha.ytodo.core.NetworkAvailableWorker
-import com.pasha.ytodo.domain.repositories.TodoItemRepositoryProvider
-import com.pasha.ytodo.domain.repositories.TodoItemsRepository
+import com.pasha.ytodo.core.SynchronizeWorker
 import com.pasha.ytodo.network.ConnectionChecker
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private var networkCallback: ConnectivityManager.OnNetworkActiveListener? = null
+    private var isFirstCreation: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,8 +29,13 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        isFirstCreation = savedInstanceState == null
 
         createNetworkCallback()
+
+        if (isFirstCreation) {
+            registerPeriodSynchronizeWork()
+        }
     }
 
     override fun onResume() {
@@ -58,16 +53,41 @@ class MainActivity : AppCompatActivity() {
     private fun createNetworkCallback() {
         networkCallback = ConnectivityManager.OnNetworkActiveListener {
             startWorkerForOneRequest()
+            startSynchronizeOnNetworkAvailable()
         }
     }
 
     private fun startWorkerForOneRequest() {
+        Log.e("MainActivity", "startWorkerForOneRequest()")
+
         val workRequest = OneTimeWorkRequestBuilder<NetworkAvailableWorker>().build()
 
-        WorkManager.getInstance(this@MainActivity).enqueueUniqueWork(
+        WorkManager.getInstance(this).enqueueUniqueWork(
             NetworkAvailableWorker.TAG,
             ExistingWorkPolicy.REPLACE,
             workRequest
+        )
+    }
+
+    private fun startSynchronizeOnNetworkAvailable() {
+        Log.e("MainActivity", "startSynchronizedOnNetworkAvailable()")
+        val request = SynchronizeWorker.createOneTimeRequest()
+        WorkManager.getInstance(this).enqueueUniqueWork(
+            SynchronizeWorker.ONE_TIME_TAG,
+            ExistingWorkPolicy.KEEP,
+            request
+        )
+    }
+
+    private fun registerPeriodSynchronizeWork() {
+        Log.e("MainActivity", "registerPeriodSynchronizeWork()")
+
+        val request = SynchronizeWorker.createPeriodRequest()
+
+        WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(
+            SynchronizeWorker.PERIOD_TAG,
+            ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE,
+            request
         )
     }
 }
