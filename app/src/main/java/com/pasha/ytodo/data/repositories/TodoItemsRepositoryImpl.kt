@@ -1,6 +1,7 @@
 package com.pasha.ytodo.data.repositories
 
 
+import android.util.Log
 import com.pasha.ytodo.data.sources.local.LocalTodos
 import com.pasha.ytodo.domain.DataSource
 import com.pasha.ytodo.domain.entities.TodoItem
@@ -32,15 +33,20 @@ class TodoItemsRepositoryImpl(
 
     private val job = SupervisorJob()
     private val repositoryScope = CoroutineScope(Dispatchers.IO + job + handlerException)
+    private var i = 1
 
     private val flow: MutableStateFlow<List<TodoItem>> = MutableStateFlow(listOf())
-
-    override fun getTodoItems(): Flow<List<TodoItem>> {
+    override fun fetchTodoItems() {
         repositoryScope.launch {
-            flow.update {
-                remoteSource.getTodoList()
-            }
+            Log.e("TodoItemsRepositoryImpl", i.toString())
+            i++
+
+            val list = remoteSource.getTodoList()
+            flow.update { list }
         }
+    }
+
+    override fun getTodoItemsFlow(): Flow<List<TodoItem>> {
         return flow.asStateFlow()
     }
 

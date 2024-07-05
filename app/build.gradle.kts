@@ -114,6 +114,9 @@ dependencies {
     annotationProcessor(libs.androidx.room.roomCompiler)
     ksp(libs.androidx.room.roomCompiler)
 
+    // WorkManager
+    implementation(libs.androidx.work.workRunTime.ktx)
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
