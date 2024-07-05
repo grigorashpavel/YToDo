@@ -26,28 +26,5 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        (applicationContext as TodoItemRepositoryProvider).todoItemsRepository.setupErrorListener()
-    }
-
-    private fun TodoItemsRepository.setupErrorListener() {
-        lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                errors.onEach { throwable ->
-                    //when + type check = profit
-                    throwable.message?.let { showErrorMessage(it) }
-                }.collect()
-            }
-        }
-    }
-
-    private fun showErrorMessage(message: String) {
-        MaterialAlertDialogBuilder(this)
-            .setTitle("TEMP ERROR MESSAGE")
-            .setMessage(message)
-            .setPositiveButton("OK") { _, _ ->
-
-            }
-            .show()
     }
 }

@@ -30,6 +30,8 @@
     <string name="cancel_text">Отмена</string>
     <string name="delete_text">Удалить</string>
 
+    <string name="retry_label">Повторить</string>
+
     <string-array name="deadline_formatted_months">
         <item>Января</item>
         <item>Февраля</item>

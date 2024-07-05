@@ -1,6 +1,7 @@
 package com.pasha.ytodo.presentation.tasks
 
 import android.annotation.SuppressLint
+import android.content.res.Resources
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,13 +14,18 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.pasha.ytodo.R
 import com.pasha.ytodo.databinding.FragmentTasksBinding
 import com.pasha.ytodo.domain.entities.TaskProgress
 import com.pasha.ytodo.domain.entities.TodoItem
+import com.pasha.ytodo.domain.repositories.TodoItemRepositoryProvider
+import com.pasha.ytodo.domain.repositories.TodoItemsRepository
 import com.pasha.ytodo.presentation.TodoItemViewModel
 import com.pasha.ytodo.presentation.tasks.adapters.ActionsListener
 import com.pasha.ytodo.presentation.tasks.adapters.TasksRecyclerViewAdapter
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 
@@ -47,6 +53,8 @@ class TasksFragment : Fragment() {
         configureCreateFabListener()
         configureTasksVisibilityButtonListener()
         configureVisibilityIcon()
+
+        (requireContext().applicationContext as TodoItemRepositoryProvider).todoItemsRepository.setupErrorListener()
     }
 
     override fun onDestroyView() {
@@ -163,5 +171,28 @@ class TasksFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun TodoItemsRepository.setupErrorListener() {
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                errors.onEach { throwable ->
+                    throwable.message?.let { showErrorMessage(it) }
+                }.collect()
+            }
+        }
+    }
+
+    private fun showErrorMessage(message: String) {
+        val snackbar = Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG)
+            .setTextMaxLines(6)
+            .setBackgroundTint(resources.getColor(R.color.back_secondary, requireContext().theme))
+            .setTextColor(resources.getColor(R.color.label_primary, requireContext().theme))
+            .setActionTextColor(resources.getColor(R.color.color_blue, requireContext().theme))
+            .setAction(resources.getString(R.string.retry_label)) {
+
+            }
+        snackbar.animationMode = Snackbar.ANIMATION_MODE_SLIDE
+        snackbar.show()
     }
 }
