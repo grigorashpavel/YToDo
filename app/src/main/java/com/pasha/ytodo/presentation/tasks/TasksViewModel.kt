@@ -34,7 +34,7 @@ class TasksViewModel(private val todoItemsRepository: TodoItemsRepository) : Vie
     val errors = _errors.asStateFlow()
 
     init {
-        fetchTasksData()
+        fetchAndCollectTasksData()
         calculateDoneTasks()
         initErrorsFlow()
     }
@@ -45,7 +45,7 @@ class TasksViewModel(private val todoItemsRepository: TodoItemsRepository) : Vie
         loadListJob?.cancel()
 
         startRefresh()
-        fetchTasksData()
+        fetchAndCollectTasksData()
     }
 
     private fun startRefresh() {
@@ -56,11 +56,13 @@ class TasksViewModel(private val todoItemsRepository: TodoItemsRepository) : Vie
         _isListRefreshing.update { false }
     }
 
-    private fun fetchTasksData() {
+    private fun fetchAndCollectTasksData() {
+        todoItemsRepository.fetchTodoItems()
+
         loadListJob = viewModelScope.launch {
             if (isActive.not()) return@launch
 
-            todoItemsRepository.getTodoItems().combine(_tasksVisibility) { items, showAllItems ->
+            todoItemsRepository.getTodoItemsFlow().combine(_tasksVisibility) { items, showAllItems ->
                 if (showAllItems) {
                     items
                 } else {
@@ -91,7 +93,7 @@ class TasksViewModel(private val todoItemsRepository: TodoItemsRepository) : Vie
 
     private fun calculateDoneTasks() {
         viewModelScope.launch {
-            todoItemsRepository.getTodoItems().collect { items ->
+            todoItemsRepository.getTodoItemsFlow().collect { items ->
                 _finishedTasksCounter.update {
                     items.count { it.progress == TaskProgress.DONE }
                 }
