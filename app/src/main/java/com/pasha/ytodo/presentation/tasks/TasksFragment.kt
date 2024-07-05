@@ -54,8 +54,7 @@ class TasksFragment : Fragment() {
         configureVisibilityIcon()
         configureSwipeRefreshBehaviourAndStyles()
         configureSwipeRefreshListener()
-
-        (requireContext().applicationContext as TodoItemRepositoryProvider).todoItemsRepository.setupErrorListener()
+        setupErrorListener()
     }
 
     override fun onDestroyView() {
@@ -203,12 +202,13 @@ class TasksFragment : Fragment() {
         }
     }
 
-    private fun TodoItemsRepository.setupErrorListener() {
+    private fun setupErrorListener() {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                errors.onEach { throwable ->
-                    throwable.message?.let { showErrorMessage(it) }
-                }.collect()
+                viewModel.errors.collect { message ->
+                    message?.let { showErrorMessage(it) }
+                    viewModel.errorMessageShown()
+                }
             }
         }
     }

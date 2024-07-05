@@ -30,9 +30,13 @@ class TasksViewModel(private val todoItemsRepository: TodoItemsRepository) : Vie
     private val _isListRefreshing = MutableStateFlow(false)
     val isListRefreshing get() = _isListRefreshing.asStateFlow()
 
+    private val _errors: MutableStateFlow<String?> = MutableStateFlow(null)
+    val errors = _errors.asStateFlow()
+
     init {
         fetchTasksData()
         calculateDoneTasks()
+        initErrorsFlow()
     }
 
     private var loadListJob: Job? = null
@@ -67,6 +71,18 @@ class TasksViewModel(private val todoItemsRepository: TodoItemsRepository) : Vie
                 _items.update { items.toList() }
             }
         }
+    }
+
+    private fun initErrorsFlow() {
+        viewModelScope.launch {
+            todoItemsRepository.errors.collect { throws ->
+                _errors.update { throws.message }
+            }
+        }
+    }
+
+    fun errorMessageShown() {
+        _errors.update { null }
     }
 
     fun changeDoneTasksVisibility() {
