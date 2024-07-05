@@ -8,15 +8,28 @@ import com.pasha.ytodo.domain.entities.TaskPriority
 import com.pasha.ytodo.domain.entities.TaskProgress
 import com.pasha.ytodo.domain.entities.TodoItem
 import com.pasha.ytodo.domain.DataSource
+import com.pasha.ytodo.network.NetworkClient
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
+import okio.Timeout
+import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
+import retrofit2.awaitResponse
 import java.io.IOException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.concurrent.atomic.AtomicInteger
+import kotlin.coroutines.coroutineContext
 
 class RetrofitService(
     private val api: TodoApi,
@@ -103,7 +116,11 @@ class RetrofitService(
     }
 
     private suspend fun <T> makeBaseRequest(call: suspend () -> Response<T>): T = try {
-        call.invoke().body()!!
+        tryRetryingRequests(
+            NetworkClient.MAX_RETRIES,
+            NetworkClient.RETRY_TIMEOUT_MILLIS,
+            call
+        ).body()!!
     } catch (httpException: HttpException) {
         val code = httpException.code()
         throw when (code) {
@@ -120,9 +137,35 @@ class RetrofitService(
     } catch (ioException: IOException) {
         throw Exception("Возможно проблемы с сетью или соедиение нестабильно. Повторите ошибку позже.")
     } catch (e: Exception) {
+        e.printStackTrace()
         if (e is CancellationException) throw e
 
         throw Exception("Неизвестная ошибка. Возможна ошибка в приложении или сервер прислал пустой ответ. Будем рады, если вы сообщите об ошибке.")
+    }
+
+    private suspend fun <T> tryRetryingRequests(
+        maxRetries: Int,
+        interval: Long,
+        call: suspend () -> Response<T>
+    ): Response<T> {
+        repeat(maxRetries) { numTry ->
+            try {
+                val response = withTimeout(interval * numTry) {
+                    call.invoke()
+                }
+
+                if (response.isSuccessful) return response
+            } catch (httpException: HttpException) {
+                when (httpException.code()) {
+                    500 -> {}
+                    else -> throw httpException
+                }
+            } catch (_: SocketTimeoutException) {
+
+            } catch (_: TimeoutCancellationException) {  }
+        }
+
+        throw SocketTimeoutException()
     }
 
     private fun TodoItem.toTodoDto(): TodoDto {

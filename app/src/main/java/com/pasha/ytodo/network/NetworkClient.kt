@@ -22,9 +22,9 @@ class NetworkClient(tokenInterceptor: Interceptor) {
         .build()
 
     private val okHttpClient = OkHttpClient.Builder()
-        .connectTimeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS)
-        .readTimeout(IO_TIMEOUT, TimeUnit.SECONDS)
-        .writeTimeout(IO_TIMEOUT, TimeUnit.SECONDS)
+        .connectTimeout(CONNECTION_TIMEOUT_SEC, TimeUnit.SECONDS)
+        .readTimeout(IO_TIMEOUT_SEC, TimeUnit.SECONDS)
+        .writeTimeout(IO_TIMEOUT_SEC, TimeUnit.SECONDS)
         .connectionPool(
             ConnectionPool(
                 maxIdleConnections = CONNECTIONS_NUM,
@@ -33,7 +33,7 @@ class NetworkClient(tokenInterceptor: Interceptor) {
             )
         )
         .certificatePinner(certificate)
-        .addNetworkInterceptor(tokenInterceptor)
+        .addInterceptor(tokenInterceptor)
         .build()
 
     private val retrofit by lazy {
@@ -49,7 +49,9 @@ class NetworkClient(tokenInterceptor: Interceptor) {
     companion object {
         const val MINUTES_ALIVE_DURATION: Long = 5
         const val CONNECTIONS_NUM: Int = 3
-        const val CONNECTION_TIMEOUT: Long = 20
-        const val IO_TIMEOUT: Long = 25
+        const val CONNECTION_TIMEOUT_SEC: Long = 20
+        const val IO_TIMEOUT_SEC: Long = 25
+        const val RETRY_TIMEOUT_MILLIS: Long = 3000
+        const val MAX_RETRIES = 2
     }
 }
