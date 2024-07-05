@@ -18,7 +18,6 @@ import com.pasha.ytodo.network.ConnectionChecker
 
 class MainActivity : AppCompatActivity() {
     private var networkCallback: ConnectivityManager.OnNetworkActiveListener? = null
-    private var isFirstCreation: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,12 +28,12 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        isFirstCreation = savedInstanceState == null
 
         createNetworkCallback()
 
+        val isFirstCreation = savedInstanceState == null
         if (isFirstCreation) {
-            registerPeriodSynchronizeWork()
+            SynchronizeWorker.registerPeriodSynchronizeWork(this)
         }
     }
 
@@ -52,42 +51,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun createNetworkCallback() {
         networkCallback = ConnectivityManager.OnNetworkActiveListener {
-            startWorkerForOneRequest()
-            startSynchronizeOnNetworkAvailable()
+            NetworkAvailableWorker.startWorkerForOneRequest(this)
         }
-    }
-
-    private fun startWorkerForOneRequest() {
-        Log.e("MainActivity", "startWorkerForOneRequest()")
-
-        val workRequest = OneTimeWorkRequestBuilder<NetworkAvailableWorker>().build()
-
-        WorkManager.getInstance(this).enqueueUniqueWork(
-            NetworkAvailableWorker.TAG,
-            ExistingWorkPolicy.REPLACE,
-            workRequest
-        )
-    }
-
-    private fun startSynchronizeOnNetworkAvailable() {
-        Log.e("MainActivity", "startSynchronizedOnNetworkAvailable()")
-        val request = SynchronizeWorker.createOneTimeRequest()
-        WorkManager.getInstance(this).enqueueUniqueWork(
-            SynchronizeWorker.ONE_TIME_TAG,
-            ExistingWorkPolicy.KEEP,
-            request
-        )
-    }
-
-    private fun registerPeriodSynchronizeWork() {
-        Log.e("MainActivity", "registerPeriodSynchronizeWork()")
-
-        val request = SynchronizeWorker.createPeriodRequest()
-
-        WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(
-            SynchronizeWorker.PERIOD_TAG,
-            ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE,
-            request
-        )
     }
 }
