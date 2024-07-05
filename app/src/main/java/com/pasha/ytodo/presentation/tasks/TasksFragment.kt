@@ -214,14 +214,10 @@ class TasksFragment : Fragment() {
     }
 
     private fun showErrorMessage(message: String) {
-        val snackbar = Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG)
+        val snackbar = Snackbar.make(binding.coordinator, message, Snackbar.LENGTH_LONG)
             .setTextMaxLines(6)
             .setBackgroundTint(resources.getColor(R.color.back_secondary, requireContext().theme))
             .setTextColor(resources.getColor(R.color.label_primary, requireContext().theme))
-            .setActionTextColor(resources.getColor(R.color.color_blue, requireContext().theme))
-            .setAction(resources.getString(R.string.retry_label)) {
-
-            }
         snackbar.animationMode = Snackbar.ANIMATION_MODE_SLIDE
         snackbar.show()
     }
