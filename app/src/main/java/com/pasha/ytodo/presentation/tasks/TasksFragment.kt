@@ -23,6 +23,7 @@ import com.pasha.ytodo.domain.repositories.TodoItemsRepository
 import com.pasha.ytodo.presentation.TodoItemViewModel
 import com.pasha.ytodo.presentation.tasks.adapters.ActionsListener
 import com.pasha.ytodo.presentation.tasks.adapters.TasksRecyclerViewAdapter
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -55,6 +56,7 @@ class TasksFragment : Fragment() {
         configureSwipeRefreshBehaviourAndStyles()
         configureSwipeRefreshListener()
         setupErrorListener()
+        configureProgressIndication()
     }
 
     override fun onDestroyView() {
@@ -173,15 +175,25 @@ class TasksFragment : Fragment() {
         }
     }
 
-    private fun configureSwipeRefreshBehaviourAndStyles() {
+    private fun configureProgressIndication() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.isListRefreshing.collect { isRefreshing ->
                     binding.swipeRefreshLayout.isRefreshing = isRefreshing
+                    if (isRefreshing) {
+                        binding.linearProgressIndicator.visibility = View.VISIBLE
+                    } else {
+                        viewLifecycleOwner.lifecycleScope.launch {
+                            delay(1000)
+                            binding.linearProgressIndicator.visibility = View.GONE
+                        }
+                    }
                 }
             }
         }
+    }
 
+    private fun configureSwipeRefreshBehaviourAndStyles() {
         binding.swipeRefreshLayout.setProgressBackgroundColorSchemeResource(
             R.color.back_secondary_elevated
         )

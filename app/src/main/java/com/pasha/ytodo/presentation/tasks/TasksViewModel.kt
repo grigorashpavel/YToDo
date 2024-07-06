@@ -27,7 +27,7 @@ class TasksViewModel(private val todoItemsRepository: TodoItemsRepository) : Vie
     private val _finishedTasksCounter: MutableStateFlow<Int> = MutableStateFlow(0)
     val finishedTasksCounter get() = _finishedTasksCounter.asStateFlow()
 
-    private val _isListRefreshing = MutableStateFlow(false)
+    private val _isListRefreshing = MutableStateFlow(true)
     val isListRefreshing get() = _isListRefreshing.asStateFlow()
 
     private val _errors: MutableStateFlow<String?> = MutableStateFlow(null)

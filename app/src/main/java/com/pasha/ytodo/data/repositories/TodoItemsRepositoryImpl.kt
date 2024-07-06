@@ -33,52 +33,42 @@ class TodoItemsRepositoryImpl(
 
     private val job = SupervisorJob()
     private val repositoryScope = CoroutineScope(Dispatchers.IO + job + handlerException)
-    private var i = 1
 
-    private val flow: MutableStateFlow<List<TodoItem>> = MutableStateFlow(listOf())
     override fun fetchTodoItems() {
         repositoryScope.launch {
-            Log.e("TodoItemsRepositoryImpl", i.toString())
-            i++
-
-            val list = remoteSource.getTodoList()
-            flow.update { list }
+            try {
+                remoteSource.getTodoList()
+            } catch (e: Exception) {
+                throw e
+            }
         }
     }
 
     override fun getTodoItemsFlow(): Flow<List<TodoItem>> {
-        return flow.asStateFlow()
+        return localSource.getTodoListFlow()
     }
 
     override fun addTodoItem(item: TodoItem) {
         repositoryScope.launch {
-            val addedItem = remoteSource.addTodoItem(item)
+            val addedItem = localSource.addTodoItem(item)
+            remoteSource.addTodoItem(addedItem)
 
-            flow.update { flow.value.toMutableList().also { it.add(addedItem) } }
         }
     }
 
     override fun deleteTodoItem(item: TodoItem) {
         repositoryScope.launch {
-            val deletedItem = remoteSource.deleteTodoItemById(item.id)
+            localSource.deleteTodoItemById(item.id)
+            remoteSource.deleteTodoItemById(item.id)
 
-            flow.update { flow.value.toMutableList().also { it.remove(deletedItem) } }
         }
     }
 
     override fun changeItem(item: TodoItem) {
         repositoryScope.launch {
-            val changedItem = remoteSource.updateTodoItemById(item.id, item)
+            localSource.updateTodoItemById(item.id, item)
+            remoteSource.updateTodoItemById(item.id, item)
 
-            flow.update {
-                flow.value.toMutableList().also { items ->
-                    items.replaceAll { item ->
-                        if (UUID.fromString(item.id) == UUID.fromString(changedItem.id)) {
-                            changedItem
-                        } else item
-                    }
-                }
-            }
         }
     }
 }

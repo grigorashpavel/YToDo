@@ -1,6 +1,7 @@
 package com.pasha.ytodo.presentation
 
 import android.net.ConnectivityManager
+import android.net.Network
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
@@ -17,7 +18,7 @@ import com.pasha.ytodo.core.SynchronizeWorker
 import com.pasha.ytodo.network.ConnectionChecker
 
 class MainActivity : AppCompatActivity() {
-    private var networkCallback: ConnectivityManager.OnNetworkActiveListener? = null
+    private var networkCallback: ConnectivityManager.NetworkCallback? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,21 +38,31 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
 
-        networkCallback?.let { ConnectionChecker.addDefaultNetworkAvailableListener(this, it) }
+        networkCallback?.let { ConnectionChecker.registerNetworkCallback(this, it) }
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onStop() {
+        super.onStop()
 
-        networkCallback?.let { ConnectionChecker.removeDefaultNetworkAvailableListener(this, it) }
+        networkCallback?.let { ConnectionChecker.unregisterNetworkCallback(this, it) }
     }
 
     private fun createNetworkCallback() {
-        networkCallback = ConnectivityManager.OnNetworkActiveListener {
-            NetworkAvailableWorker.startWorkerForOneRequest(this)
+        networkCallback = object : ConnectivityManager.NetworkCallback() {
+            override fun onAvailable(network: Network) {
+                super.onAvailable(network)
+
+                Log.e("MainActivity", "onAvailable()")
+
+                startSynchronizeIfNeed()
+            }
         }
+    }
+
+    private fun startSynchronizeIfNeed() {
+        SynchronizeWorker.startSynchronizeIfNeed(this)
     }
 }

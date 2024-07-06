@@ -25,8 +25,6 @@ class NetworkAvailableWorker(
         const val TAG = "NetworkAvailableWorker"
 
         fun startWorkerForOneRequest(context: Context) {
-            Log.e("MainActivity", "startWorkerForOneRequest()")
-
             val workRequest = OneTimeWorkRequestBuilder<NetworkAvailableWorker>().build()
 
             WorkManager.getInstance(context).enqueueUniqueWork(

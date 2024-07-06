@@ -1,5 +1,7 @@
 package com.pasha.ytodo.data.sources.remote
 
+import android.content.Context
+import com.pasha.ytodo.R
 import com.pasha.ytodo.core.DeviceIdentificationManager
 import com.pasha.ytodo.data.models.TodoDto
 import com.pasha.ytodo.data.models.TodoListWrapper
@@ -33,12 +35,17 @@ import kotlin.coroutines.coroutineContext
 
 class RetrofitService(
     private val api: TodoApi,
-    private val identificationManager: DeviceIdentificationManager
+    private val identificationManager: DeviceIdentificationManager,
+    private val context: Context
 ) : DataSource {
-    private val revision: AtomicInteger = AtomicInteger(0)
+    private val revision: AtomicInteger = AtomicInteger(NO_REVISION)
 
     private fun updateRevisionIfPossible(revision: Int?) {
         if (revision != null) this.revision.set(revision)
+    }
+
+    override fun getRevision(): Int? {
+        return if (revision.get() == NO_REVISION) null else revision.get()
     }
 
     override suspend fun getTodoList(): List<TodoItem> {
@@ -49,12 +56,17 @@ class RetrofitService(
 
     override suspend fun updateTodoList(newList: List<TodoItem>): List<TodoItem> {
         val list = newList.map { it.toTodoDto() }
+
+        println(list)
+
         val listWrapper = makeRequestForList {
             api.updateTodoList(
                 revision = revision.get(),
                 content = TodoListWrapper(status = "ok", todos = list)
             )
         }
+
+        println(listWrapper.todos)
 
         return listWrapper.todos.map { it.toTodoItem() }
     }
@@ -124,23 +136,22 @@ class RetrofitService(
     } catch (httpException: HttpException) {
         val code = httpException.code()
         throw when (code) {
-            400 -> Exception("Данные с сервером не синхронизированы. Выполните синхронизацию и повторите попытку.")
-            401 -> Exception("Возникли проблемы с авторизацией. Выполните авторизацию и повторите попытку.")
-            404 -> Exception("Ваше дело не было найдено на сервере. Выполните синхронизацию и повторите попытку.")
-            500 -> Exception("На сервере возникла внутренняя ошибка. Вы не виноваты. Повторите попытку позже.")
-            else -> Exception("Возникла неизвестная ошибка во время выполнения запроса. Повторите попытку позже.")
+            400 -> Exception(context.getString(R.string.network_error_400))
+            401 -> Exception(context.getString(R.string.network_error_401))
+            404 -> Exception(context.getString(R.string.network_error_404))
+            500 -> Exception(context.getString(R.string.network_error_500))
+            else -> Exception(context.getString(R.string.network_error_unknown))
         }
     } catch (socketException: SocketTimeoutException) {
-        throw Exception("Запрос выполнялся слишком долго. Повторите попытку позже.")
+        throw Exception()
     } catch (unknownHostException: UnknownHostException) {
-        throw Exception("Проблемы с сетью или у вас отсутствует подключение к интернету. Повторите попытку позже.")
+        throw Exception(context.getString(R.string.network_error_connection))
     } catch (ioException: IOException) {
-        throw Exception("Возможно проблемы с сетью или соедиение нестабильно. Повторите ошибку позже.")
+        throw Exception(context.getString(R.string.network_error_unstable))
     } catch (e: Exception) {
-        e.printStackTrace()
         if (e is CancellationException) throw e
-
-        throw Exception("Неизвестная ошибка. Возможна ошибка в приложении или сервер прислал пустой ответ. Будем рады, если вы сообщите об ошибке.")
+        
+        throw Exception(context.getString(R.string.unknown_error))
     }
 
     private suspend fun <T> tryRetryingRequests(
@@ -198,5 +209,9 @@ class RetrofitService(
             TaskProgress.DONE -> true
             TaskProgress.TODO -> false
         }
+    }
+
+    companion object {
+        private const val NO_REVISION = -1
     }
 }

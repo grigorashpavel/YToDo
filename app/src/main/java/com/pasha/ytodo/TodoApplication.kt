@@ -6,6 +6,7 @@ import com.pasha.ytodo.core.DeviceIdentificationManagerImpl
 import com.pasha.ytodo.data.repositories.SynchronizeRepositoryImpl
 import com.pasha.ytodo.data.repositories.TodoItemsRepositoryImpl
 import com.pasha.ytodo.data.sources.local.LocalTodos
+import com.pasha.ytodo.data.sources.local.room.TodoRoomDatabase
 import com.pasha.ytodo.data.sources.remote.RetrofitService
 import com.pasha.ytodo.data.sources.remote.TodoApi
 import com.pasha.ytodo.domain.repositories.TodoItemRepositoryProvider
@@ -31,18 +32,23 @@ class TodoApplication : Application(), TodoItemRepositoryProvider, SynchronizeRe
 
     val todoApi = client.createRetrofitService(TodoApi::class.java)
     private val todoService: DataSource by lazy {
-        RetrofitService(todoApi, identificationManager)
+        RetrofitService(todoApi, identificationManager, applicationContext)
     }
 
     private val identificationManager: DeviceIdentificationManager by lazy {
         DeviceIdentificationManagerImpl(applicationContext)
     }
 
-    private val local = LocalTodos()
+    private val roomDatabase: TodoRoomDatabase by lazy {
+        TodoRoomDatabase.getInstance(applicationContext)
+    }
+    private val local by lazy {
+        LocalTodos(roomDatabase)
+    }
     override val todoItemsRepository: TodoItemsRepository by lazy {
-        TodoItemsRepositoryImpl(local, todoService)
+        TodoItemsRepositoryImpl(localSource = local, remoteSource = todoService)
     }
     override val synchronizeRepository: SynchronizeRepository by lazy {
-        SynchronizeRepositoryImpl(local, todoService)
+        SynchronizeRepositoryImpl(localSource =  local, remoteSource =  todoService)
     }
 }

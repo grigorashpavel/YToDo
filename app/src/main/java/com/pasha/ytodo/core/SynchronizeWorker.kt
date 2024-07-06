@@ -28,10 +28,14 @@ class SynchronizeWorker(
             .synchronizeRepository
 
         try {
+            val isSynchronizeNeed = repository.isSynchronizeNeed()
+            Log.e(ONE_TIME_TAG, "isSynchronizeNeed = $isSynchronizeNeed")
+            if (isSynchronizeNeed.not()) Result.success()
             repository.synchronizeItems()
             Result.success()
         } catch (e: Exception) {
-            Result.retry()
+            e.printStackTrace()
+            Result.failure()
         }
     }
 
@@ -58,8 +62,6 @@ class SynchronizeWorker(
         }
 
         fun registerPeriodSynchronizeWork(context: Context) {
-            Log.e("MainActivity", "registerPeriodSynchronizeWork()")
-
             val request = createPeriodRequest()
 
             WorkManager.getInstance(context).enqueueUniquePeriodicWork(
@@ -69,21 +71,12 @@ class SynchronizeWorker(
             )
         }
 
-        private fun createOneTimeConstraints(): Constraints {
-            return Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .setRequiresStorageNotLow(true)
-                .build()
-        }
-
         private fun createOneTimeRequest(): OneTimeWorkRequest {
-            return OneTimeWorkRequestBuilder<NetworkAvailableWorker>()
-                .setConstraints(createOneTimeConstraints())
+            return OneTimeWorkRequestBuilder<SynchronizeWorker>()
                 .build()
         }
 
         fun startSynchronizeIfNeed(context: Context) {
-            Log.e("MainActivity", "startSynchronizedOnNetworkAvailable()")
             val request = createOneTimeRequest()
             WorkManager.getInstance(context).enqueueUniqueWork(
                 ONE_TIME_TAG,
