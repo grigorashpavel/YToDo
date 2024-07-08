@@ -1,6 +1,6 @@
 package com.pasha.ytodo.presentation.tasks.adapters
 
-import com.pasha.ytodo.domain.models.TodoItem
+import com.pasha.ytodo.domain.entities.TodoItem
 
 interface ActionsListener {
     fun onClickItem(item: TodoItem)

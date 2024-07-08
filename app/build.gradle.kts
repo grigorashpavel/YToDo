@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.devtoolsKsp)
 }
 
 android {
@@ -16,9 +18,25 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val clientId: String by project
+        manifestPlaceholders["YANDEX_CLIENT_ID"] = clientId
+
+        val baseUrl: String by project
+        buildConfigField("String", "BASE_URL", baseUrl)
+
+        val urlPattern: String by project
+        buildConfigField("String", "URL_PATTERN", urlPattern)
+
+        val certificate: String by project
+        buildConfigField("String", "CERTIFICATE", certificate)
+
+        val tokenBearer: String by project
+        buildConfigField("String", "TOKEN_BEARER", tokenBearer)
     }
 
     buildFeatures {
+        buildConfig = true
         viewBinding = true
         compose = true
     }
@@ -58,6 +76,7 @@ dependencies {
     implementation(libs.androidx.fragment)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.coordinatorlayout)
+    implementation(libs.androidx.swiperefreshlayout)
 
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
@@ -74,10 +93,29 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.lifecycle.compose.viewmodel)
+    implementation(libs.androidx.lifecycle.runtime.compose)
 
     implementation(libs.androidx.compose.animation)
 
     implementation(libs.androidx.compose.viewbinding)
+
+    // Yandex OAuth
+    implementation(libs.yandex.oauth)
+
+    // Network
+    implementation(libs.kotlinSerialization.json)
+    implementation(libs.kotlinSerialization.json.converter)
+    implementation(libs.okhttp3.okhttp)
+    implementation(libs.retrofit2.retrofit)
+
+    // Room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    annotationProcessor(libs.androidx.room.roomCompiler)
+    ksp(libs.androidx.room.roomCompiler)
+
+    // WorkManager
+    implementation(libs.androidx.work.workRunTime.ktx)
 
 
     testImplementation(libs.junit)

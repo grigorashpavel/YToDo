@@ -1,4 +1,4 @@
-package com.pasha.ytodo.domain.models
+package com.pasha.ytodo.domain.entities
 
 import androidx.annotation.StringRes
 import com.pasha.ytodo.R

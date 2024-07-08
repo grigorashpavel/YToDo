@@ -1,23 +1,25 @@
 package com.pasha.ytodo.presentation
 
+import android.net.ConnectivityManager
+import android.net.Network
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.pasha.ytodo.R
-import com.pasha.ytodo.data.repositories.TodoItemsRepositoryTestImpl
-import com.pasha.ytodo.domain.repositories.TodoItemRepositoryProvider
-import com.pasha.ytodo.domain.repositories.TodoItemsRepository
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
+import com.pasha.ytodo.core.NetworkAvailableWorker
+import com.pasha.ytodo.core.SynchronizeWorker
+import com.pasha.ytodo.network.ConnectionChecker
 
 class MainActivity : AppCompatActivity() {
+    private var networkCallback: ConnectivityManager.NetworkCallback? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -28,27 +30,39 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        (applicationContext as TodoItemRepositoryProvider).todoItemsRepository.setupErrorListener()
+        createNetworkCallback()
+
+        val isFirstCreation = savedInstanceState == null
+        if (isFirstCreation) {
+            SynchronizeWorker.registerPeriodSynchronizeWork(this)
+        }
     }
 
-    private fun TodoItemsRepository.setupErrorListener() {
-        lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                errors.onEach { throwable ->
-                    //when + type check = profit
-                    throwable.message?.let { showErrorMessage(it) }
-                }.collect()
+    override fun onStart() {
+        super.onStart()
+
+        networkCallback?.let { ConnectionChecker.registerNetworkCallback(this, it) }
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        networkCallback?.let { ConnectionChecker.unregisterNetworkCallback(this, it) }
+    }
+
+    private fun createNetworkCallback() {
+        networkCallback = object : ConnectivityManager.NetworkCallback() {
+            override fun onAvailable(network: Network) {
+                super.onAvailable(network)
+
+                Log.e("MainActivity", "onAvailable()")
+
+                startSynchronizeIfNeed()
             }
         }
     }
 
-    private fun showErrorMessage(message: String) {
-        MaterialAlertDialogBuilder(this)
-            .setTitle("TEMP ERROR MESSAGE")
-            .setMessage(message)
-            .setPositiveButton("OK") { _, _ ->
-
-            }
-            .show()
+    private fun startSynchronizeIfNeed() {
+        SynchronizeWorker.startSynchronizeIfNeed(this)
     }
 }

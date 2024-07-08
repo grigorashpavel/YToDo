@@ -16,18 +16,29 @@
     <string name="tasks_toolbar_my_business_title">Мои дела</string>
     <string name="tasks_toolbar_finished_todo_subtitle">Выполнено - %1$d</string>
 
-    <string name="item_task_important_emoji_binary_code">\u203C\uFE0F</string>
+    <string name="item_task_high_important_emoji_code">\u203C\uFE0F</string>
+    <string name="item_task_low_important_emoji_code">\u2B07\uFE0F</string>
 
     <string name="edit_task_priority_dropdown_menu_label">Приоритет</string>
     <string name="edit_task_dedline_picker_label_text">Сделать до</string>
 
-    <string name="task_priority_low_text">Низкий</string>
+    <string name="task_priority_low_text">\u2B07\uFE0F Низкий</string>
     <string name="task_priority_normal_text">Обычный</string>
     <string name="task_priority_high_text">\u203C\uFE0F Высокий</string>
 
     <string name="ready_text">Готово</string>
     <string name="cancel_text">Отмена</string>
     <string name="delete_text">Удалить</string>
+
+    <string name="retry_label">Повторить</string>
+    <string name="network_error_400">Данные с сервером не синхронизированы. Изменения сохранены локально.</string>
+    <string name="network_error_401">Возникли проблемы с авторизацией.</string>
+    <string name="network_error_404">Ваше дело не было найдено на сервере. Требуется синхронизация. Перезайдите в приложение.</string>
+    <string name="network_error_500">На сервере возникла ошибка. Вы не виноваты. Повторите попытку позже. Все изменения сохранены локально.</string>
+    <string name="network_error_unknown">Возникла неизвестная ошибка во время выполнения запроса. Повторите попытку позже. Все изменения сохранены локально.</string>
+    <string name="network_error_connection">Проблемы с сетью или у вас отсутствует подключение к интернету. Повторите попытку позже. Все изменения сохранены локально.</string>
+    <string name="network_error_unstable">Возможно проблемы с сетью или соедиение нестабильно. Повторите попытку позже. Все изменения сохранены локально.</string>
+    <string name="unknown_error">Неизвестная ошибка. Возможна ошибка в приложении или сервер прислал пустой ответ. Будем рады, если вы сообщите об ошибке. Все изменения сохранены локально.</string>
 
     <string-array name="deadline_formatted_months">
         <item>Января</item>

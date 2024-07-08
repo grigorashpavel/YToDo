@@ -1,7 +1,7 @@
 package com.pasha.ytodo.presentation.tasks.adapters
 
 import androidx.recyclerview.widget.DiffUtil
-import com.pasha.ytodo.domain.models.TodoItem
+import com.pasha.ytodo.domain.entities.TodoItem
 
 class TasksDiffCallback(
     private val oldList: List<TodoItem>,

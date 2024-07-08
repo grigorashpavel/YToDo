@@ -1,4 +1,4 @@
-package com.pasha.ytodo.domain.models
+package com.pasha.ytodo.domain.entities
 
 import java.time.LocalDateTime
 

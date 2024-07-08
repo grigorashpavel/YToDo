@@ -5,13 +5,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
-import com.pasha.ytodo.domain.models.TaskPriority
-import com.pasha.ytodo.domain.models.TaskProgress
-import com.pasha.ytodo.domain.models.TodoItem
+import com.pasha.ytodo.domain.entities.TaskPriority
+import com.pasha.ytodo.domain.entities.TaskProgress
+import com.pasha.ytodo.domain.entities.TodoItem
 import com.pasha.ytodo.domain.repositories.TodoItemRepositoryProvider
 import com.pasha.ytodo.domain.repositories.TodoItemsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.util.UUID
@@ -23,11 +24,15 @@ class EditTaskViewModel(
     val editState get() = _editState.asStateFlow()
 
     fun changePriority(newPriority: TaskPriority) {
-        _editState.value = _editState.value.copy(priority = newPriority)
+        _editState.update {
+            _editState.value.copy(priority = newPriority)
+        }
     }
 
     fun changeDeadline(newDeadline: LocalDateTime?) {
-        _editState.value = _editState.value.copy(deadline = newDeadline)
+        _editState.update {
+            _editState.value.copy(deadline = newDeadline)
+        }
     }
 
     fun changeTask(oldTask: TodoItem, newText: String) {

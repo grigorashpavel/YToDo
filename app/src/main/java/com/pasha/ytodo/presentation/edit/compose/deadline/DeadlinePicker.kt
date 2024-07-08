@@ -41,9 +41,10 @@ fun DeadlinePicker(
     var isDeadlineEnabled by rememberSaveable { mutableStateOf(deadline != null) }
     var isDialogOpened by rememberSaveable { mutableStateOf(false) }
 
-    Column(modifier = modifier) {
+    Column(modifier = Modifier) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier
         ) {
             val optionPickerInteractionSource = remember { MutableInteractionSource() }
             LaunchedEffect(key1 = Unit) {
@@ -106,7 +107,7 @@ fun DeadlinePicker(
 
                 isDialogOpened = false
             },
-            modifier = modifier
+            modifier = Modifier
         )
     }
 }
