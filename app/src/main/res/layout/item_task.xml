@@ -6,6 +6,7 @@
     android:backgroundTint="@android:color/transparent"
     app:cardElevation="0dp"
     app:strokeWidth="0dp"
+    android:background="@color/back_primary"
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout

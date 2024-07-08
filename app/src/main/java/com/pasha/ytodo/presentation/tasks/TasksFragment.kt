@@ -12,20 +12,18 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.pasha.ytodo.R
 import com.pasha.ytodo.databinding.FragmentTasksBinding
 import com.pasha.ytodo.domain.entities.TaskProgress
 import com.pasha.ytodo.domain.entities.TodoItem
-import com.pasha.ytodo.domain.repositories.TodoItemRepositoryProvider
-import com.pasha.ytodo.domain.repositories.TodoItemsRepository
 import com.pasha.ytodo.presentation.TodoItemViewModel
 import com.pasha.ytodo.presentation.tasks.adapters.ActionsListener
 import com.pasha.ytodo.presentation.tasks.adapters.TasksRecyclerViewAdapter
+import com.pasha.ytodo.presentation.tasks.adapters.ItemSwipeHelperCallback
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 
@@ -69,7 +67,14 @@ class TasksFragment : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvTasksList.layoutManager = layoutManager
 
-        binding.rvTasksList.adapter = createTasksAdapter()
+        val adapter = createTasksAdapter()
+
+        val callback = ItemSwipeHelperCallback(adapter)
+        val helper = ItemTouchHelper(callback)
+        helper.attachToRecyclerView(binding.rvTasksList)
+        binding.rvTasksList.addItemDecoration(helper)
+
+        binding.rvTasksList.adapter = adapter
     }
 
     private fun createTasksAdapter(): TasksRecyclerViewAdapter {
@@ -148,6 +153,10 @@ class TasksFragment : Fragment() {
 
         override fun onClickInfoButton(item: TodoItem) {
             navigateToTaskEditing(task = item)
+        }
+
+        override fun onDelete(item: TodoItem) {
+            viewModel.removeItem(item)
         }
     }
 
