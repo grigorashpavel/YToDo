@@ -158,6 +158,10 @@ class TasksFragment : Fragment() {
         override fun onDelete(item: TodoItem) {
             viewModel.removeItem(item)
         }
+
+        override fun onAddItem() {
+            navigateToTaskCreation()
+        }
     }
 
     private fun configureTasksVisibilityButtonListener() {

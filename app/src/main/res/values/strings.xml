@@ -39,6 +39,7 @@
     <string name="network_error_connection">Проблемы с сетью или у вас отсутствует подключение к интернету. Повторите попытку позже. Все изменения сохранены локально.</string>
     <string name="network_error_unstable">Возможно проблемы с сетью или соедиение нестабильно. Повторите попытку позже. Все изменения сохранены локально.</string>
     <string name="unknown_error">Неизвестная ошибка. Возможна ошибка в приложении или сервер прислал пустой ответ. Будем рады, если вы сообщите об ошибке. Все изменения сохранены локально.</string>
+    <string name="item_add_action_label">Новое</string>
 
     <string-array name="deadline_formatted_months">
         <item>Января</item>

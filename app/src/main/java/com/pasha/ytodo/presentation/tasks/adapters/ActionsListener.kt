@@ -7,4 +7,5 @@ interface ActionsListener {
     fun onClickProgressCheckbox(item: TodoItem, newProgressState: Boolean)
     fun onClickInfoButton(item: TodoItem)
     fun onDelete(item: TodoItem)
+    fun onAddItem()
 }

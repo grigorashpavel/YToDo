@@ -9,11 +9,22 @@ import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
 class ItemSwipeHelperCallback(
     private val adapter: TasksRecyclerViewAdapter,
-) :
-    ItemTouchHelper.SimpleCallback(
-        ItemTouchHelper.ACTION_STATE_IDLE,
-        ItemTouchHelper.START or ItemTouchHelper.END
-    ) {
+) : ItemTouchHelper.Callback() {
+    override fun getMovementFlags(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder
+    ): Int {
+        val position = viewHolder.absoluteAdapterPosition
+        val lastItemIndex = adapter.itemCount - 1
+
+        if (position == lastItemIndex) {
+            return 0
+        } else {
+            val swipeFlags = ItemTouchHelper.START or ItemTouchHelper.END
+            return makeMovementFlags(ItemTouchHelper.ACTION_STATE_IDLE, swipeFlags)
+        }
+    }
+
     override fun onMove(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder,
