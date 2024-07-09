@@ -1,6 +1,7 @@
 package com.pasha.ytodo.data.sources.remote
 
 import android.content.Context
+import android.util.Log
 import com.pasha.ytodo.R
 import com.pasha.ytodo.core.DeviceIdentificationManager
 import com.pasha.ytodo.data.models.TodoDto
@@ -161,12 +162,13 @@ class RetrofitService(
     ): Response<T> {
         repeat(maxRetries) { numTry ->
             try {
-                val response = withTimeout(interval * numTry) {
+                val response = withTimeout(interval * (numTry + 1)) {
                     call.invoke()
                 }
 
                 if (response.isSuccessful) return response
             } catch (httpException: HttpException) {
+                httpException.printStackTrace()
                 when (httpException.code()) {
                     500 -> {}
                     else -> throw httpException

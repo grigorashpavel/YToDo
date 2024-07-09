@@ -99,6 +99,14 @@ class TasksViewHolder(
         }
     }
 
+    fun startActionChangeProgress() {
+        actionsClickListener.onClickProgressCheckbox(currentItem!!, true)
+    }
+
+    fun startActionDeleteItem() {
+        actionsClickListener.onDelete(currentItem!!)
+    }
+
     private fun getLowImportantEmoji(): String {
         val emoji = binding.root.context.getText(R.string.item_task_low_important_emoji_code)
         return emoji.toString()

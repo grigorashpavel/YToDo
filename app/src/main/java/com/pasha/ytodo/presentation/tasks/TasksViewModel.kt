@@ -91,6 +91,10 @@ class TasksViewModel(private val todoItemsRepository: TodoItemsRepository) : Vie
         _tasksVisibility.update { tasksVisibility.value.not() }
     }
 
+    fun removeItem(item: TodoItem) {
+        todoItemsRepository.deleteTodoItem(item)
+    }
+
     private fun calculateDoneTasks() {
         viewModelScope.launch {
             todoItemsRepository.getTodoItemsFlow().collect { items ->
