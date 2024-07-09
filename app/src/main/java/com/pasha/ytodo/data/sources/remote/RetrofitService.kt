@@ -45,7 +45,7 @@ class RetrofitService(
         if (revision != null) this.revision.set(revision)
     }
 
-    override fun getRevision(): Int? {
+    override suspend fun getRevision(): Int? {
         return if (revision.get() == NO_REVISION) null else revision.get()
     }
 
@@ -58,16 +58,12 @@ class RetrofitService(
     override suspend fun updateTodoList(newList: List<TodoItem>): List<TodoItem> {
         val list = newList.map { it.toTodoDto() }
 
-        println(list)
-
         val listWrapper = makeRequestForList {
             api.updateTodoList(
                 revision = revision.get(),
                 content = TodoListWrapper(status = "ok", todos = list)
             )
         }
-
-        println(listWrapper.todos)
 
         return listWrapper.todos.map { it.toTodoItem() }
     }
@@ -151,7 +147,7 @@ class RetrofitService(
         throw Exception(context.getString(R.string.network_error_unstable))
     } catch (e: Exception) {
         if (e is CancellationException) throw e
-        
+
         throw Exception(context.getString(R.string.unknown_error))
     }
 
@@ -175,7 +171,9 @@ class RetrofitService(
                 }
             } catch (_: SocketTimeoutException) {
 
-            } catch (_: TimeoutCancellationException) {  }
+            } catch (_: TimeoutCancellationException) {
+
+            }
         }
 
         throw SocketTimeoutException()

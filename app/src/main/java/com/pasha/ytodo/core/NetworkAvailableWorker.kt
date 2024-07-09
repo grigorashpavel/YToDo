@@ -1,7 +1,6 @@
 package com.pasha.ytodo.core
 
 import android.content.Context
-import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
@@ -17,7 +16,7 @@ class NetworkAvailableWorker(
     workerParams: WorkerParameters,
 ) : CoroutineWorker(context, workerParams) {
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
-        (applicationContext as TodoItemRepositoryProvider).todoItemsRepository.fetchTodoItems()
+        (applicationContext as TodoItemRepositoryProvider).todoItemsRepository.synchronizeLocalItems()
         Result.success()
     }
 

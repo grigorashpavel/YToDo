@@ -2,15 +2,9 @@ package com.pasha.ytodo.domain
 
 
 import com.pasha.ytodo.domain.entities.TodoItem
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
 
 interface DataSource {
-    fun getRevision(): Int?
-
-    fun setNewRevision(newRevision: Int) {}
-
-    fun getTodoListFlow(): Flow<List<TodoItem>> = emptyFlow()
+    suspend fun getRevision(): Int?
 
     suspend fun getTodoList(): List<TodoItem>
 

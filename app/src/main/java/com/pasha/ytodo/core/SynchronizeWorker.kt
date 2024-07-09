@@ -2,7 +2,6 @@ package com.pasha.ytodo.core
 
 import android.content.Context
 import android.util.Log
-import androidx.work.BackoffPolicy
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -28,10 +27,7 @@ class SynchronizeWorker(
             .synchronizeRepository
 
         try {
-            val isSynchronizeNeed = repository.isSynchronizeNeed()
-            Log.e(ONE_TIME_TAG, "isSynchronizeNeed = $isSynchronizeNeed")
-            if (isSynchronizeNeed.not()) Result.success()
-            repository.synchronizeItems()
+            repository.synchronizeItemsIfNeed()
             Result.success()
         } catch (e: Exception) {
             e.printStackTrace()

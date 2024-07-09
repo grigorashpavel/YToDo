@@ -1,35 +1,37 @@
 package com.pasha.ytodo.data.sources.local
 
-import com.pasha.ytodo.data.models.RevisionRoomEntity
+import com.pasha.ytodo.data.models.SynchronizeRoomEntity
 import com.pasha.ytodo.data.sources.local.room.Converters
 import com.pasha.ytodo.data.sources.local.room.TodoRoomDatabase
 import com.pasha.ytodo.domain.DataSource
 import com.pasha.ytodo.domain.entities.TodoItem
+import com.pasha.ytodo.domain.repositories.LocalDataSource
 import kotlinx.coroutines.flow.Flow
 
 
 class LocalTodos(
     private val database: TodoRoomDatabase
-) : DataSource {
-    override fun getRevision(): Int? {
-        val revision = database.RevisionDao().getRevision()
-        if (revision == null) incrementRevision()
-
-        return database.RevisionDao().getRevision()
+) : DataSource, LocalDataSource {
+    override suspend fun getRevision(): Int? {
+        return database.SynchronizeDao().getRevision()
     }
 
-    private fun incrementRevision() {
-        val oldRevision = database.RevisionDao().getRevision()
-
-        if (oldRevision == null) {
-            setNewRevision(1)
-        } else {
-            setNewRevision(oldRevision + 1)
-        }
+    override suspend fun setNewRevision(newRevision: Int) {
+        database.SynchronizeDao()
+            .updateSynchronizeInfo(
+                SynchronizeRoomEntity(revision = newRevision, isModifiedWithoutConnection = false)
+            )
     }
 
-    override fun setNewRevision(newRevision: Int) {
-        database.RevisionDao().updateRevision(RevisionRoomEntity(revision = newRevision))
+    override suspend fun setNoConnectionUpdate(isUpdated: Boolean) {
+        val revision = database.SynchronizeDao().getRevision()
+        database.SynchronizeDao().updateSynchronizeInfo(
+            SynchronizeRoomEntity(revision = revision, isModifiedWithoutConnection = isUpdated)
+        )
+    }
+
+    override suspend fun isModifiedWithoutConnection(): Boolean {
+        return database.SynchronizeDao().isModifiedWithoutConnection()
     }
 
     override fun getTodoListFlow(): Flow<List<TodoItem>> =
@@ -40,10 +42,25 @@ class LocalTodos(
     }
 
     override suspend fun updateTodoList(newList: List<TodoItem>): List<TodoItem> {
-        database.TodoDao().deleteAllItems()
-        database.TodoDao().addAllItems(newList.map { Converters.fromTodoItem(it) })
+        if (newList.isNotEmpty()) {
+            val oldItems = database.TodoDao().getTodoList()
 
-        incrementRevision()
+            val deletedItems = oldItems.toMutableList().also { it.removeAll(newList) }
+            val addedItems = newList.toMutableList().also { it.removeAll(oldItems) }
+
+            deletedItems.forEach { item ->
+                database.TodoDao().deleteItemById(item.id)
+            }
+
+            newList.forEach { item ->
+                database.TodoDao().updateItem(Converters.fromTodoItem(item))
+            }
+
+            addedItems.forEach { item ->
+                database.TodoDao().addItem(Converters.fromTodoItem(item))
+            }
+        } else database.TodoDao().deleteAllItems()
+
         return newList
     }
 
@@ -54,7 +71,6 @@ class LocalTodos(
     override suspend fun updateTodoItemById(todoId: String, newItem: TodoItem): TodoItem {
         database.TodoDao().updateItem(Converters.fromTodoItem(newItem))
 
-        incrementRevision()
         return newItem
     }
 
@@ -62,14 +78,12 @@ class LocalTodos(
         val item = database.TodoDao().getItemById(todoId)
         database.TodoDao().deleteItemById(todoId)
 
-        incrementRevision()
         return item
     }
 
     override suspend fun addTodoItem(todoItem: TodoItem): TodoItem {
         database.TodoDao().addItem(Converters.fromTodoItem(todoItem))
 
-        incrementRevision()
         return todoItem
     }
 }

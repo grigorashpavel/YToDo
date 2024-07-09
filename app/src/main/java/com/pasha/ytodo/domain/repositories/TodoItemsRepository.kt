@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 
 interface TodoItemsRepository {
-    fun fetchTodoItems()
+    fun synchronizeLocalItems()
     fun getTodoItemsFlow(): Flow<List<TodoItem>>
     fun addTodoItem(item: TodoItem)
     fun deleteTodoItem(item: TodoItem)
