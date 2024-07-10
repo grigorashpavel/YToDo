@@ -118,6 +118,10 @@ dependencies {
     // WorkManager
     implementation(libs.androidx.work.workRunTime.ktx)
 
+    // Dagger 2
+    implementation(libs.dagger2.dagger)
+    ksp(libs.dagger2.compiler)
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

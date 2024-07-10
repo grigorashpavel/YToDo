@@ -30,6 +30,7 @@ okhttp = "4.12.0"
 swipedecorator = "1.4"
 
 room = "2.6.1"
+dagger2 = "2.51"
 ksp = "2.0.0-1.0.21"
 
 junit = "4.13.2"
@@ -85,6 +86,9 @@ okhttp3-okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref 
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-room-roomCompiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+
+dagger2-dagger = { module = "com.google.dagger:dagger", version.ref = "dagger2" }
+dagger2-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger2" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
