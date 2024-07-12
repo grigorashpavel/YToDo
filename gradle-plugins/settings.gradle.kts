@@ -1,8 +1,4 @@
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-
 pluginManagement {
-    includeBuild("gradle-plugins")
-
     repositories {
         google {
             content {
@@ -21,15 +17,13 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
     }
+
+    versionCatalogs {
+        create("libs") {
+            from(files("../gradle/libs.versions.toml"))
+        }
+    }
 }
 
-rootProject.name = "YToDo"
-include(":app")
-include(":network")
-include(":android-core")
-include(":features")
-include(":features:all_tasks")
-include(":features:edit")
-include(":data")
-include(":core-ui")
-include(":domain")
+rootProject.name = "gradle-plugins"
+include(":convention")

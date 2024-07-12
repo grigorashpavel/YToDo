@@ -1,20 +1,13 @@
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.jetbrains.kotlin.android)
+    id("base-module-convention")
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.devtoolsKsp)
 }
 
 android {
     namespace = "com.pasha.network"
-    compileSdk = 34
 
     defaultConfig {
-        minSdk = 26
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-
         val baseUrl: String by project
         buildConfigField("String", "BASE_URL", baseUrl)
 
@@ -27,23 +20,6 @@ android {
 
     buildFeatures {
         buildConfig = true
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
     }
 }
 
