@@ -21,4 +21,11 @@ dependencyResolutionManagement {
 
 rootProject.name = "YToDo"
 include(":app")
- 
+include(":network")
+include(":android-core")
+include(":features")
+include(":features:all_tasks")
+include(":features:edit")
+include(":data")
+include(":core-ui")
+include(":domain")
