@@ -50,13 +50,13 @@ android {
 }
 
 dependencies {
-    implementation(project(":core-ui"))
-    implementation(project(":data"))
-    implementation(project(":network"))
-    implementation(project(":android-core"))
-    implementation(project(":domain"))
-    implementation(project(":features:all_tasks"))
-    implementation(project(":features:edit"))
+    implementation(projects.coreUi)
+    implementation(projects.data)
+    implementation(projects.network)
+    implementation(projects.androidCore)
+    implementation(projects.domain)
+    implementation(projects.features.allTasks)
+    implementation(projects.features.edit)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

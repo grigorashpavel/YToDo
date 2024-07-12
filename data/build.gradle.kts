@@ -35,9 +35,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain"))
-    implementation(project(":network"))
-    implementation(project(":android-core"))
+    implementation(projects.domain)
+    implementation(projects.network)
+    implementation(projects.androidCore)
 
     // Room
     implementation(libs.androidx.room.runtime)

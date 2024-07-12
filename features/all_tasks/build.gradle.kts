@@ -38,9 +38,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":android-core"))
-    implementation(project(":core-ui"))
-    implementation(project(":domain"))
+    implementation(projects.androidCore)
+    implementation(projects.coreUi)
+    implementation(projects.domain)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
