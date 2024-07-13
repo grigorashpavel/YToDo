@@ -1,5 +1,4 @@
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
-import org.gradle.accessors.dm.LibrariesForLibs
 
 plugins {
     id("com.android.application")
@@ -8,14 +7,14 @@ plugins {
 
 android<BaseAppModuleExtension> {
     namespace = "com.pasha.ytodo"
-    compileSdk = 34
+    compileSdk = BuildInfo.compileSdk
 
     defaultConfig {
         applicationId = "com.pasha.ytodo"
-        minSdk = 26
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        minSdk = BuildInfo.minSdk
+        targetSdk = BuildInfo.targetSdk
+        versionCode = BuildInfo.versionCode
+        versionName = BuildInfo.versionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

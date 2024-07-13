@@ -1,6 +1,17 @@
 plugins {
     id("base-application-convention")
+    id("telegram-plugin")
     alias(libs.plugins.devtoolsKsp)
+}
+
+telegram {
+    token.set(providers.environmentVariable("TELEGRAM_TOKEN"))
+    chatId.set(providers.environmentVariable("TELEGRAM_CHAT_ID"))
+}
+
+validation {
+    maxSizeInMB = 30
+    enabled = true
 }
 
 android {

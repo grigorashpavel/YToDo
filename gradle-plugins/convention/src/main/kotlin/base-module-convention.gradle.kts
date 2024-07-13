@@ -7,10 +7,10 @@ plugins {
 }
 
 android<LibraryExtension> {
-    compileSdk = 34
+    compileSdk = BuildInfo.compileSdk
 
     defaultConfig {
-        minSdk = 26
+        minSdk = BuildInfo.minSdk
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
