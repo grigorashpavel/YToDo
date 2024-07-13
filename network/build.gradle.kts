@@ -8,13 +8,13 @@ android {
     namespace = "com.pasha.network"
 
     defaultConfig {
-        val baseUrl: String by project
+        val baseUrl = providers.environmentVariable("BASE_URL").get()
         buildConfigField("String", "BASE_URL", baseUrl)
 
-        val urlPattern: String by project
+        val urlPattern = providers.environmentVariable("URL_PATTERN").get()
         buildConfigField("String", "URL_PATTERN", urlPattern)
 
-        val certificate: String by project
+        val certificate = providers.environmentVariable("CERTIFICATE").get()
         buildConfigField("String", "CERTIFICATE", certificate)
     }
 

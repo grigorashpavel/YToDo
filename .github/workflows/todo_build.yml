@@ -12,6 +12,11 @@ env:
   gradleFlags: --parallel --stacktrace --no-configuration-cache --no-daemon
   TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
   TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+  CLIENT_ID: ${{ secrets.CLIENT_ID }}
+  TOKEN_BEARER: ${{ secrets.TOKEN_BEARER }}
+  BASE_URL : ${{ secrets.BASE_URL }}
+  CERTIFICATE : ${{ secrets.CERTIFICATE }}
+  URL_PATTERN : ${{ secrets.URL_PATTERN }}
 
 jobs:
   build-and-report:

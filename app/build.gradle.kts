@@ -16,11 +16,11 @@ validation {
 
 android {
     defaultConfig {
-        val clientId: String by project
-        manifestPlaceholders["YANDEX_CLIENT_ID"] = clientId
+        val clientId = providers.environmentVariable("CLIENT_ID")
+        manifestPlaceholders["YANDEX_CLIENT_ID"] = clientId.get()
 
-        val tokenBearer: String by project
-        buildConfigField("String", "TOKEN_BEARER", tokenBearer)
+        val tokenBearer = providers.environmentVariable("TOKEN_BEARER")
+        buildConfigField("String", "TOKEN_BEARER", tokenBearer.get())
     }
 
     buildFeatures {
