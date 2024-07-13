@@ -118,11 +118,11 @@ class TasksViewHolder(
     }
 
     private fun getImportantColorStates(): ColorStateList {
-        return binding.root.context.getColorStateList(com.pasha.all_tasks.R.color.item_task_checkbox_important_color_states)
+        return binding.root.context.getColorStateList(R.color.item_task_checkbox_important_color_states)
     }
 
     private fun getUsualColorStates(): ColorStateList {
-        return binding.root.context.getColorStateList(com.pasha.all_tasks.R.color.item_task_checkbox_usual_color_states)
+        return binding.root.context.getColorStateList(R.color.item_task_checkbox_usual_color_states)
     }
 
     private fun configureTasksDeadline() {
