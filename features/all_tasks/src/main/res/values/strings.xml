@@ -2,4 +2,6 @@
 <resources>
     <string name="settings_menu_conent_desc">Нажмите для перехода к настройкам</string>
     <string name="menu_settings_title">Настройки</string>
+    <string name="task_name_param_label">Имя дела: %1$s</string>
+    <string name="action_cancel_param_label">Отменить (%1$d)</string>
 </resources>

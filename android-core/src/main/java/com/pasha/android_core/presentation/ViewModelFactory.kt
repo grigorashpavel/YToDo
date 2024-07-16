@@ -1,10 +1,12 @@
 package com.pasha.android_core.presentation
 
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.savedstate.SavedStateRegistryOwner
 
 
@@ -21,8 +23,14 @@ class Factory<T : ViewModel>(
     }
 }
 
-inline fun <reified T : ViewModel> Fragment.lazyViewModel(
+inline fun <reified T : ViewModel> Fragment.fragmentLazyViewModel(
     noinline create: (stateHandle: SavedStateHandle) -> T
 ) = viewModels<T> {
     Factory(this, create)
+}
+
+inline fun <reified T : ViewModel> Fragment.activityLazyViewModel(
+    noinline create: (stateHandle: SavedStateHandle) -> T
+) = activityViewModels<T> {
+    Factory(this.requireActivity(), create)
 }

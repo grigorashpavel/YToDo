@@ -16,7 +16,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.pasha.android_core.di.findDependencies
 import com.pasha.android_core.presentation.TodoItemViewModel
-import com.pasha.android_core.presentation.lazyViewModel
+import com.pasha.android_core.presentation.activityLazyViewModel
+import com.pasha.android_core.presentation.fragmentLazyViewModel
 import com.pasha.edit.internal.compose.screen.EditTaskScreen
 import com.pasha.edit.internal.compose.theme.TodoTheme
 import com.pasha.edit.internal.di.DaggerEditComponent
@@ -25,12 +26,18 @@ import javax.inject.Inject
 
 
 class TaskEditComposeFragment : Fragment() {
-    private val todoItemViewModel by activityViewModels<TodoItemViewModel>()
+//    private val todoItemViewModel by activityViewModels<TodoItemViewModel>()
 
     @Inject
     internal lateinit var viewModelFactory: EditTaskViewModel.Factory
-    private val viewModel by lazyViewModel {
+    private val viewModel by fragmentLazyViewModel {
         viewModelFactory.create()
+    }
+
+    @Inject
+    internal lateinit var todoViewModelFactory: TodoItemViewModel.Factory
+    private val todoItemViewModel: TodoItemViewModel by activityLazyViewModel {
+        todoViewModelFactory.create()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -8,11 +8,10 @@ import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.pasha.android_core.di.findDependencies
 import com.pasha.android_core.presentation.TodoItemViewModel
-import com.pasha.android_core.presentation.lazyViewModel
+import com.pasha.android_core.presentation.fragmentLazyViewModel
 import com.pasha.edit.databinding.FragmentTaskEditBinding
 import java.time.LocalDateTime
 import java.util.Calendar
@@ -33,7 +32,7 @@ class TaskEditFragment : Fragment() {
 
     @Inject
     internal lateinit var viewModelFactory: EditTaskViewModel.Factory
-    private val viewModel by lazyViewModel {
+    private val viewModel by fragmentLazyViewModel {
         viewModelFactory.create()
     }
 
