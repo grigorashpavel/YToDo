@@ -51,7 +51,7 @@ fun EditAppBar(
             navigationIcon = {
                 IconButton(onClick = navigateBackAction) {
                     Icon(
-                        imageVector = ImageVector.vectorResource(id = com.pasha.edit.R.drawable.ic_close_24),
+                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_close_24),
                         contentDescription = stringResource(
                             id = R.string.edit_task_toolbar_navigation_back_icon_content_desc
                         )
