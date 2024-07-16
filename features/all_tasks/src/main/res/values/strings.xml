@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_menu_conent_desc">Нажмите для перехода к настройкам</string>
+    <string name="menu_settings_title">Настройки</string>
+</resources>

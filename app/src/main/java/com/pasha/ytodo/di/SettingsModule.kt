@@ -1,18 +1,17 @@
 package com.pasha.ytodo.di
 
-import com.pasha.all_tasks.api.TasksDeps
 import com.pasha.android_core.di.Dependencies
 import com.pasha.android_core.di.DependenciesKey
-import com.pasha.android_core.di.FragmentScope
+import com.pasha.preferences.SettingsDeps
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 
 
 @Module
-interface TasksModule {
+interface SettingsModule {
     @Binds
     @IntoMap
-    @DependenciesKey(TasksDeps::class)
+    @DependenciesKey(SettingsDeps::class)
     fun bindDependencies(component: ApplicationComponent): Dependencies
 }

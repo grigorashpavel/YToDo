@@ -1,15 +1,14 @@
 package com.pasha.all_tasks.api
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -68,9 +67,10 @@ class TasksFragment : Fragment() {
         configureTasksListRecyclerView()
         configureFinishedTasksCounter()
         configureCreateFabListener()
-        configureTasksVisibilityButtonListener()
+        configureTasksMenuListener()
         configureVisibilityIcon()
         configureSwipeRefreshBehaviourAndStyles()
+        configureAppBarOffsetListener()
         configureSwipeRefreshListener()
         setupErrorListener()
         configureProgressIndication()
@@ -183,10 +183,12 @@ class TasksFragment : Fragment() {
         }
     }
 
-    private fun configureTasksVisibilityButtonListener() {
+    private fun configureTasksMenuListener() {
         binding.toolbar.setOnMenuItemClickListener { item ->
             if (item.itemId == com.pasha.all_tasks.R.id.actionVisible) {
                 viewModel.changeDoneTasksVisibility()
+            } else if (item.itemId == com.pasha.all_tasks.R.id.settings) {
+                findNavController().navigate(navigationProvider.toSettings.action)
             }
             true
         }
@@ -226,6 +228,21 @@ class TasksFragment : Fragment() {
         }
     }
 
+    private fun configureAppBarOffsetListener() {
+        binding.appBarLayout.addOnOffsetChangedListener { _, verticalOffset ->
+            val isRefreshPossible = verticalOffset >= 0
+            setSwipeRefreshEnableState(isRefreshPossible)
+
+            val isOtherMenuOptionsVisible = verticalOffset >= 0
+            setOtherOptionsMenuVisibility(isOtherMenuOptionsVisible)
+        }
+    }
+
+    private fun setOtherOptionsMenuVisibility(isVisible: Boolean) {
+        binding.toolbar.menu.findItem(com.pasha.all_tasks.R.id.settings).isVisible = isVisible
+
+    }
+
     private fun configureSwipeRefreshBehaviourAndStyles() {
         binding.swipeRefreshLayout.setProgressBackgroundColorSchemeResource(
             R.color.back_secondary_elevated
@@ -233,11 +250,11 @@ class TasksFragment : Fragment() {
         binding.swipeRefreshLayout.setColorSchemeColors(
             resources.getColor(R.color.color_blue, requireContext().theme)
         )
+    }
 
-        binding.appBarLayout.addOnOffsetChangedListener { _, verticalOffset ->
-            if (binding.swipeRefreshLayout.isRefreshing.not()) {
-                binding.swipeRefreshLayout.isEnabled = verticalOffset >= 0
-            }
+    private fun setSwipeRefreshEnableState(isEnable: Boolean) {
+        if (binding.swipeRefreshLayout.isRefreshing.not()) {
+            binding.swipeRefreshLayout.isEnabled = isEnable
         }
     }
 

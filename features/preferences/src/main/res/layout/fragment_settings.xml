@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingsFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_close_24"
+            app:navigationIconTint="@color/label_primary"
+            app:title="@string/settings_title"
+            app:titleTextAppearance="@style/TextAppearance.Pasha.TitleLarge" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvThemeCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/start_paddings"
+        android:layout_marginTop="@dimen/category_padding"
+        android:text="@string/theme_category_title"
+        android:textAppearance="@style/TextAppearance.Pasha.TitleMedium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout" />
+
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivThemeIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/tvThemeCategory"
+        app:layout_constraintStart_toEndOf="@id/tvThemeCategory"
+        app:layout_constraintTop_toTopOf="@id/tvThemeCategory"
+        app:srcCompat="@drawable/ic_theme_24"
+        app:tint="@color/color_blue" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvThemeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/theme_label"
+        android:textAppearance="@style/TextAppearance.Pasha.Subhead"
+        app:layout_constraintStart_toStartOf="@id/tvThemeCategory"
+        app:layout_constraintTop_toBottomOf="@id/tvThemeCategory" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvCurrentThemeOption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Как в системе"
+        android:textColor="@color/label_tertiary"
+        app:layout_constraintStart_toStartOf="@id/tvThemeLabel"
+        app:layout_constraintTop_toBottomOf="@id/tvThemeLabel" />
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/btnToggleGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/tvCurrentThemeOption"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvThemeLabel"
+        app:layout_constraintTop_toTopOf="@id/tvThemeLabel"
+        app:singleSelection="true">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLight"
+            style="@style/Widget.Pasha.Button.OutlinedButton.IconOnly"
+            android:layout_width="wrap_content"
+            app:iconGravity="textStart"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_light_mode_24" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnNight"
+            style="@style/Widget.Pasha.Button.OutlinedButton.IconOnly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_dark_mode_24"
+            app:iconGravity="textStart" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSystem"
+            style="@style/Widget.Pasha.Button.OutlinedButton.IconOnly"
+            android:layout_width="wrap_content"
+            app:iconGravity="textStart"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_android_24" />
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

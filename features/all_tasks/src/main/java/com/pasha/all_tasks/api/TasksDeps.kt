@@ -15,4 +15,5 @@ interface TasksNavDeps: Dependencies {
 
 interface TasksNavCommandsProvider {
     val toTaskEdit: NavCommand
+    val toSettings: NavCommand
 }

@@ -28,4 +28,6 @@ interface MainActivityModule {
 class TasksNavCommandsProviderImpl @Inject constructor() : TasksNavCommandsProvider {
     override val toTaskEdit: NavCommand =
         NavCommand(action = R.id.action_tasksFragment_to_taskEditComposeFragment)
+    override val toSettings: NavCommand =
+        NavCommand(action = R.id.action_tasksFragment_to_settingsFragment)
 }
