@@ -14,9 +14,6 @@ swiperefresh = "1.2.0-alpha01"
 
 navigation = "2.7.7"
 
-preferences = "1.2.1"
-
-
 androidxComposeBom = "2024.06.00"
 
 coroutines = "1.8.1"
@@ -38,7 +35,6 @@ ksp = "2.0.0-1.0.21"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
-preference = "1.2.1"
 
 [libraries]
 agp = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
@@ -53,7 +49,6 @@ androidx-fragment = { group = "androidx.fragment", name = "fragment-ktx", versio
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 androidx-coordinatorlayout = { group = "androidx.coordinatorlayout", name = "coordinatorlayout", version.ref = "coordinatorlayout" }
 androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefresh" }
-androidx-preference-ktx = { group = "androidx.preference", name = "preference-ktx", version.ref = "preferences" }
 
 
 androidx-recyclerview-swipedecorator = { group = "it.xabaras.android", name = "recyclerview-swipedecorator", version.ref = "swipedecorator" }
@@ -67,9 +62,7 @@ androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-compose-viewbinding = { group = "androidx.compose.ui", name = "ui-viewbinding" }
 androidx-compose-uiPreview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-compose-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
-androidx-compose-material = { group = "androidx.compose.material", name = "material" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
-
 androidx-compose-animation = { group = "androidx.compose.animation", name = "animation" }
 
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
