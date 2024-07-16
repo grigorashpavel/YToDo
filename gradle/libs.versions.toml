@@ -30,6 +30,7 @@ okhttp = "4.12.0"
 swipedecorator = "1.4"
 
 room = "2.6.1"
+dagger2 = "2.51"
 ksp = "2.0.0-1.0.21"
 
 junit = "4.13.2"
@@ -37,6 +38,9 @@ junitVersion = "1.1.5"
 espressoCore = "3.5.1"
 
 [libraries]
+agp = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
+kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
@@ -86,6 +90,9 @@ androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-room-roomCompiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 
+dagger2-dagger = { module = "com.google.dagger:dagger", version.ref = "dagger2" }
+dagger2-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger2" }
+
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -96,4 +103,5 @@ jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = 
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 devtoolsKsp = { id = "com.google.devtools.ksp", version.ref = "ksp"}
+android-library = { id = "com.android.library", version.ref = "agp" }
 

@@ -1,54 +1,45 @@
 package com.pasha.ytodo
 
 import android.app.Application
-import com.pasha.ytodo.core.DeviceIdentificationManager
-import com.pasha.ytodo.core.DeviceIdentificationManagerImpl
-import com.pasha.ytodo.data.repositories.SynchronizeRepositoryImpl
-import com.pasha.ytodo.data.repositories.TodoItemsRepositoryImpl
-import com.pasha.ytodo.data.sources.local.LocalTodos
-import com.pasha.ytodo.data.sources.local.room.TodoRoomDatabase
-import com.pasha.ytodo.data.sources.remote.RetrofitService
-import com.pasha.ytodo.data.sources.remote.TodoApi
-import com.pasha.ytodo.domain.repositories.TodoItemRepositoryProvider
-import com.pasha.ytodo.domain.repositories.TodoItemsRepository
-import com.pasha.ytodo.network.NetworkClient
-import com.pasha.ytodo.domain.DataSource
-import com.pasha.ytodo.domain.repositories.SynchronizeRepository
-import com.pasha.ytodo.domain.repositories.SynchronizeRepositoryProvider
-import com.pasha.ytodo.network.Token
-import com.pasha.ytodo.network.TokenInterceptor
-import com.pasha.ytodo.network.TokenManager
-import com.pasha.ytodo.network.TokenType
-import okhttp3.Interceptor
+import android.net.ConnectivityManager
+import com.pasha.android_core.di.DepsMap
+import com.pasha.android_core.di.HasDependencies
+import com.pasha.android_core.network.ConnectionChecker
+import com.pasha.android_core.synchronize.SynchronizeWorker
+import com.pasha.domain.repositories.SynchronizeRepository
+import com.pasha.domain.repositories.SynchronizeRepositoryProvider
+import com.pasha.domain.repositories.TodoItemRepositoryProvider
+import com.pasha.domain.repositories.TodoItemsRepository
+import com.pasha.ytodo.di.DaggerApplicationComponent
+import javax.inject.Inject
 
-class TodoApplication : Application(), TodoItemRepositoryProvider, SynchronizeRepositoryProvider {
-    private val manager = object : TokenManager {
-        override fun getToken(): Token {
-            return Token(BuildConfig.TOKEN_BEARER, TokenType.Bearer)
-        }
-    }
-    private val tokenInterceptor: Interceptor = TokenInterceptor(manager)
-    val client = NetworkClient(tokenInterceptor)
 
-    val todoApi = client.createRetrofitService(TodoApi::class.java)
-    private val todoService: DataSource by lazy {
-        RetrofitService(todoApi, identificationManager, applicationContext)
-    }
+class TodoApplication : Application(), HasDependencies, TodoItemRepositoryProvider,
+    SynchronizeRepositoryProvider {
+    @Inject
+    override lateinit var depsMap: DepsMap
 
-    private val identificationManager: DeviceIdentificationManager by lazy {
-        DeviceIdentificationManagerImpl(applicationContext)
-    }
+    @Inject
+    override lateinit var todoItemsRepository: TodoItemsRepository
 
-    private val roomDatabase: TodoRoomDatabase by lazy {
-        TodoRoomDatabase.getInstance(applicationContext)
-    }
-    private val local by lazy {
-        LocalTodos(roomDatabase)
-    }
-    override val todoItemsRepository: TodoItemsRepository by lazy {
-        TodoItemsRepositoryImpl(localSource = local, remoteSource = todoService)
-    }
-    override val synchronizeRepository: SynchronizeRepository by lazy {
-        SynchronizeRepositoryImpl(localSource =  local, remoteSource =  todoService)
+    @Inject
+    override lateinit var synchronizeRepository: SynchronizeRepository
+
+    @Inject
+    lateinit var connectionChecker: ConnectionChecker
+
+    @Inject
+    lateinit var networkCallback: ConnectivityManager.NetworkCallback
+
+    override fun onCreate() {
+        super.onCreate()
+
+        DaggerApplicationComponent.factory()
+            .create(applicationContext)
+            .inject(this)
+
+
+        SynchronizeWorker.registerPeriodSynchronizeWork(applicationContext)
+        connectionChecker.registerNetworkCallback(networkCallback)
     }
 }
