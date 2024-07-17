@@ -93,7 +93,9 @@ class TasksViewModel @AssistedInject constructor(
     }
 
     fun removeItem(item: TodoItem) {
-        todoItemsRepository.deleteTodoItem(item)
+        viewModelScope.launch {
+            todoItemsRepository.deleteTodoItem(item)
+        }
     }
 
     private fun calculateDoneTasks() {

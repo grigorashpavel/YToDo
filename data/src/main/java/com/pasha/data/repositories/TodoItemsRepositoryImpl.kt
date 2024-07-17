@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
@@ -59,12 +60,16 @@ class TodoItemsRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun deleteTodoItem(item: TodoItem) {
-        repositoryScope.launch {
+    override suspend fun deleteTodoItem(item: TodoItem) {
+        withContext(repositoryScope.coroutineContext) {
             localSource.deleteTodoItemById(item.id)
 
-            tryToSendRequest {
-                remoteSource.deleteTodoItemById(item.id)
+            try {
+                tryToSendRequest {
+                    remoteSource.deleteTodoItemById(item.id)
+                }
+            } catch (e: Exception) {
+                _errors.tryEmit(e)
             }
         }
     }

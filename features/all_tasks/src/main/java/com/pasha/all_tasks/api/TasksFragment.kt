@@ -31,6 +31,7 @@ import com.pasha.android_core.presentation.fragmentLazyViewModel
 import com.pasha.core_ui.R
 import com.pasha.domain.entities.TaskProgress
 import com.pasha.domain.entities.TodoItem
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -322,12 +323,19 @@ class TasksFragment : Fragment() {
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                todoItemViewModel.taskToDeletionName.collect { name ->
+                    snackBinding.tvTaskText.text = getString(
+                        com.pasha.all_tasks.R.string.task_name_param_label,
+                        name
+                    )
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 todoItemViewModel.isDeletionStart.collect { isStarted ->
                     if (isStarted) {
-                        snackBinding.tvTaskText.text = getString(
-                            com.pasha.all_tasks.R.string.task_name_param_label,
-                            todoItemViewModel.taskToDeletionName
-                        )
                         snackbar.show()
                     } else snackbar.dismiss()
                 }

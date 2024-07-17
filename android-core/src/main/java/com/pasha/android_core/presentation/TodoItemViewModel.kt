@@ -12,6 +12,7 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,6 +21,7 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class TodoItemViewModel @AssistedInject constructor(
@@ -36,17 +38,29 @@ class TodoItemViewModel @AssistedInject constructor(
         sharedTodoItem = null
     }
 
+    private var tasksToDeletion: MutableList<TodoItem> = mutableListOf()
+
     private val _timerFlow = MutableStateFlow(0)
     val timerFlow get() = _timerFlow.asStateFlow()
 
     private val _isDeletionStart = MutableStateFlow(false)
     val isDeletionStart get() = _isDeletionStart.asStateFlow()
 
-    private var taskToDeletion: TodoItem? = null
-    val taskToDeletionName
-        get() = if (taskToDeletion == null || taskToDeletion!!.text.isEmpty()) {
+    private val _taskToDeletionName: MutableStateFlow<String> = MutableStateFlow(updateTasksNames())
+    val taskToDeletionName = _taskToDeletionName.asStateFlow()
+
+    private fun updateTasksNames(): String {
+        return if (tasksToDeletion.isEmpty()) ""
+        else if (tasksToDeletion.size >= 3) {
+            "Вы удаляете максимальное количество дел: 3"
+        } else if (tasksToDeletion.size > 1) {
+            "Вы удаляете несколько дел: ${tasksToDeletion.size}"
+        }
+        else if (tasksToDeletion.first().text.isEmpty()) {
             "Пустое дело"
-        } else taskToDeletion!!.text
+        } else tasksToDeletion.first().text
+    }
+
 
     private val _totalCancellationTime: Long = 5_000
     val totalCancellationTimeSec get() = _totalCancellationTime / 1000
@@ -63,7 +77,10 @@ class TodoItemViewModel @AssistedInject constructor(
             _isDeletionStart.update { false }
 
             viewModelScope.launch {
-                taskToDeletion?.let { task ->
+                val tasks = tasksToDeletion.toList()
+                tasksToDeletion.clear()
+
+                tasks.forEach { task ->
                     todoItemsRepository.deleteTodoItem(task)
                 }
             }
@@ -71,8 +88,14 @@ class TodoItemViewModel @AssistedInject constructor(
     }
 
     fun removeTask(task: TodoItem) {
-        taskToDeletion = task
+        if (tasksToDeletion.size >= 3) return
+
+        if (!tasksToDeletion.contains(task)) {
+            tasksToDeletion.add(task)
+        }
+
         _isDeletionStart.update { true }
+        _taskToDeletionName.update { updateTasksNames() }
 
         deleteTimer.start()
     }
@@ -81,7 +104,9 @@ class TodoItemViewModel @AssistedInject constructor(
         deleteTimer.cancel()
 
         _isDeletionStart.update { false }
-        taskToDeletion = null
+
+        tasksToDeletion.clear()
+        _taskToDeletionName.update { updateTasksNames() }
     }
 
     @AssistedFactory
