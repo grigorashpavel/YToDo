@@ -4,6 +4,7 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.os.Bundle
 import android.util.Log
+import android.view.animation.AnimationUtils
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -35,5 +36,7 @@ class MainActivity : AppCompatActivity(), HasDependencies {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        androidx.navigation.ui.R.anim.nav_default_enter_anim
     }
 }

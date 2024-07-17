@@ -141,14 +141,22 @@ class TasksFragment : Fragment() {
     private fun navigateToTaskCreation() {
         if (checkNavigationActionToPossible() != true) return
 
-        findNavController().navigate(navigationProvider.toTaskEdit.action)
+        findNavController().navigate(
+            navigationProvider.toTaskEdit.action,
+            navigationProvider.toTaskEdit.args,
+            navigationProvider.toTaskEdit.navOptions
+        )
     }
 
     private fun navigateToTaskEditing(task: TodoItem) {
         if (checkNavigationActionToPossible() != true) return
 
         todoItemViewModel.passTodoItem(item = task)
-        findNavController().navigate(navigationProvider.toTaskEdit.action)
+        findNavController().navigate(
+            navigationProvider.toTaskEdit.action,
+            navigationProvider.toTaskEdit.args,
+            navigationProvider.toTaskEdit.navOptions
+        )
     }
 
     @SuppressLint("RestrictedApi")
@@ -197,7 +205,11 @@ class TasksFragment : Fragment() {
             if (item.itemId == com.pasha.all_tasks.R.id.actionVisible) {
                 viewModel.changeDoneTasksVisibility()
             } else if (item.itemId == com.pasha.all_tasks.R.id.settings) {
-                findNavController().navigate(navigationProvider.toSettings.action)
+                findNavController().navigate(
+                    navigationProvider.toSettings.action,
+                    navigationProvider.toSettings.args,
+                    navigationProvider.toSettings.navOptions
+                )
             }
             true
         }

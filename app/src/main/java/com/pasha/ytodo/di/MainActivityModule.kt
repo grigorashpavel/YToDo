@@ -1,5 +1,6 @@
 package com.pasha.ytodo.di
 
+import androidx.navigation.navOptions
 import com.pasha.all_tasks.api.TasksNavCommandsProvider
 import com.pasha.all_tasks.api.TasksNavDeps
 import com.pasha.android_core.di.ActivityScope
@@ -26,8 +27,22 @@ interface MainActivityModule {
 }
 
 class TasksNavCommandsProviderImpl @Inject constructor() : TasksNavCommandsProvider {
+    private val navOptions = navOptions {
+        anim {
+            enter = com.pasha.core_ui.R.anim.enter_slide_to_left
+            exit = com.pasha.core_ui.R.anim.exit_slide_to_left
+            popEnter = com.pasha.core_ui.R.anim.enter_slide_to_right
+            popExit = com.pasha.core_ui.R.anim.exit_slide_to_right
+        }
+    }
     override val toTaskEdit: NavCommand =
-        NavCommand(action = R.id.action_tasksFragment_to_taskEditComposeFragment)
+        NavCommand(
+            action = R.id.action_tasksFragment_to_taskEditComposeFragment,
+            navOptions = navOptions
+        )
     override val toSettings: NavCommand =
-        NavCommand(action = R.id.action_tasksFragment_to_settingsFragment)
+        NavCommand(
+            action = R.id.action_tasksFragment_to_settingsFragment,
+            navOptions = navOptions
+        )
 }
