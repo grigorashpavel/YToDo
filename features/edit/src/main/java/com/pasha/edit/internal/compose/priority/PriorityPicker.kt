@@ -16,8 +16,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material.ripple.RippleAlpha
@@ -127,6 +130,8 @@ fun PriorityPicker(
     )
 
     if (isBottomSheetVisible) {
+        val bottomPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+
         PriorityBottomSheet(
             onChangeVisibility = { newVisibility ->
                 isBottomSheetVisible = newVisibility
@@ -136,7 +141,8 @@ fun PriorityPicker(
                 isHighlighted = newPriority != TaskPriority.NORMAL
 
                 onPriorityChanged(newPriority)
-            }
+            },
+            modifier = Modifier.padding(bottom = bottomPadding)
         )
     }
 }
