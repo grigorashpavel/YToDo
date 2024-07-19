@@ -45,4 +45,9 @@ class TasksNavCommandsProviderImpl @Inject constructor() : TasksNavCommandsProvi
             action = R.id.action_tasksFragment_to_settingsFragment,
             navOptions = navOptions
         )
+    override val toAboutApp: NavCommand =
+        NavCommand(
+            action = R.id.action_tasksFragment_to_aboutAppFragment,
+            navOptions = navOptions
+        )
 }

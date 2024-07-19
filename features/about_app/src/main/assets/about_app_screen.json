@@ -1,0 +1,463 @@
+{
+    "templates": {
+        "div-video_card": {
+            "type": "container",
+            "orientation": "overlap",
+            "border": {
+                "corner_radius": 16
+            },
+            "items": [
+                {
+                    "type": "video",
+                    "$visibility": "video_visibility",
+                    "autostart": true,
+                    "repeatable": true,
+                    "widht": {
+                        "type": "match_parent"
+                    },
+                    "aspect": {
+                        "ratio": 1
+                    },
+                    "video_sources": [
+                        {
+                            "type": "video_source",
+                            "mime_type": "video/mp4",
+                            "resolution": {
+                                "type": "resolution",
+                                "width": 640,
+                                "height": 480
+                            },
+                            "bitrate": 2500,
+                            "url": "https://kstatic.googleusercontent.com/files/a6e62c0268cf2ac32c18089d0f031beff068d4b0860d61e70f2bf8f725fc4eb0950e63a7b39ad5aa0d6985f2848d266fcbe4311b9928058f956c95d17f60f842"
+                        }
+                    ],
+                    "visibility_actions": [
+                        {
+                            "log_id": "video_appeared_action",
+                            "$url": "video_appeared_action"
+                        }
+                    ],
+                    "transition_out": {
+                        "type": "slide",
+                        "edge": "top",
+                        "duration": 300
+                    },
+                    "transition_in": {
+                        "type": "slide",
+                        "edge": "left",
+                        "duration": 300
+                    }
+                },
+                {
+                    "id": "video_text",
+                    "type": "text",
+                    "$text": "video_text",
+                    "$visibility": "text_visibility",
+                    "font_size": 24,
+                    "alignment_horizontal": "center",
+                    "alignment_vertical": "bottom",
+                    "font_family": "display",
+                    "text_alignment_horizontal": "center",
+                    "$text_color": "video_text_color",
+                    "font_weight": "bold",
+                    "margins": {
+                        "bottom": 8
+                    },
+                    "transition_in": {
+                        "type": "slide",
+                        "edge": "left",
+                        "duration": 300
+                    }
+                }
+            ]
+        },
+        "div-created-for_card": {
+            "type": "container",
+            "orientation": "horizontal",
+            "content_alignment_vertical": "center",
+            "items": [
+                {
+                    "type": "text",
+                    "$text_color": "text_color",
+                    "font_size": 18,
+                    "ranges": [
+                        {
+                            "start": 34,
+                            "end": 67,
+                            "font_weight": "bold"
+                        },
+                        {
+                            "start": 74,
+                            "end": 81,
+                            "font_weight": "bold"
+                        },
+                        {
+                            "start": 86,
+                            "end": 98,
+                            "font_weight": "bold"
+                        }
+                    ],
+                    "text": "Проект сделан в рамках обучения в Летней Школе Мобильной Разработки трека Android для Young&Yandex"
+                },
+                {
+                    "type": "image",
+                    "width": {
+                        "type": "fixed",
+                        "value": 32
+                    },
+                    "image_url": "https://yastatic.net/q/logoaas/v2/Яндекс%E2%80%AF.svg?size=25&color=000&first=white&circle=red",
+                    "preview": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMzEuMDAwMDAwMDAwMDAwMDA0IiBoZWlnaHQ9IjI5LjMiPjxyZWN0IHdpZHRoPSIxNC45ODQyMjcxMjkzMzc1NCIgaGVpZ2h0PSIxOC4xMzg4MDEyNjE4Mjk2NTYiIHg9IjcuMDk3NzkxNzk4MTA3MjU2IiB5PSI1LjUyMDUwNDczMTg2MTE5OSIgZmlsbD0iI2ZmZiIvPjxwYXRoIGZpbGw9IiNmYzNmMWQiIGQ9Ik0xNC42OC0wLjA3QzYuNTgtMC4wNyAwIDYuNDggMCAxNC41M0MwIDIyLjYwIDYuNTggMjkuMTMgMTQuNjggMjkuMTNDMjIuNzUgMjkuMTMgMjkuMzMgMjIuNjAgMjkuMzMgMTQuNTNDMjkuMzMgNi40OCAyMi43NS0wLjA3IDE0LjY4LTAuMDdaTTE2LjU3IDIzLjIwTDE2LjU3IDguMThMMTUuMjMgOC4xOEMxMi43NSA4LjE4IDExLjQ1IDkuNDMgMTEuNDUgMTEuMjhDMTEuNDUgMTMuMzggMTIuMzUgMTQuMzUgMTQuMjAgMTUuNjBMMTUuNzMgMTYuNjNMMTEuMzMgMjMuMjBMOC4wNSAyMy4yMEwxMiAxNy4zM0M5LjczIDE1LjcwIDguNDUgMTQuMTMgOC40NSAxMS40NUM4LjQ1IDguMTAgMTAuNzggNS44MyAxNS4yMCA1LjgzTDE5LjYwIDUuODNMMTkuNjAgMjMuMjBaIi8+PHBhdGggZmlsbD0iIzAwMCIgZD0iIi8+PC9zdmc+"
+                },
+                {
+                    "type": "image",
+                    "width": {
+                        "type": "fixed",
+                        "value": 32
+                    },
+                    "image_url": "https://avatars.mds.yandex.net/get-lpc/10116223/e2e14ea9-e136-4539-8427-789a1859cfaa/orig",
+                    "preview": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTI1IDUwQzM4LjgwNzEgNTAgNTAgMzguODA3MSA1MCAyNUM1MCAxMS4xOTI5IDM4LjgwNzEgMCAyNSAwQzExLjE5MjkgMCAwIDExLjE5MjkgMCAyNUMwIDM4LjgwNzEgMTEuMTkyOSA1MCAyNSA1MFoiIGZpbGw9ImJsYWNrIi8+CjxwYXRoIGQ9Ik0yMy44NDM3IDI0LjgyNDVIMjAuODU4QzIwLjg1OCAyNi44NjI4IDIwLjM0MTQgMjkuMTU5OSAxOS4zNjUgMzAuNzEwM0MxNy4xMjU2IDI5LjM4OTYgMTUuMzE2OSAyNy40MDg1IDEzLjgyMzkgMjUuNTcxMkMxNy4wNjgzIDI0LjU5NTMgMjEuMDAxMyAyMi45Mjk4IDIxLjAwMTMgMTguNzk1NEMyMS4wMDEzIDE1LjYzNjkgMTguNzYxOSAxMy4xOTY1IDE0Ljg1NzEgMTMuMTk2NUMxMC42NjU0IDEzLjE5NjUgOC40NTQ2OSAxNi4xMjQ5IDguNDU0NjkgMTkuMjI1NkM4LjQ1NDY5IDIwLjg5MSA4LjkxNDAyIDIyLjY0MTkgOS44ODk5OCAyNC41MzdDNy41MzYwMiAyNS44MjkxIDYuMzg3NyAyNy44MTAxIDYuMzg3NyAzMC4wMjA4QzYuMzg3NyAzMy43ODE5IDkuODkwNDQgMzYuMTY0OSAxNC4xMTA4IDM2LjE2NDlDMTYuMDYzMiAzNi4xNjQ5IDE4LjA0NDMgMzUuMzkgMTkuNzk1NiAzMy44OTY5QzIyLjAwNjMgMzUuMTYwMyAyNC40NzU0IDM1Ljc5MiAyNi45NzMgMzUuNzkyVjMzLjI5NDRDMjUuNTA4NiAzMy4yMzcxIDIzLjA5NjkgMzIuODA2NCAyMS43NzYyIDMxLjk3MzdDMjMuMTI1NiAyOS44NzggMjMuNzg1OSAyNy4yNjUzIDIzLjg0MzIgMjQuODI0OUwyMy44NDM3IDI0LjgyNDVaTTE0Ljc4MTQgMTUuNjk0N0MxNi44NDIzIDE1LjY5OTggMTguMDQ0MyAxNy4yNzYgMTguMDQ0MyAxOC43OTQ5QzE4LjA0NDMgMjEuMDYyOSAxNS4zMTY5IDIyLjQxMjMgMTIuNTAzMiAyMy40NzQ2QzExLjc1NjkgMjEuOTgxNiAxMS40MTIyIDIwLjY2MDkgMTEuNDEyMiAxOS4zMTE2QzExLjQxMjIgMTcuNTY1MyAxMi41NTQ1IDE1LjcwNDggMTQuNzgxNCAxNS42OTQyVjE1LjY5NDdaTTE0LjExMDggMzMuNjY3M0MxMS42MTMyIDMzLjY2NzMgOS4zNDQ3IDMyLjU0NzYgOS4zNDQ3IDMwLjAyMTNDOS4zNDQ3IDI4Ljk1ODkgOS43MTgwOCAyNy41MjM2IDExLjE4MiAyNi42MDQ5QzEyLjc4OTcgMjguODE1NiAxNC45NDMxIDMwLjg1NCAxNy40MTIxIDMyLjUxOTRDMTYuNTIyMSAzMy4yMzcxIDE1LjQ4ODQgMzMuNjY3NyAxNC4xMTA0IDMzLjY2NzdMMTQuMTEwOCAzMy42NjczWiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTM1LjAzMzEgMTMuMTk2NUMzMy4wODA3IDEzLjE5NjUgMzEuMDk5NiAxMy45NzE1IDI5LjM0ODMgMTUuNDY0NUMyNy4xMzc1IDE0LjIwMTEgMjQuNjY4NSAxMy41Njk1IDIyLjE3MDkgMTMuNTY5NVYxNi4wNjcxQzIzLjYzNTMgMTYuMTI0NCAyNi4wNDcgMTYuNTU1MSAyNy4zNjcyIDE3LjM4NzhDMjYuMDE3OSAxOS40ODM1IDI1LjM1NzUgMjIuMDk2MiAyNS4zMDAyIDI0LjUzNjZIMjguMjg2M0MyOC4yODYzIDIyLjQ5ODIgMjguODAzIDIwLjIwMTEgMjkuNzc5NCAxOC42NTA3QzMyLjAxODggMTkuOTcxNCAzMy44Mjc0IDIxLjk1MjUgMzUuMzIwNSAyMy43ODk4QzMyLjA3NiAyNC43NjU4IDI4LjE0MzEgMjYuNDMxMiAyOC4xNDMxIDMwLjU2NTZDMjguMTQzMSAzMy43MjM2IDMwLjM4MjQgMzYuMTY0IDM0LjI4NzIgMzYuMTY0QzM4LjQ3OSAzNi4xNjQgNDAuNjg5NyAzMy4yMzU3IDQwLjY4OTcgMzAuMTM1QzQwLjY4OTcgMjguNDY5NSA0MC4yMzAzIDI2LjcxODYgMzkuMjU0NCAyNC44MjM1QzQxLjYwODggMjMuNTMxNSA0Mi43NTcxIDIxLjU1MDQgNDIuNzU3MSAxOS4zMzk3QzQyLjc1NjIgMTUuNTc5NiAzOS4yNTM1IDEzLjE5NjUgMzUuMDMzMSAxMy4xOTY1Wk0zNC4zNjI1IDMzLjY2NjhDMzIuMzAxNiAzMy42NjE3IDMxLjA5OTYgMzIuMDg1NSAzMS4wOTk2IDMwLjU2NjZDMzEuMDk5NiAyOC4yOTg2IDMzLjgyNyAyNi45NDkyIDM2LjY0MDcgMjUuODg2OEMzNy4zODcgMjcuMzc5OSAzNy43MzE3IDI4LjcwMDYgMzcuNzMxNyAzMC4wNDk5QzM3LjczMTcgMzEuNzk2MiAzNi41ODk0IDMzLjY1NjYgMzQuMzYyNSAzMy42NjczVjMzLjY2NjhaTTM3Ljk2MTQgMjIuNzU3QzM2LjM1MzcgMjAuNTQ2MyAzNC4yMDAzIDE4LjUwOCAzMS43MzEzIDE2Ljg0MjVDMzIuNjIxMyAxNi4xMjQ5IDMzLjY1NTEgMTUuNjk0MiAzNS4wMzMxIDE1LjY5NDJDMzcuNTMwNyAxNS42OTQyIDM5Ljc5OTIgMTYuODEzOSAzOS43OTkyIDE5LjM0MDJDMzkuNzk5MiAyMC40MDI2IDM5LjQyNTggMjEuODM3OSAzNy45NjE5IDIyLjc1NjVMMzcuOTYxNCAyMi43NTdaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K"
+                }
+            ]
+        },
+        "div-btn-send_card": {
+            "type": "container",
+            "id": "btn_send_message",
+            "$visibility": "btn_visibility",
+            "action": {
+                "log_id": "send_action",
+                "$url": "btn_action"
+            },
+            "action_animation": {
+                "name": "scale",
+                "duration": 200,
+                "start_value": 1,
+                "end_value": 0.9
+            },
+            "items": [
+                {
+                    "type": "text",
+                    "text": "Отправить",
+                    "text_color": "#fff",
+                    "font_size": 16,
+                    "font_weight": "bold",
+                    "text_alignment_horizontal": "center"
+                }
+            ],
+            "background": [
+                {
+                    "type": "gradient",
+
+                    "colors": [
+                        "#ffb322",
+                        "#ff6501",
+                        "#5f48e5",
+                        "#393602"
+                    ]
+                }
+            ],
+            "border": {
+                "corner_radius": 8
+            },
+            "margins": {
+                "top": 4,
+                "bottom": 4
+            },
+            "paddings": {
+                "top": 16,
+                "bottom": 16
+            },
+            "width":{
+                "type": "match_parent"
+            },
+            "transition_in":{
+                "type": "slide",
+                "edge": "bottom",
+                "start_delay": 200,
+                "duration": 400
+            }
+        },
+        "div-slider_card": {
+            "id": "rate_slider",
+            "$visibility": "slider_visibility",
+            "type": "slider",
+            "width": {
+                "type": "match_parent"
+            },
+            "max_value": 5,
+            "min_value": 1,
+            "$thumb_value_variable": "rate_slider_variable",
+            "thumb_style": {
+                "type": "shape_drawable",
+                "color": "#FF6501",
+                "shape": {
+                    "type": "rounded_rectangle",
+                    "item_height": {
+                        "type": "fixed",
+                        "value": 32
+                    },
+                    "item_width": {
+                        "type": "fixed",
+                        "value": 32
+                    },
+                    "corner_radius": {
+                        "type": "fixed",
+                        "value": 100
+                    }
+                }
+            },
+            "thumb_text_style": {
+                "font_size": 12,
+                "font_weight": "bold",
+                "text_color": "#ffffff"
+            },
+            "track_active_style": {
+                "type": "shape_drawable",
+                "color": "#ffb322",
+                "shape": {
+                    "type": "rounded_rectangle",
+                    "item_height": {
+                        "type": "fixed",
+                        "value": 6
+                    }
+                }
+            },
+            "track_inactive_style": {
+                "type": "shape_drawable",
+                "color": "#5f48e5",
+                "shape": {
+                    "type": "rounded_rectangle",
+                    "item_height": {
+                        "type": "fixed",
+                        "value": 6
+                    }
+                }
+            },
+            "transition_in":{
+                "type": "slide",
+                "edge": "left",
+                "duration": 500,
+                "start_delay": 100
+            },
+            "accessibility": {
+                "description": "Поставьте вашу оценку"
+            }
+        }
+    },
+    "card": {
+        "log_id": "div2_sample_card",
+        "variables": [
+            {
+                "name": "message",
+                "type": "string",
+                "value": ""
+            },
+            {
+                "name": "is_hint_visible",
+                "type": "boolean",
+                "value": true
+            },
+            {
+                "type": "integer",
+                "name": "rate_variable",
+                "value": 5
+            },
+            {
+                "name": "video_text_visibility",
+                "type": "string",
+                "value": "invisible"
+            },
+            {
+                "name": "stroke_width",
+                "type": "integer",
+                "value": 1
+            },
+            {
+                "name": "field_was_focused",
+                "type": "boolean",
+                "value": false
+            },
+            {
+                "name": "is_video_visible",
+                "type": "boolean",
+                "value": true
+            },
+            {
+                "name": "video_text",
+                "type": "string",
+                "value": "Created with \nMaterial Design3"
+            },
+            {
+                "name": "light_theme_color",
+                "type": "color",
+                "value": "#000000"
+            },
+            {
+                "name": "dark_theme_color",
+                "type": "color",
+                "value": "#ffffff"
+            },
+            {
+                "name": "is_dark_theme",
+                "type": "boolean",
+                "value": false
+            }
+        ],
+        "states": [
+            {
+                "state_id": 0,
+                "div": {
+                    "type": "gallery",
+                    "paddings": {
+                        "start": 16,
+                        "end": 16
+                    },
+                    "width": {
+                        "type": "match_parent"
+                    },
+                    "height":{
+                        "type": "match_parent"
+                    },
+                    "orientation": "vertical",
+                    "items": [
+                        {
+                            "type": "container",
+                            "id": "app_bar",
+                            "height":{
+                                "type": "fixed",
+                                "value": 64
+                            },
+                            "orientation": "horizontal",
+                            "content_alignment_vertical": "center",
+                            "items": [
+                                {
+                                    "type": "image",
+                                    "tint_color": "@{is_dark_theme ? '@{dark_theme_color}' : '@{light_theme_color}'}",
+                                    "width": {
+                                        "type": "fixed",
+                                        "value": 24
+                                    },
+                                    "image_url": "https://www.svgrepo.com/show/324205/back-arrow-navigation.svg",
+                                    "preview": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhLS0gVXBsb2FkZWQgdG86IFNWRyBSZXBvLCB3d3cuc3ZncmVwby5jb20sIEdlbmVyYXRvcjogU1ZHIFJlcG8gTWl4ZXIgVG9vbHMgLS0+CjxzdmcgZmlsbD0iI2ZmNjUwMSIgd2lkdGg9IjgwMHB4IiBoZWlnaHQ9IjgwMHB4IiB2aWV3Qm94PSIwIDAgNTIgNTIiIGRhdGEtbmFtZT0iTGF5ZXIgMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTUwLDI0SDYuODNMMjcuNDEsMy40MWEyLDIsMCwwLDAsMC0yLjgyLDIsMiwwLDAsMC0yLjgyLDBsLTI0LDI0YTEuNzksMS43OSwwLDAsMC0uMjUuMzFBMS4xOSwxLjE5LDAsMCwwLC4yNSwyNWMwLC4wNy0uMDcuMTMtLjEuMmwtLjA2LjJhLjg0Ljg0LDAsMCwwLDAsLjE3LDIsMiwwLDAsMCwwLC43OC44NC44NCwwLDAsMCwwLC4xN2wuMDYuMmMwLC4wNy4wNy4xMy4xLjJhMS4xOSwxLjE5LDAsMCwwLC4wOS4xNSwxLjc5LDEuNzksMCwwLDAsLjI1LjMxbDI0LDI0YTIsMiwwLDEsMCwyLjgyLTIuODJMNi44MywyOEg1MGEyLDIsMCwwLDAsMC00WiIvPjwvc3ZnPgo=",
+                                    "action": {
+                                        "log_id": "navigate_back",
+                                        "url": "navigation://navigate-back"
+                                    },
+                                    "action_animation": {
+                                        "name": "scale",
+                                        "duration": 200,
+                                        "start_value": 1,
+                                        "end_value": 0.9
+                                    }
+                                },
+                                {
+                                    "type": "text",
+                                    "text_color": "@{is_dark_theme ? '@{dark_theme_color}' : '@{light_theme_color}'}",
+                                    "margins": {
+                                        "start": 16
+                                    },
+                                    "font_size": 28,
+                                    "text": "О приложении"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "div-video_card",
+                            "video_text": "@{video_text}",
+                            "video_text_color": "@{is_video_visible ? '#fff' : is_dark_theme ? '@{dark_theme_color}' : '@{light_theme_color}'}",
+                            "text_visibility": "@{video_text_visibility}",
+                            "video_visibility": "@{is_video_visible ? 'visible' : 'gone'}",
+                            "video_appeared_action": "div-action://set_variable?name=video_text_visibility&value=visible"
+                        },
+                        {
+                            "type": "div-created-for_card",
+                            "text_color": "@{is_dark_theme ? '@{dark_theme_color}' : '@{light_theme_color}'}"
+                        },
+                        {
+                            "type": "input",
+                            "text_variable": "message",
+                            "highlight_color": "#ffb322",
+                            "margins": {
+                                "top": 8
+                            },
+                            "focus": {
+                                "on_focus": [
+                                    {
+                                        "log_id": "set_focused",
+                                        "url": "div-action://set_variable?name=field_was_focused&value=true"
+                                    },
+                                    {
+                                        "log_id": "make_stroke_bold",
+                                        "url": "div-action://set_variable?name=stroke_width&value=3"
+                                    },
+                                    {
+                                        "log_id": "hide_hint",
+                                        "url": "div-action://set_variable?name=is_hint_visible&value=false"
+                                    },
+                                    {
+                                        "log_id": "hide_video",
+                                        "url": "div-action://set_variable?name=is_video_visible&value=false"
+                                    },
+                                    {
+                                        "log_id": "show_author",
+                                        "url": "div-action://set_variable?name=video_text&value=Проект выполнил\nГригораш Павел"
+                                    }
+                                ],
+                                "on_blur": [
+                                    {
+                                        "log_id": "show_button",
+                                        "url": "div-action://set_variable?name=stroke_width&value=1"
+                                    },
+                                    {
+                                        "log_id": "show_hint",
+                                        "url": "div-action://set_variable?name=is_hint_visible&value=true"
+                                    }
+                                ]
+                            },
+                            "font_size": 16,
+                            "paddings": {
+                                "start": 8,
+                                "end": 8,
+                                "top": 16,
+                                "bottom": 16
+                            },
+                            "hint_text": "@{is_hint_visible ? 'Ваше мнение о приложении' : ''}",
+                            "hint_color": "@{is_dark_theme ? '@{dark_theme_color}' : '@{light_theme_color}'}",
+                            "text_color": "@{is_dark_theme ? '@{dark_theme_color}' : '@{light_theme_color}'}",
+                            "accessibility": {
+                                "description": "Напишите ваше мнение о приложении"
+                            },
+                            "border": {
+                                "corner_radius": 10,
+                                "stroke": {
+                                    "color": "@{is_dark_theme ? '@{dark_theme_color}' : '@{light_theme_color}'}",
+                                    "width": "@{stroke_width}"
+                                }
+                            }
+                        },
+                        {
+                            "type": "container",
+                            "orientation":"vertical",
+                            "content_alignment_horizontal": "center",
+                            "items": [
+                                {
+                                    "type": "div-slider_card",
+                                    "slider_visibility": "@{field_was_focused ? 'visible' : 'invisible'}",
+                                    "rate_slider_variable": "rate_variable",
+                                    "margins": {
+                                        "top": 16,
+                                        "bottom": 16
+                                    }
+                                },
+                                {
+                                    "type": "div-btn-send_card",
+                                    "btn_visibility": "@{field_was_focused ? 'visible' : 'invisible'}",
+                                    "btn_action": "notification://send-to-telegram?text=Это улетит в телегу\nОценка: @{rate_variable}\nТекст сообщения: @{message}"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

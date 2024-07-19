@@ -211,6 +211,12 @@ class TasksFragment : Fragment() {
                     navigationProvider.toSettings.args,
                     navigationProvider.toSettings.navOptions
                 )
+            } else if (item.itemId == com.pasha.all_tasks.R.id.aboutApp) {
+                findNavController().navigate(
+                    navigationProvider.toAboutApp.action,
+                    navigationProvider.toAboutApp.args,
+                    navigationProvider.toAboutApp.navOptions
+                )
             }
             true
         }
@@ -262,7 +268,7 @@ class TasksFragment : Fragment() {
 
     private fun setOtherOptionsMenuVisibility(isVisible: Boolean) {
         binding.toolbar.menu.findItem(com.pasha.all_tasks.R.id.settings).isVisible = isVisible
-
+        binding.toolbar.menu.findItem(com.pasha.all_tasks.R.id.aboutApp).isVisible = isVisible
     }
 
     private fun configureSwipeRefreshBehaviourAndStyles() {

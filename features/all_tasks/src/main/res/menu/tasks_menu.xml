@@ -15,4 +15,13 @@
         android:contentDescription="@string/settings_menu_conent_desc"
         android:title="@string/menu_settings_title"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/aboutApp"
+        android:icon="@drawable/ic_info_24"
+        android:visible="true"
+        android:iconTint="@color/color_blue"
+        android:contentDescription="@string/settings_menu_conent_desc"
+        android:title="@string/menu_settings_title"
+        app:showAsAction="ifRoom" />
 </menu>
