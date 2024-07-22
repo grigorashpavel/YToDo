@@ -1,10 +1,14 @@
 package com.pasha.edit.internal.compose.deadline
 
+import androidx.compose.foundation.Indication
+import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
@@ -21,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
@@ -41,17 +46,24 @@ fun DeadlinePicker(
     var isDeadlineEnabled by rememberSaveable { mutableStateOf(deadline != null) }
     var isDialogOpened by rememberSaveable { mutableStateOf(false) }
 
+    val optionPickerInteractionSource = remember { MutableInteractionSource() }
+    val focusManager = LocalFocusManager.current
     Column(modifier = Modifier) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = modifier
+                .indication(
+                    optionPickerInteractionSource,
+                    rememberRipple(color = colorResource(id = R.color.color_blue))
+                )
         ) {
-            val optionPickerInteractionSource = remember { MutableInteractionSource() }
             LaunchedEffect(key1 = Unit) {
                 optionPickerInteractionSource.interactions.collect { interaction ->
                     val isClickedReleased = interaction is PressInteraction.Release
                     if (isClickedReleased && isDeadlineEnabled) {
                         isDialogOpened = !isDialogOpened
+
+                        focusManager.clearFocus()
                     }
                 }
             }

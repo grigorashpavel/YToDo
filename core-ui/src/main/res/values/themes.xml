@@ -1,7 +1,22 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Base.Theme.YToDo" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor">@color/back_primary</item>
+        <item name="android:statusBarColor">@color/back_primary</item>
+
+        <item name="android:windowBackground">@color/back_primary</item>
+
+        <item name="android:textColorPrimary">@color/label_primary</item>
+        <item name="colorPrimary">@color/label_primary</item>
+        <item name="android:colorPrimary">@color/back_primary</item>
+        <item name="colorPrimaryVariant">@color/color_gray</item>
+        <item name="colorSecondary">@color/color_blue</item>
+        <item name="android:colorSecondary">@color/color_blue</item>
+        <item name="colorSecondaryVariant">@color/color_blue_variant</item>
+        <item name="android:colorError">@color/color_red</item>
+        <item name="colorError">@color/color_red</item>
+        <item name="colorErrorContainer">@color/color_red</item>
     </style>
 
     <style name="Theme.YToDo" parent="Base.Theme.YToDo" />

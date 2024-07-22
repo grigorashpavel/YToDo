@@ -10,6 +10,7 @@
     <color name="color_red">#FFFF3B30</color>
     <color name="color_green">#FF34C759</color>
     <color name="color_blue">#FF007AFF</color>
+    <color name="color_blue_variant">#FF4A9EF9</color>
     <color name="color_gray">#FF8E8E93</color>
     <color name="color_gray_light">#FFD1D1D6</color>
     <color name="color_white">#FFFFFFFF</color>

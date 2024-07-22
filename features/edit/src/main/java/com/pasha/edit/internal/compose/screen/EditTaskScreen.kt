@@ -105,7 +105,7 @@ fun EditTaskScreen(
                 },
                 onDeleteAction = {
                     if (todoItemViewModel.sharedTodoItem != null) {
-                        viewModel.removeTask(todoItemViewModel.sharedTodoItem!!)
+                        todoItemViewModel.removeTask(todoItemViewModel.sharedTodoItem!!)
 
                         todoItemViewModel.clearSharedItem()
                     }

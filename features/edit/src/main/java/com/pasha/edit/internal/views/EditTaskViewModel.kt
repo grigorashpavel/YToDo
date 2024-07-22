@@ -63,7 +63,9 @@ class EditTaskViewModel @AssistedInject constructor(
     }
 
     fun removeTask(task: TodoItem) {
-        todoItemsRepository.deleteTodoItem(item = task)
+        viewModelScope.launch {
+            todoItemsRepository.deleteTodoItem(item = task)
+        }
     }
 
     @AssistedFactory

@@ -37,6 +37,8 @@ dependencies {
     implementation(projects.domain)
     implementation(projects.features.allTasks)
     implementation(projects.features.edit)
+    implementation(projects.features.preferences)
+    implementation(projects.features.aboutApp)
 
     // Navigation
     implementation(libs.androidx.fragment)

@@ -14,7 +14,6 @@ swiperefresh = "1.2.0-alpha01"
 
 navigation = "2.7.7"
 
-
 androidxComposeBom = "2024.06.00"
 
 coroutines = "1.8.1"
@@ -32,6 +31,8 @@ swipedecorator = "1.4"
 room = "2.6.1"
 dagger2 = "2.51"
 ksp = "2.0.0-1.0.21"
+
+divKit = "30.9.0"
 
 junit = "4.13.2"
 junitVersion = "1.1.5"
@@ -63,9 +64,7 @@ androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-compose-viewbinding = { group = "androidx.compose.ui", name = "ui-viewbinding" }
 androidx-compose-uiPreview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-compose-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
-androidx-compose-material = { group = "androidx.compose.material", name = "material" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
-
 androidx-compose-animation = { group = "androidx.compose.animation", name = "animation" }
 
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
@@ -92,6 +91,14 @@ androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "
 
 dagger2-dagger = { module = "com.google.dagger:dagger", version.ref = "dagger2" }
 dagger2-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger2" }
+
+
+divkit-div = { group = "com.yandex.div", name = "div", version.ref = "divKit" }
+divkit-core = { group = "com.yandex.div", name = "div-core", version.ref = "divKit" }
+divkit-json = { group = "com.yandex.div", name = "div-json", version.ref = "divKit" }
+divkit-picasso = { group = "com.yandex.div", name = "picasso", version.ref = "divKit" }
+divkit-video = { group = "com.yandex.div", name = "div-video", version.ref = "divKit" }
+
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

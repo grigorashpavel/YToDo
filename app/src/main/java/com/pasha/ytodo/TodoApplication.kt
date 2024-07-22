@@ -5,6 +5,7 @@ import android.net.ConnectivityManager
 import com.pasha.android_core.di.DepsMap
 import com.pasha.android_core.di.HasDependencies
 import com.pasha.android_core.network.ConnectionChecker
+import com.pasha.android_core.preferences.PreferencesManager
 import com.pasha.android_core.synchronize.SynchronizeWorker
 import com.pasha.domain.repositories.SynchronizeRepository
 import com.pasha.domain.repositories.SynchronizeRepositoryProvider
@@ -31,6 +32,9 @@ class TodoApplication : Application(), HasDependencies, TodoItemRepositoryProvid
     @Inject
     lateinit var networkCallback: ConnectivityManager.NetworkCallback
 
+    @Inject
+    lateinit var preferencesManager: PreferencesManager
+
     override fun onCreate() {
         super.onCreate()
 
@@ -38,8 +42,9 @@ class TodoApplication : Application(), HasDependencies, TodoItemRepositoryProvid
             .create(applicationContext)
             .inject(this)
 
-
         SynchronizeWorker.registerPeriodSynchronizeWork(applicationContext)
         connectionChecker.registerNetworkCallback(networkCallback)
+
+        preferencesManager.applyTheme()
     }
 }

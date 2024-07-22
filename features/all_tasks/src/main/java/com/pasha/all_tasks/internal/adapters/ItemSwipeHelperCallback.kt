@@ -67,7 +67,10 @@ class ItemSwipeHelperCallback(
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         when (direction) {
-            ItemTouchHelper.START -> (viewHolder as TasksViewHolder).startActionDeleteItem()
+            ItemTouchHelper.START -> {
+                (viewHolder as TasksViewHolder).startActionDeleteItem()
+                adapter.notifyItemChanged(viewHolder.absoluteAdapterPosition)
+            }
 
             ItemTouchHelper.END -> {
                 (viewHolder as TasksViewHolder).startActionChangeProgress()

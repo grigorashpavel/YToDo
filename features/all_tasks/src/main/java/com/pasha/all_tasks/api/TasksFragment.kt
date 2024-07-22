@@ -1,22 +1,23 @@
 package com.pasha.all_tasks.api
 
 import android.annotation.SuppressLint
-import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.vectordrawable.graphics.drawable.ArgbEvaluator
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.snackbar.Snackbar.SnackbarLayout
+import com.pasha.all_tasks.databinding.DeletionSnackbackLayoutBinding
 import com.pasha.all_tasks.databinding.FragmentTasksBinding
 import com.pasha.all_tasks.internal.TasksViewModel
 import com.pasha.all_tasks.internal.adapters.ActionsListener
@@ -25,10 +26,12 @@ import com.pasha.all_tasks.internal.adapters.TasksRecyclerViewAdapter
 import com.pasha.all_tasks.internal.di.DaggerTasksComponent
 import com.pasha.android_core.di.findDependencies
 import com.pasha.android_core.presentation.TodoItemViewModel
-import com.pasha.android_core.presentation.lazyViewModel
+import com.pasha.android_core.presentation.activityLazyViewModel
+import com.pasha.android_core.presentation.fragmentLazyViewModel
 import com.pasha.core_ui.R
 import com.pasha.domain.entities.TaskProgress
 import com.pasha.domain.entities.TodoItem
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -38,11 +41,16 @@ class TasksFragment : Fragment() {
     private var _binding: FragmentTasksBinding? = null
     private val binding get() = _binding!!
 
-    private val todoItemViewModel: TodoItemViewModel by activityViewModels<TodoItemViewModel>()
+    @Inject
+    internal lateinit var todoViewModelFactory: TodoItemViewModel.Factory
+
+    private val todoItemViewModel: TodoItemViewModel by activityLazyViewModel {
+        todoViewModelFactory.create()
+    }
 
     @Inject
     internal lateinit var viewModelFactory: TasksViewModel.Factory
-    private val viewModel: TasksViewModel by lazyViewModel {
+    private val viewModel: TasksViewModel by fragmentLazyViewModel {
         viewModelFactory.create()
     }
 
@@ -68,12 +76,14 @@ class TasksFragment : Fragment() {
         configureTasksListRecyclerView()
         configureFinishedTasksCounter()
         configureCreateFabListener()
-        configureTasksVisibilityButtonListener()
+        configureTasksMenuListener()
         configureVisibilityIcon()
         configureSwipeRefreshBehaviourAndStyles()
+        configureAppBarOffsetListener()
         configureSwipeRefreshListener()
         setupErrorListener()
         configureProgressIndication()
+        configureCancellationSnackbar()
     }
 
     override fun onDestroyView() {
@@ -132,14 +142,22 @@ class TasksFragment : Fragment() {
     private fun navigateToTaskCreation() {
         if (checkNavigationActionToPossible() != true) return
 
-        findNavController().navigate(navigationProvider.toTaskEdit.action)
+        findNavController().navigate(
+            navigationProvider.toTaskEdit.action,
+            navigationProvider.toTaskEdit.args,
+            navigationProvider.toTaskEdit.navOptions
+        )
     }
 
     private fun navigateToTaskEditing(task: TodoItem) {
         if (checkNavigationActionToPossible() != true) return
 
         todoItemViewModel.passTodoItem(item = task)
-        findNavController().navigate(navigationProvider.toTaskEdit.action)
+        findNavController().navigate(
+            navigationProvider.toTaskEdit.action,
+            navigationProvider.toTaskEdit.args,
+            navigationProvider.toTaskEdit.navOptions
+        )
     }
 
     @SuppressLint("RestrictedApi")
@@ -175,7 +193,7 @@ class TasksFragment : Fragment() {
         }
 
         override fun onDelete(item: TodoItem) {
-            viewModel.removeItem(item)
+            todoItemViewModel.removeTask(item)
         }
 
         override fun onAddItem() {
@@ -183,10 +201,22 @@ class TasksFragment : Fragment() {
         }
     }
 
-    private fun configureTasksVisibilityButtonListener() {
+    private fun configureTasksMenuListener() {
         binding.toolbar.setOnMenuItemClickListener { item ->
             if (item.itemId == com.pasha.all_tasks.R.id.actionVisible) {
                 viewModel.changeDoneTasksVisibility()
+            } else if (item.itemId == com.pasha.all_tasks.R.id.settings) {
+                findNavController().navigate(
+                    navigationProvider.toSettings.action,
+                    navigationProvider.toSettings.args,
+                    navigationProvider.toSettings.navOptions
+                )
+            } else if (item.itemId == com.pasha.all_tasks.R.id.aboutApp) {
+                findNavController().navigate(
+                    navigationProvider.toAboutApp.action,
+                    navigationProvider.toAboutApp.args,
+                    navigationProvider.toAboutApp.navOptions
+                )
             }
             true
         }
@@ -226,6 +256,21 @@ class TasksFragment : Fragment() {
         }
     }
 
+    private fun configureAppBarOffsetListener() {
+        binding.appBarLayout.addOnOffsetChangedListener { _, verticalOffset ->
+            val isRefreshPossible = verticalOffset >= 0
+            setSwipeRefreshEnableState(isRefreshPossible)
+
+            val isOtherMenuOptionsVisible = verticalOffset >= 0
+            setOtherOptionsMenuVisibility(isOtherMenuOptionsVisible)
+        }
+    }
+
+    private fun setOtherOptionsMenuVisibility(isVisible: Boolean) {
+        binding.toolbar.menu.findItem(com.pasha.all_tasks.R.id.settings).isVisible = isVisible
+        binding.toolbar.menu.findItem(com.pasha.all_tasks.R.id.aboutApp).isVisible = isVisible
+    }
+
     private fun configureSwipeRefreshBehaviourAndStyles() {
         binding.swipeRefreshLayout.setProgressBackgroundColorSchemeResource(
             R.color.back_secondary_elevated
@@ -233,11 +278,11 @@ class TasksFragment : Fragment() {
         binding.swipeRefreshLayout.setColorSchemeColors(
             resources.getColor(R.color.color_blue, requireContext().theme)
         )
+    }
 
-        binding.appBarLayout.addOnOffsetChangedListener { _, verticalOffset ->
-            if (binding.swipeRefreshLayout.isRefreshing.not()) {
-                binding.swipeRefreshLayout.isEnabled = verticalOffset >= 0
-            }
+    private fun setSwipeRefreshEnableState(isEnable: Boolean) {
+        if (binding.swipeRefreshLayout.isRefreshing.not()) {
+            binding.swipeRefreshLayout.isEnabled = isEnable
         }
     }
 
@@ -265,5 +310,77 @@ class TasksFragment : Fragment() {
             .setTextColor(resources.getColor(R.color.label_primary, requireContext().theme))
         snackbar.animationMode = Snackbar.ANIMATION_MODE_SLIDE
         snackbar.show()
+    }
+
+    @SuppressLint("RestrictedApi")
+    private fun configureCancellationSnackbar() {
+        val customView = layoutInflater
+            .inflate(com.pasha.all_tasks.R.layout.deletion_snackback_layout, null, false)
+
+        val snackbar = createCustomSnackbar(customView)
+
+        val snackBinding = DeletionSnackbackLayoutBinding.bind(customView)
+        snackBinding.btnCancel.setOnClickListener {
+            todoItemViewModel.cancelDeleteTaskOperation()
+            snackbar.dismiss()
+        }
+
+        setDeletionSnackbarProgressIndication(snackBinding)
+
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                todoItemViewModel.taskToDeletionName.collect { name ->
+                    snackBinding.tvTaskText.text = getString(
+                        com.pasha.all_tasks.R.string.task_name_param_label,
+                        name
+                    )
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                todoItemViewModel.isDeletionStart.collect { isStarted ->
+                    if (isStarted) {
+                        snackbar.show()
+                    } else snackbar.dismiss()
+                }
+            }
+        }
+    }
+
+    @SuppressLint("RestrictedApi")
+    private fun createCustomSnackbar(newView: View): Snackbar {
+        val snackbar = Snackbar.make(binding.coordinator, "", Snackbar.LENGTH_INDEFINITE)
+        snackbar.animationMode = Snackbar.ANIMATION_MODE_SLIDE
+
+        val snackbarLayout = snackbar.view as SnackbarLayout
+        snackbarLayout.setPadding(0)
+        snackbarLayout.setBackgroundColor(Color.TRANSPARENT)
+        snackbarLayout.addView(newView, 0)
+
+        return snackbar
+    }
+
+    @SuppressLint("RestrictedApi")
+    private fun setDeletionSnackbarProgressIndication(binding: DeletionSnackbackLayoutBinding) {
+        val startBgColor = resources.getColor(R.color.back_primary, requireActivity().theme)
+        val endBgColor = resources.getColor(R.color.color_red, requireActivity().theme)
+        val evaluator = ArgbEvaluator()
+
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                todoItemViewModel.timerFlow.collect { curSec ->
+                    binding.btnCancel.text =
+                        getString(com.pasha.all_tasks.R.string.action_cancel_param_label, curSec)
+
+                    val fraction = curSec / todoItemViewModel.totalCancellationTimeSec.toFloat()
+                    val color = evaluator.evaluate(fraction, endBgColor, startBgColor) as Int
+                    binding.root.setBackgroundColor(
+                        color
+                    )
+                }
+            }
+        }
     }
 }

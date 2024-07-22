@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Widget.Pasha.Button.OutlinedButton.IconOnly" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="iconPadding">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="iconTint">@color/color_blue</item>
+        <item name="strokeColor">@color/color_blue_variant</item>
+        <item name="rippleColor">@color/color_blue</item>
+        <item name="backgroundTint">@color/selector_segmented_button_color_check_state</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+</resources>

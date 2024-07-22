@@ -177,7 +177,7 @@ class RetrofitService @Inject constructor(
             e.printStackTrace()
         }
 
-        throw Exception("Never")
+        throw Exception()
     }
 
     private fun TodoDto.toTodoItem(): TodoItem = TodoItem(

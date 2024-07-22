@@ -12,26 +12,22 @@
         android:id="@+id/coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/back_primary"
         tools:context="com.pasha.all_tasks.api.TasksFragment">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
+            android:backgroundTint="@android:color/transparent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/back_primary">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/all_tasks_expanded_app_bar_height"
                 android:minHeight="?attr/actionBarSize"
                 app:collapsedTitleTextAppearance="@style/TextAppearance.Pasha.TitleMedium"
-                app:collapsedTitleTextColor="@color/label_primary"
-                app:contentScrim="@color/back_primary"
                 app:expandedTitleMarginBottom="54dp"
                 app:expandedTitleMarginStart="@dimen/all_tasks_app_bar_text_margin_start"
                 app:expandedTitleTextAppearance="@style/TextAppearance.Pasha.TitleLarge"
-                app:expandedTitleTextColor="@color/label_primary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 app:title="@string/tasks_toolbar_my_business_title"
                 app:titleCollapseMode="scale"
@@ -85,7 +81,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="@dimen/all_tasks_card_horizontal_margin"
                 android:layout_marginBottom="16dp"
-                android:backgroundTint="@color/back_secondary"
+                android:backgroundTint="@color/back_secondary_elevated"
                 app:cardElevation="@dimen/all_tasks_tasks_card_elevation"
                 app:strokeWidth="0dp">
 

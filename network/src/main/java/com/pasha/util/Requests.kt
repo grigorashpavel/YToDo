@@ -5,6 +5,7 @@ import com.pasha.models.TodoWrapper
 import com.pasha.network.NetworkClient
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.withTimeout
+import okhttp3.internal.wait
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
@@ -41,6 +42,7 @@ suspend fun <T> makeBaseRequest(call: suspend () -> Response<T>): T = try {
         else -> RequestException.Unknown(httpException.cause)
     }
 } catch (socketException: SocketTimeoutException) {
+    socketException.printStackTrace()
     throw RequestException.Timeout(socketException.cause)
 } catch (unknownHostException: UnknownHostException) {
     throw RequestException.NoConnection(unknownHostException.cause)
@@ -61,7 +63,12 @@ private suspend fun <T> tryRetryingRequests(
                 call.invoke()
             }
 
-            if (response.isSuccessful) return response
+            if (response.isSuccessful) {
+                return response
+            }
+            else {
+                println("ERROR: ${response.code()}")
+            }
         } catch (httpException: HttpException) {
             httpException.printStackTrace()
             when (httpException.code()) {
@@ -70,10 +77,10 @@ private suspend fun <T> tryRetryingRequests(
             }
         } catch (_: SocketTimeoutException) {
 
-        } catch (_: TimeoutCancellationException) {
-
+        } catch (e: TimeoutCancellationException) {
+            throw e
         }
     }
 
-    throw SocketTimeoutException()
+    throw Exception()
 }

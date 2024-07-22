@@ -17,6 +17,12 @@
         <action
             android:id="@+id/action_tasksFragment_to_taskEditComposeFragment"
             app:destination="@id/taskEditComposeFragment" />
+        <action
+            android:id="@+id/action_tasksFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_tasksFragment_to_aboutAppFragment"
+            app:destination="@id/aboutAppFragment" />
     </fragment>
     <fragment
         android:id="@+id/taskEditFragment"
@@ -27,4 +33,12 @@
         android:id="@+id/taskEditComposeFragment"
         android:name="com.pasha.edit.api.TaskEditComposeFragment"
         android:label="TaskEditComposeFragment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.pasha.preferences.SettingsFragment"
+        android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/aboutAppFragment"
+        android:name="com.pasha.about_app.AboutAppFragment"
+        android:label="AboutAppFragment" />
 </navigation>

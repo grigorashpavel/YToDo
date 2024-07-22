@@ -4,9 +4,12 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.os.Bundle
 import android.util.Log
+import android.view.animation.AnimationUtils
+import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -28,8 +31,9 @@ class MainActivity : AppCompatActivity(), HasDependencies {
             .create(this)
             .inject(this)
 
-        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
